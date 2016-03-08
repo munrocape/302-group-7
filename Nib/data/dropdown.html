@@ -1,7 +1,11 @@
 <html>
-	<script src="angular.js"></script>
-	<script src='nibApp.js'></script>
+	<link type="text/css" rel="stylesheet" href="materialize.css"  media="screen,projection"/>
+	<script type='text/javascript' src="angular.js"></script>
+	<script type='text/javascript' src='jquery.js'></script>
+	<script type='text/javascript' src='materialize.js'></script>
+	<script type='text/javascript' src='nibApp.js'></script>
   <body ng-app='nibApp' ng-controller='dropdownController'>
+  	  <a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
     <div ng-repeat='animal in animals'>
     	<p>{{animal}}</p>
     </div>
