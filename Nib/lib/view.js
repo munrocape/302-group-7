@@ -150,6 +150,14 @@ function create(options) {
         label: label
       });
 
+      node.addEventListener('mouseover', function (event) {
+        let node = nodeFor(id, window);
+        if (event.originalTarget.nodeName=='toolbarbutton')
+          node.setAttribute('label', node.getAttribute('dropdown_label'));
+        else node.setAttribute('label', node.getAttribute('button_label'));
+        node.setAttribute('tooltiptext', node.getAttribute('label'));
+      })
+
       node.addEventListener('click', function(event) {
         if (event.button!==0) return;
         var menu;
@@ -228,3 +236,12 @@ function click(id) {
     node.click();
 }
 exports.click = click;
+
+function addLabels(id, button, dropdown) {
+  let node = nodeFor(id);
+  if (node) {
+    node.setAttribute('button_label', button);
+    node.setAttribute('dropdown_label', dropdown);
+  }
+}
+exports.addLabels = addLabels;
