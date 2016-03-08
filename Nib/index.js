@@ -1,6 +1,6 @@
 var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
-const { DropDownView } = require('./src/DropdownView');
+const { DropDownView } = require('./src/dropdownView');
 let dropDownView = null;
 // a dummy function, to show how tests work.
 // to see how to test this function, look at test/test-index.js
@@ -30,7 +30,6 @@ dropDownView = new DropDownView(btn)
 
 function handleClick(state, isMenu) {
   if (isMenu) {
-    //Pass the button to the dropDownView
     dropDownView.show()
   } else {
     console.log('icon click');

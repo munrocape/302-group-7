@@ -7,7 +7,7 @@ exports.DropDownView = class DropDownView {
   constructor(button){
     this.button = button
     this.panel = panels.Panel({
-      contentURL: self.data.url('test.html')
+      contentURL: self.data.url('dropdown.html')
     })
   }
 
@@ -16,5 +16,4 @@ exports.DropDownView = class DropDownView {
       position: this.button
     })
   }
-
 }
