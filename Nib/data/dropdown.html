@@ -6,7 +6,7 @@
 	<script type='text/javascript' src='js/materialize.js'></script>
 	<script type='text/javascript' src='js/nibApp.js'></script>
   <body ng-app='nibApp' ng-controller='dropdownController'>
-  	  <a class="btn-floating btn-large red" ng-click=''><i class="material-icons">add</i></a>
+  	  <a class="btn-floating btn-large red" ng-click='msg()'><i class="material-icons">add</i></a>
     <div ng-repeat='animal in animals'>
     	<p>{{animal}}</p>
     </div>

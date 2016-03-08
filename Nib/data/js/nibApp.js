@@ -7,5 +7,9 @@ nibApp.controller('dropdownController', ['$scope', '$http', function ($scope, $h
         console.log('wired up');
     };
 
+    $scope.msg = function () {
+    	console.log('now you are thinking with portals');
+    }
+
     $scope.init();
 }]);
