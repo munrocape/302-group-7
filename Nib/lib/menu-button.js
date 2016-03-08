@@ -44,10 +44,13 @@ const ToggleButton = Class({
     Disposable
   ],
   setup: function setup(options) {
+    let contract = toggleButtonContract(options);
+    contract['dropdown_label'] = options['dropdown_label'];
+    contract['button_label'] = options['button_label'];
     let state = merge({
       disabled: false,
       checked: false
-    }, toggleButtonContract(options));
+    }, contract);
 
     let id = toWidgetId(options.id);
 
@@ -98,6 +101,7 @@ on(toggleButtonStateEvents, 'data', ({target, window, state}) => {
 
   view.setIcon(id, window, state.icon);
   view.setLabel(id, window, state.label);
+  view.addLabels(id, state.button_label, state.dropdown_label);
   view.setDisabled(id, window, state.disabled);
   view.setChecked(id, window, state.checked);
 });
