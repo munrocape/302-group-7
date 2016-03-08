@@ -19,9 +19,9 @@ var btn = MenuButton({
   button_label: 'Add reference',
   dropdown_label: 'Manage projects and references',
   icon: {
-    "16": "./icon-16.png",
-    "32": "./icon-32.png",
-    "64": "./icon-64.png"
+    "16": "./icon/icon-16.png",
+    "32": "./icon/icon-32.png",
+    "64": "./icon/icon-64.png"
   },
   onClick: handleClick
 });
