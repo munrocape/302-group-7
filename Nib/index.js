@@ -15,6 +15,7 @@ var tabs = require("sdk/tabs");
 var btn = MenuButton({
   id: 'my-menu-button',
   label: 'My menu-button',
+  button_label: 'derp',
   icon: {
     "16": "./icon-16.png",
     "32": "./icon-32.png",

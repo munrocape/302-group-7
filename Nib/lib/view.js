@@ -147,8 +147,17 @@ function create(options) {
       views.set(id, {
         area: this.currentArea,
         icon: icon,
-        label: label
+        label: label,
       });
+
+      node.addEventListener('mouseover', function (event) {
+        console.log('trapaholics worldwide!!!');
+        let node = nodeFor(id, window);
+        if (event.originalTarget.nodeName=='toolbarbutton')
+          node.setAttribute('label', 'menu!');
+        else node.setAttribute('label', 'dropdown!')
+        node.setAttribute('tooltiptext', label);
+      })
 
       node.addEventListener('click', function(event) {
         if (event.button!==0) return;
