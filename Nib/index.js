@@ -1,6 +1,6 @@
 var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
-const { DropDownView } = require('./src/DropdownView');
+const { DropDownView } = require('./src/DropDownView');
 let dropDownView = null;
 // a dummy function, to show how tests work.
 // to see how to test this function, look at test/test-index.js
