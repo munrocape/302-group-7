@@ -1,0 +1,16 @@
+{
+  "title": "Nib",
+  "name": "nib",
+  "version": "0.0.1",
+  "description": "Nib is a reference managagement and citation generation tool.",
+  "main": "index.js",
+  "author": "group7",
+  "engines": {
+    "firefox": ">=38.0a1",
+    "fennec": ">=38.0a1"
+  },
+  "license": "MIT",
+  "keywords": [
+    "jetpack"
+  ]
+}
