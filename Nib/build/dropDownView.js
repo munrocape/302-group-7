@@ -88,11 +88,7 @@
 	}(_react.Component);
 
 	var container = document.getElementById('app');
-	_reactDom2.default.render(_react2.default.createElement(
-	  'p',
-	  null,
-	  'Hello react '
-	), container);
+	_reactDom2.default.render(Account, container);
 
 /***/ },
 /* 1 */
