@@ -1,4 +1,4 @@
-var nibApp = angular.module('nibApp', []);
+var nibApp = angular.module('dropdownApp', []);
 
 nibApp.controller('dropdownController', ['$scope', '$http', function ($scope, $http) {
 
