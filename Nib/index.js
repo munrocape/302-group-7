@@ -13,6 +13,10 @@ function dummy(text, callback) {
   callback(text);
 }
 
+function getURL() {
+  return utils.getMostRecentBrowserWindow().content.location.href;
+}
+
 exports.dummy = dummy;
 
 var buttons = require('sdk/ui/button/action');
