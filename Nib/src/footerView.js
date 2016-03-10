@@ -16,7 +16,6 @@ exports.FooterView = class FooterView {
 
   show () {
     var browserWindow = utils.getMostRecentBrowserWindow();
-    console.log(browserWindow.content.location.href);
     this.panel.width = browserWindow.content.innerWidth;
     this.panel.show({});
   }

@@ -3,6 +3,7 @@ const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
 var ss = require("sdk/simple-storage");
+var utils = require('sdk/window/utils');
 
 let dropDownView = null;
 let footerView = null;
@@ -38,15 +39,20 @@ footerView = new FooterView(btn);
 dropDownView.panel.port.on('getURL', function () {
 
 });
-dropDownView.panel.port.on("addReference", function(ref) {
+dropDownView.panel.port.on("addReferenceRequest", function(ref) {
   console.log(ref);
 });
 
-dropDownView.panel.port.on("removeReference", function(ref) {
+dropDownView.panel.port.on("removeReferenceRequest", function(ref) {
   console.log(ref);
 });
 
-dropDownView.panel.port.on("checkIfReference", function(ref) {
+dropDownView.panel.port.on('getURLRequest', function() {
+  var browserWindow = utils.getMostRecentBrowserWindow();
+  dropDownView.panel.port.emit('getURLResponse', browserWindow.content.location.href);
+});
+
+dropDownView.panel.port.on("checkIfReferenceRequest", function(ref) {
   console.log(ref);
   dropDownView.panel.port.emit('checkIfReferenceResponse', 'okay! resposne from index.js');
 });

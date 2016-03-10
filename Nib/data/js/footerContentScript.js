@@ -6,6 +6,5 @@ window.content;
 self.port.on('checkIfReferenceResponse', function (rep) {console.log(rep)});
 
 self.port.on('wakeUp', function (value) {
-	console.log('i was opened');
 	document.getElementById('test').innerHTML = value;
 })
