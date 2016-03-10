@@ -7,11 +7,11 @@ var utils = require('sdk/window/utils');
 
 exports.FooterView = class FooterView {
   constructor(button){
-    this.button = button
     this.panel = panels.Panel({
       position:{bottom:0},
-      contentURL: self.data.url('footer.html')
-    })
+      contentURL: self.data.url('footer.html'),
+      contentScriptFile: self.data.url('js/footerContentScript.js')
+    });
   }
 
   show () {
