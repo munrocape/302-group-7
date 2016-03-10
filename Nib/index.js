@@ -1,7 +1,11 @@
 var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
-const { DropDown }  = require('./src/DropDown');
+
+const { DropDownView } = require('./src/dropDownView');
+const { FooterView } = require('./src/footerView');
+
 let dropDownView = null;
+let footerView = null;
 // a dummy function, to show how tests work.
 // to see how to test this function, look at test/test-index.js
 function dummy(text, callback) {
@@ -19,21 +23,21 @@ var btn = MenuButton({
   button_label: 'Add reference',
   dropdown_label: 'Manage projects and references',
   icon: {
-    "16": "./icon-16.png",
-    "32": "./icon-32.png",
-    "64": "./icon-64.png"
+    "16": "./icon/icon-16.png",
+    "32": "./icon/icon-32.png",
+    "64": "./icon/icon-64.png"
   },
   onClick: handleClick
 });
 
-dropDownView = new DropDown(btn)
+dropDownView = new DropDownView(btn);
+footerView = new FooterView(btn);
+
 
 function handleClick(state, isMenu) {
   if (isMenu) {
-    //Pass the button to the dropDownView
-    dropDownView.show()
+    dropDownView.show();
   } else {
-    console.log('icon click');
-    tabs.open("http://tobottleshops.club/");
+    footerView.show();
   }
 }

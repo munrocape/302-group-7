@@ -12,7 +12,8 @@ const PATHS = {
 
 const common = {
   entry: {
-      dropDownView: './app/DropDownView/index.js'
+      dropDownView: './app/DropDownView/index.js',
+      footerView: './app/FooterView/index.js'
   },
 
   // Add resolve.extensions.
