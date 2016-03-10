@@ -40,20 +40,16 @@ dropDownView = new DropDownView(btn);
 footerView = new FooterView(btn);
 // set up our messaging
 // it largely is a thin layer to the functions
-dropDownView.panel.port.on('getURL', function () {
-
+dropDownView.panel.port.on('getURLRequest', function () {
+  return dropDownView.panel.port.emit('getURLResponse', getURL());
 });
+
 dropDownView.panel.port.on("addReferenceRequest", function(ref) {
   console.log(ref);
 });
 
 dropDownView.panel.port.on("removeReferenceRequest", function(ref) {
   console.log(ref);
-});
-
-dropDownView.panel.port.on('getURLRequest', function() {
-  var browserWindow = utils.getMostRecentBrowserWindow();
-  dropDownView.panel.port.emit('getURLResponse', browserWindow.content.location.href);
 });
 
 dropDownView.panel.port.on("checkIfReferenceRequest", function(ref) {
