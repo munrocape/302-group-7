@@ -2,6 +2,8 @@ var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
+var ss = require("sdk/simple-storage");
+
 let dropDownView = null;
 let footerView = null;
 // a dummy function, to show how tests work.
@@ -28,13 +30,54 @@ var btn = MenuButton({
   onClick: handleClick
 });
 
+
 dropDownView = new DropDownView(btn);
 footerView = new FooterView(btn);
+// set up our messaging
+// it largely is a thin layer to the functions
+dropDownView.panel.port.on('getURL', function () {
+
+});
+dropDownView.panel.port.on("addReference", function(ref) {
+  console.log(ref);
+});
+
+dropDownView.panel.port.on("removeReference", function(ref) {
+  console.log(ref);
+});
+
+dropDownView.panel.port.on("checkIfReference", function(ref) {
+  console.log(ref);
+  dropDownView.panel.port.emit('checkIfReferenceResponse', 'okay! resposne from index.js');
+});
+
+
+function addReference(reference) {
+  console.log(reference);
+}
+
+function removeReference(reference) {
+  console.log(reference);
+}
+
+dropdown_open = false;
+footer_open = false;
+open_count = 0;
 
 function handleClick(state, isMenu) {
   if (isMenu) {
+    if (!footer_open) {
+      open_count += 1;
+      footerView.panel.port.emit('wakeUp', open_count);
+    }
+    footer_open = !footer_open;
     footerView.show();
   } else {
+    if (!dropdown_open) {
+      open_count += 1;
+      dropDownView.panel.port.emit('wakeUp', open_count);
+    }
+    dropdown_open = !dropdown_open;
     dropDownView.show();
   }
 }
