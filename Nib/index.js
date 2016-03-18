@@ -2,6 +2,8 @@ var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
+const { WAKE_UP } = require('./consts/emitter');
+
 var ss = require("sdk/simple-storage");
 var utils = require('sdk/window/utils');
 
@@ -71,17 +73,18 @@ footer_open = false;
 open_count = 0;
 
 function handleClick(state, isMenu) {
+  console.log(WAKE_UP)
   if (isMenu) {
     if (!footer_open) {
       open_count += 1;
-      footerView.panel.port.emit('wakeUp', open_count);
+      footerView.panel.port.emit(WAKE_UP, open_count);
     }
     footer_open = !footer_open;
     footerView.show();
   } else {
     if (!dropdown_open) {
       open_count += 1;
-      dropDownView.panel.port.emit('wakeUp', open_count);
+      dropDownView.panel.port.emit(WAKE_UP, open_count);
     }
     dropdown_open = !dropdown_open;
     dropDownView.show();

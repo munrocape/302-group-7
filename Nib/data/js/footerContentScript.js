@@ -5,6 +5,6 @@ window.content;
 
 self.port.on('checkIfReferenceResponse', function (rep) {console.log(rep)});
 
-self.port.on('wakeUp', function (value) {
+self.port.on('wake up', function (value) {
 	document.getElementById('test').innerHTML = value;
 })
