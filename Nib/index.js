@@ -73,7 +73,6 @@ footer_open = false;
 open_count = 0;
 
 function handleClick(state, isMenu) {
-  console.log(WAKE_UP)
   if (isMenu) {
     if (!footer_open) {
       open_count += 1;
