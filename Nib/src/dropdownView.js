@@ -7,7 +7,8 @@ exports.DropDownView = class DropDownView {
   constructor(button){
     this.button = button;
     this.panel = panels.Panel({
-      contentURL: self.data.url('dropdown/dropdown.html')
+      contentURL: self.data.url('dropdown/dropdown.html'),
+      contentScriptFile: self.data.url('js/dropdownContentScript.js')
     });
   }
 
