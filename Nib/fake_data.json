@@ -1,0 +1,10 @@
+[{
+  "name": "Research Project",
+  "sources": [{
+    "name": "Barnes Hut Algorithm",
+    "link": "http://arborjs.org/docs/barnes-hut",
+    "year": 2005,
+    "authors": ["Tom Ventimiglia", "Kevin Wayne"],
+    "references": ["http://www.cs.princeton.edu/courses/archive/fall03/cs126/assignments/barnes-hut.html"]
+    }]
+}]

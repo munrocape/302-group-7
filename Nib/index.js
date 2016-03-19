@@ -1,4 +1,4 @@
-var self = require("sdk/self");
+  var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
@@ -72,6 +72,20 @@ dropdown_open = false;
 footer_open = false;
 open_count = 0;
 
+//To be removed once app is completed
+(function initialize(){
+  let fakeData = require("fake_data.json")
+  for(let i = 0; i < fakeData.length; i++){
+
+    if (ss.storage[fakeData[i].name])
+      console.log("Already stored the data " + fakeData[i].name)
+    else{
+      console.log("Stored " + fakeData[i].name)
+      ss.storage[fakeData[i].name] = fakeData[i]
+    }
+  }
+})()
+
 function handleClick(state, isMenu) {
   if (isMenu) {
     if (!footer_open) {
@@ -83,7 +97,8 @@ function handleClick(state, isMenu) {
   } else {
     if (!dropdown_open) {
       open_count += 1;
-      dropDownView.panel.port.emit(WAKE_UP, open_count);
+      dropDownView = new DropDownView(btn);
+      dropDownView.panel.port.emit(WAKE_UP, ss.storage);
     }
     dropdown_open = !dropdown_open;
     dropDownView.show();

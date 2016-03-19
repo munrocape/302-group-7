@@ -1,1 +1,1 @@
-exports.WAKE_UP = "wake up";
+exports.WAKE_UP = "wakeUp";
