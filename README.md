@@ -4,7 +4,7 @@
 
 To run firefox with the addon installed:
 
-  1. Have firefox > version 38
+  1. Have firefox >= version 45
   2. Install [jpm](https://developer.mozilla.org/en-US/Add-ons/SDK/Tools/jpm#Installation)
   3. Type `jpm run` in the root directory
   
