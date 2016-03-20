@@ -1,4 +1,4 @@
-  var self = require("sdk/self");
+var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
@@ -54,6 +54,10 @@ dropDownView.panel.port.on("removeReferenceRequest", function(ref) {
   console.log(ref);
 });
 
+dropDownView.panel.port.on("store", function(project) {
+  console.log(project);
+});
+
 dropDownView.panel.port.on("checkIfReferenceRequest", function(ref) {
   console.log(ref);
   dropDownView.panel.port.emit('checkIfReferenceResponse', 'okay! resposne from index.js');
@@ -75,16 +79,13 @@ open_count = 0;
 //To be removed once app is completed
 (function initialize(){
   let fakeData = require("fake_data.json")
+  ss.storage.data = []
   for(let i = 0; i < fakeData.length; i++){
-
-    if (ss.storage[fakeData[i].name])
-      console.log("Already stored the data " + fakeData[i].name)
-    else{
       console.log("Stored " + fakeData[i].name)
-      ss.storage[fakeData[i].name] = fakeData[i]
-    }
+      ss.storage.data.push(fakeData[i])
   }
 })()
+
 
 function handleClick(state, isMenu) {
   if (isMenu) {
@@ -98,7 +99,7 @@ function handleClick(state, isMenu) {
     if (!dropdown_open) {
       open_count += 1;
       dropDownView = new DropDownView(btn);
-      dropDownView.panel.port.emit(WAKE_UP, ss.storage);
+      dropDownView.panel.port.emit(WAKE_UP, ss.storage.data);
     }
     dropdown_open = !dropdown_open;
     dropDownView.show();
