@@ -2,7 +2,7 @@ var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
-const { HOME, SEND_STORAGE } = require('./consts/emitter');
+const { HOME, SEND_STORAGE, ADD_NEW_PROJECT } = require('./consts/emitter');
 
 var ss = require("sdk/simple-storage");
 var utils = require('sdk/window/utils');
@@ -66,6 +66,13 @@ dropDownView.panel.port.on(SEND_STORAGE, function(panelEvent, i){
 dropDownView.panel.port.on("store", function(project) {
   console.log(project);
 });
+
+dropDownView.panel.port.on(ADD_NEW_PROJECT, function(projectName){
+  ss.storage.data.push({
+    name: projectName,
+    sources: []
+  });
+})
 
 dropDownView.panel.port.on("checkIfReferenceRequest", function(ref) {
   console.log(ref);
