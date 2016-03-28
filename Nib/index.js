@@ -2,7 +2,7 @@ var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
-const { WAKE_UP } = require('./consts/emitter');
+const { HOME, SEND_STORAGE } = require('./consts/emitter');
 
 var ss = require("sdk/simple-storage");
 var utils = require('sdk/window/utils');
@@ -53,6 +53,15 @@ dropDownView.panel.port.on("addReferenceRequest", function(ref) {
 dropDownView.panel.port.on("removeReferenceRequest", function(ref) {
   console.log(ref);
 });
+//On an event send the storage
+//i is optional if you want a specific 'project', AKA the nth project
+dropDownView.panel.port.on(SEND_STORAGE, function(panelEvent, i){
+  if (!i) {
+    dropDownView.panel.port.emit(panelEvent, ss.storage.data)
+  } else {
+    dropDownView.panel.port.emit(panelEvent, ss.storage.data[i])
+  }
+})
 
 dropDownView.panel.port.on("store", function(project) {
   console.log(project);
@@ -86,21 +95,13 @@ open_count = 0;
   }
 })()
 
+dropDownView.panel.port.emit(HOME, ss.storage.data)
 
 function handleClick(state, isMenu) {
   if (isMenu) {
-    if (!footer_open) {
-      open_count += 1;
-      footerView.panel.port.emit(WAKE_UP, open_count);
-    }
     footer_open = !footer_open;
     footerView.show();
   } else {
-    if (!dropdown_open) {
-      open_count += 1;
-      dropDownView = new DropDownView(btn);
-      dropDownView.panel.port.emit(WAKE_UP, ss.storage.data);
-    }
     dropdown_open = !dropdown_open;
     dropDownView.show();
   }
