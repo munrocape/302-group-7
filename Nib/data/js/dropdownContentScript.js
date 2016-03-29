@@ -7,7 +7,7 @@ self.port.on(HOME, function (storage) {
 		}
 		console.log('Appending projejct: ' + i + ', ' + storage[i].name);
 		//TODO: href should be custom to each project, maybe use a hleper function here. issue #35
-		let html = '<div class="project"><a href="projectView.html"><h6 class="projectName" id=' + i + '>' + storage[i].name + '</h6></a></div>'
+		let html = '<div class="project"><a href="projectView.html"><h6 id=' + i + '>' + storage[i].name + '</h6></a></div>'
 		$('#projects').append(html)
 
 		$('#' + i).click(function() {
@@ -18,7 +18,15 @@ self.port.on(HOME, function (storage) {
 });
 //Listens when user selects a project
 self.port.on(SELECT_PROJECT, function(project) {
-	console.log(project)
+	console.log(project.name + " selected")
+	$(".projectName").html(project.name)
+	let html = ''
+	for (let i = 0; i < project.sources.length; i++) {
+		console.log(project.sources[i])
+		html += '<li class="collection-item"><div><a href="sourceView.html">' + project.sources[i].name + '</a><a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li>'
+	}
+	$('.collection').html(html)
+
 })
 
 $("#submitNewProject").click(function(){

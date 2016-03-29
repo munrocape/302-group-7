@@ -107,6 +107,7 @@ open_count = 0;
 
 dropDownView.panel.port.emit(HOME, ss.storage.data)
 
+
 function handleClick(state, isMenu) {
   if (isMenu) {
     footer_open = !footer_open;
