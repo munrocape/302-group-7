@@ -8,6 +8,7 @@ self.port.on(HOME, function (storage) {
 		$('#projects').append('<h6 id=' + i + '>' + storage[i].name + '</h6>')
 	}
 });
+
 $("#submitNewProject").click(function(){
 	self.port.emit(ADD_NEW_PROJECT, $("#project_name").val())
 	$("html").load('dropdown.html')
