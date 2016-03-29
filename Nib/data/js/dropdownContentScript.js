@@ -6,12 +6,12 @@ self.port.on(HOME, function (storage) {
 			continue;
 		}
 		console.log('Appending projejct: ' + i + ', ' + storage[i].name);
-		//TODO: href should be custom to each project, maybe use a hleper function here. issue #35 
+		//TODO: href should be custom to each project, maybe use a hleper function here. issue #35
 		let html = '<div class="project"><a href="projectView.html"><h6 class="projectName" id=' + i + '>' + storage[i].name + '</h6></a></div>'
 		$('#projects').append(html)
 
-		$('#reference_' + i).click(function() {
-			//reference handler for +
+		$('#' + i).click(function() {
+			// Handler for project i
 			console.log(i)
 		})
 	}
