@@ -1,3 +1,18 @@
-#addNewProject{
+#addNewProject {
   display:inline;
+  padding-left: 3px;
 }
+
+#app_body {
+	padding: 5px;
+	margin: 5px;
+}
+
+#app_body button {
+
+}
+
+#projects {
+	padding-top: 5px;
+}
+

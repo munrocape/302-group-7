@@ -5,7 +5,9 @@ self.port.on(HOME, function (storage) {
 		if ($('#' + i).val() === 'null' || $('#' + i).val() === '') {
 			continue;
 		}
-		$('#projects').append('<h6 id=' + i + '>' + storage[i].name + '</h6>')
+		console.log('Appending projejct: ' + i + ', ' + storage[i].name);
+		//TODO: href should be custom to each project, maybe use a hleper function here. issue #35 
+		$('#projects').append('<a href="projectView.html"><h6 id=' + i + '>' + storage[i].name + '</h6></a>')
 	}
 });
 $("#submitNewProject").click(function(){
