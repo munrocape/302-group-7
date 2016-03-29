@@ -1,3 +1,13 @@
-#addNewProject{
+#addNewProject {
+  display:inline;
+}
+.project {
+  display:block;
+}
+.projectLinks {
+  display:inline;
+  float:right;
+}
+.projectName {
   display:inline;
 }

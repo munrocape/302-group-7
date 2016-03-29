@@ -5,7 +5,15 @@ self.port.on(HOME, function (storage) {
 		if ($('#' + i).val() === 'null' || $('#' + i).val() === '') {
 			continue;
 		}
-		$('#projects').append('<h6 id=' + i + '>' + storage[i].name + '</h6>')
+		//Not proud of this, but cannot find another way
+		let html = '<div class="project"><h6 class="projectName" id=' + i + '>' + storage[i].name + '</h6>' +
+							 '<a class="projectLinks" href="#" id="reference_' + i + '">Cite</a></div>'
+		$('#projects').append(html)
+
+		$('#reference_' + i).click(function() {
+			//reference handler for +
+			console.log(i)
+		})
 	}
 });
 
