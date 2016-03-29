@@ -18,8 +18,8 @@
 	margin: 5px;
 }
 
-#app_body button {
-
+#app_body .button {
+	margin: 3px;
 }
 
 #projects {
