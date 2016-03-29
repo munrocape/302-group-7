@@ -1,5 +1,15 @@
 #addNewProject {
   display:inline;
+}
+.project {
+  display:block;
+}
+.projectLinks {
+  display:inline;
+  float:right;
+}
+.projectName {
+  display:inline;
   padding-left: 3px;
 }
 
