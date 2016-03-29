@@ -12,10 +12,14 @@ self.port.on(HOME, function (storage) {
 
 		$('#' + i).click(function() {
 			// Handler for project i
-			console.log(i)
+			self.port.emit(SEND_STORAGE, SELECT_PROJECT, i)
 		})
 	}
 });
+//Listens when user selects a project
+self.port.on(SELECT_PROJECT, function(project) {
+	console.log(project)
+})
 
 $("#submitNewProject").click(function(){
 	self.port.emit(ADD_NEW_PROJECT, $("#project_name").val())

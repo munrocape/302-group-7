@@ -2,7 +2,7 @@ var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
-const { HOME, SEND_STORAGE, ADD_NEW_PROJECT } = require('./consts/emitter');
+const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT } = require('./consts/emitter');
 
 var ss = require("sdk/simple-storage");
 var utils = require('sdk/window/utils');
@@ -56,12 +56,15 @@ dropDownView.panel.port.on("removeReferenceRequest", function(ref) {
 //On an event send the storage
 //i is optional if you want a specific 'project', AKA the nth project
 dropDownView.panel.port.on(SEND_STORAGE, function(panelEvent, i){
-  if (!i) {
+
+  if (typeof i === 'undefined') {
     dropDownView.panel.port.emit(panelEvent, ss.storage.data)
   } else {
     dropDownView.panel.port.emit(panelEvent, ss.storage.data[i])
   }
 })
+
+
 
 dropDownView.panel.port.on("store", function(project) {
   console.log(project);
