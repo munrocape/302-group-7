@@ -1,13 +1,17 @@
 
-self.port.on(HOME, function (storage) {
+$("#home").click(function() {
+	$("#main").css("display", "block");
+	$("#projectView").css("display", "none");
+})
 
+self.port.on(HOME, function (storage) {
 	for (let i = 0; i < storage.length; i++){
 		if ($('#' + i).val() === 'null' || $('#' + i).val() === '') {
 			continue;
 		}
 		console.log('Appending projejct: ' + i + ', ' + storage[i].name);
 		//TODO: href should be custom to each project, maybe use a hleper function here. issue #35
-		let html = '<div class="project"><a href="projectView.html"><h6 id=' + i + '>' + storage[i].name + '</h6></a></div>'
+		let html = '<div class="project"><a href="#"><h6 id=' + i + '>' + storage[i].name + '</h6></a></div>'
 		$('#projects').append(html)
 
 		$('#' + i).click(function() {
@@ -19,6 +23,8 @@ self.port.on(HOME, function (storage) {
 //Listens when user selects a project
 self.port.on(SELECT_PROJECT, function(project) {
 	console.log(project.name + " selected")
+	$("#main").css("display", "none")
+	$("#projectView").css("display", "block")
 	$(".projectName").html(project.name)
 	let html = ''
 	for (let i = 0; i < project.sources.length; i++) {

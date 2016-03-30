@@ -13,16 +13,17 @@
   padding-left: 3px;
 }
 
-#app_body {
+.app_body {
 	padding: 5px;
 	margin: 5px;
 }
-
-#app_body .button {
+#projectView {
+  display: none;
+}
+.app_body .button {
 	margin: 3px;
 }
 
 #projects {
 	padding-top: 5px;
 }
-
