@@ -42,9 +42,13 @@ self.port.on(SELECT_PROJECT, function(project) {
 	$(".projectName").html(project.name)
 
 	for (let i = 0; i < project.sources.length; i++) {
+		console.log($("#source_" + i).val())
+		if ($("#source_" + i).val() === 'null' || $("#source_" + i).val() === '')
+			continue;
+
 		let html = '<li class="collection-item"><div><a href="#" id="source_' + i +'">' + project.sources[i].name + '</a><a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li>'
-		console.log(html)
-		console.log("#source_" + i)
+		console.log("appending #source_" + i)
+
 		$('.collection').append(html)
 		$('#source_' + i).click(function(){
 			//Listener for specific source
