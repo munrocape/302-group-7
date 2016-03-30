@@ -1,9 +1,20 @@
-
+//When Nib is clicked, it redirects to home, hiding all other divs
 $("#home").click(function() {
+	self.port.emit(SEND_STORAGE, HOME)
 	$("#main").css("display", "block");
 	$("#projectView").css("display", "none");
+	$("#sourceView").css("display", "none");
+	$("#createNewProjectView").css("display", "none");
+	$("#createNewSourceView").css("display", "none");
+
+})
+//In home click 'add new project' (The plus sign)
+$("#addNewProject").click(function(){
+	$("#main").css("display", "none");
+	$("#createNewProjectView").css("display", "block");
 })
 
+//Event for when someone wants to go home or initial page
 self.port.on(HOME, function (storage) {
 	for (let i = 0; i < storage.length; i++){
 		if ($('#' + i).val() === 'null' || $('#' + i).val() === '') {
@@ -24,26 +35,27 @@ self.port.on(HOME, function (storage) {
 //Listens when user selects a project
 self.port.on(SELECT_PROJECT, function(project) {
 	console.log(project.name + " selected")
+	//Main display is gone, and project view is block
 	$("#main").css("display", "none")
 	$("#projectView").css("display", "block")
+
 	$(".projectName").html(project.name)
 	let html = ''
 	for (let i = 0; i < project.sources.length; i++) {
-		console.log(project.sources[i])
-		html += '<li class="collection-item"><div><a href="sourceView.html">' + project.sources[i].name + '</a><a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li>'
+		html += '<li class="collection-item"><div><a href="#">' + project.sources[i].name + '</a><a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li>'
 	}
+
 	$('.collection').html(html)
 
 })
 
 $("#submitNewProject").click(function(){
-	if ( $.trim( $('#project_name').val() ) == '' ) {
+	if ($.trim( $('#newProjectName').val() ) === '' ) {
 		console.log('Blank input.');
-		$("#project_name").html("Please enter a project name")
-
+		$(".projectName").html("Please enter a project name")
 	}
 	else {
-		self.port.emit(ADD_NEW_PROJECT, $("#project_name").val())
+		self.port.emit(ADD_NEW_PROJECT, $("#newProjectName").val())
 		$("html").load('dropdown.html')
 		self.port.emit(SEND_STORAGE, HOME)
 	}
@@ -51,10 +63,6 @@ $("#submitNewProject").click(function(){
 
 $('#options').click(function(){
 	console.log('options')
-})
-
-$('#home').click(function(){
-	self.port.emit(SEND_STORAGE, HOME)
 })
 
 self.port.on('getURLResponse', function (url) {

@@ -12,7 +12,15 @@
   display:inline;
   padding-left: 3px;
 }
-
+#sourceView {
+  display: none;
+}
+#createNewProjectView {
+  display: none;
+}
+#createNewSourceView {
+  display: none;
+}
 .app_body {
 	padding: 5px;
 	margin: 5px;
