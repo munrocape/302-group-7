@@ -29,6 +29,7 @@ self.port.on(HOME, function (storage) {
 			// Handler for project i
 			self.port.emit(SEND_STORAGE, SELECT_PROJECT, i)
 		})
+
 	}
 });
 
@@ -67,8 +68,9 @@ $("#submitNewProject").click(function(){
 	}
 	else {
 		self.port.emit(ADD_NEW_PROJECT, $("#newProjectName").val())
-		$("html").load('dropdown.html')
 		self.port.emit(SEND_STORAGE, HOME)
+		$('#main').css("display", "block");
+		$('#createNewProjectView').css("display", "none");
 	}
 })
 
