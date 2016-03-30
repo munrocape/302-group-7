@@ -12,18 +12,23 @@
 				<div class="nav-wrapper">
 					<a href="#" class="brand-logo left" id="home">Nib</a>
 					<ul id="nav-mobile" class="right">
-						<li><a href="#" id="options">Options</a></li>
+						<li>
+							<a class="btn-floating waves-effect waves-light red lighten-2 button" href="#!" id="options">
+								<i class="small material-icons button">settings</i>
+							</a>
+						</li>
+						<!-- <li><a href="#" id="options">Options</a></li> -->
 					</ul>
 				</div>
 			</nav>
 			<br>
 			<div id="app_body">
-				<h6 id="addNew">Add New Project</h6>
-				<a class="btn-floating waves-effect waves-light red lighten-2 right button" href="createNewProject.html">
+				<h5 class="left header">Saved Projects</h5>
+				<div id="projects"></div>
+				<!-- <h6 id="addNew">Add New Project</h6> -->
+				<a class="btn-floating waves-effect waves-light red lighten-2 right button bottom" href="createNewProject.html">
 					<i class="small material-icons">add</i>
 				</a>
-
-				<div id="projects"></div>
 			</div>
 		</div>
 		<script type="text/javascript" src="../js/jquery.js"></script>

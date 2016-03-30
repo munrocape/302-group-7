@@ -1,13 +1,29 @@
+.header {
+	color: #ee6e73;
+	font-size: 1.64rem;
+	margin: -0.18rem 0 0 0;
+	/*padding-bottom: 6px;*/
+	line-height: 15%;
+
+}
+
 #addNew {
   display:inline;
 }
+
 .project {
   display:block;
+  border-bottom: 1px solid grey;
+/*  margin-top: 3px;
+  padding-top: 6px;
+*/
 }
+
 .projectLinks {
   display:inline;
   float:right;
 }
+
 .projectName {
   display:inline;
   padding-left: 3px;
@@ -26,3 +42,6 @@
 	padding-top: 5px;
 }
 
+.button {
+	height: 100%;
+}

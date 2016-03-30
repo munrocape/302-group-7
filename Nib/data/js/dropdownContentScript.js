@@ -5,7 +5,7 @@ self.port.on(HOME, function (storage) {
 		if ($('#' + i).val() === 'null' || $('#' + i).val() === '') {
 			continue;
 		}
-		console.log('Appending projejct: ' + i + ', ' + storage[i].name);
+		console.log('Appending project: ' + i + ', ' + storage[i].name);
 		//TODO: href should be custom to each project, maybe use a hleper function here. issue #35
 		let html = '<div class="project"><a href="projectView.html"><h6 id=' + i + '>' + storage[i].name + '</h6></a></div>'
 		$('#projects').append(html)
@@ -16,6 +16,7 @@ self.port.on(HOME, function (storage) {
 		})
 	}
 });
+
 //Listens when user selects a project
 self.port.on(SELECT_PROJECT, function(project) {
 	console.log(project.name + " selected")
@@ -30,9 +31,16 @@ self.port.on(SELECT_PROJECT, function(project) {
 })
 
 $("#submitNewProject").click(function(){
-	self.port.emit(ADD_NEW_PROJECT, $("#project_name").val())
-	$("html").load('dropdown.html')
-	self.port.emit(SEND_STORAGE, HOME)
+	if ( $.trim( $('#project_name').val() ) == '' ) {
+		console.log('Blank input.');
+		$("#project_name").html("Please enter a project name")
+
+	}
+	else {
+		self.port.emit(ADD_NEW_PROJECT, $("#project_name").val())
+		$("html").load('dropdown.html')
+		self.port.emit(SEND_STORAGE, HOME)
+	}
 })
 
 $('#options').click(function(){
