@@ -11,15 +11,15 @@
         <div id="app">
             <nav>
                 <div class="nav-wrapper">
-                    <ul id="nav-mobile" class="right">
-                        <li><a href="#" id="options">Options</a></li>
-                    </ul>
                     <!-- Use breadcrumbs for navigation into projects -->
                     <div class="col s12">
                         <!-- <a href="dropdown.html" class="breadcrumb" id="home">Nib</a> -->
                         <a href="projectView.html" class="breadcrumb projectName"></a>
                         <a href="#!" class="breadcrumb">Source Name</a>
                     </div>
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="#" id="options">Options</a></li>
+                    </ul>
                 </div>
             </nav>
             <br>
@@ -32,10 +32,6 @@
                     </div>
                     <div class="divider"></div>
                 </div>
-                <a class="btn-floating waves-effect waves-light red lighten-2 button" href="#!">
-                    <i class="small material-icons">add</i>
-                </a>
-                <h6 id="addNew">Add New Reference</h6>
 
                 <!-- List of (fake, for now) references from this source. -->
                 <ul class="collection">
@@ -45,6 +41,10 @@
                     <li class="collection-item"><div>Ref 4 (page_number, line, etc.)<a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li>
                 </ul>
                 <br>
+                <a class="btn-floating waves-effect waves-light red lighten-2 button right" href="#!">
+                    <i class="small material-icons">add</i>
+                </a>
+                <!-- <h6 id="addNew">Add New Reference</h6> -->
             </div>
         </div>
     </body>
