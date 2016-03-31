@@ -2,7 +2,7 @@
   "project_name": "Research Project",
   "sources": [{
     "source_name": "My source",
-    "title_of_source: "Barnes Hut Algorithm",
+    "title_of_source": "Barnes Hut Algorithm",
     "link": "http://arborjs.org/docs/barnes-hut",
     "year": 2005,
     "authors": ["Tom Ventimiglia", "Kevin Wayne"],
