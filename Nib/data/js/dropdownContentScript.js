@@ -76,6 +76,9 @@ $("#addNewAuthors").click(function(){
 self.port.on(HOME, function (storage) {
 	$('#projects').empty();
 	showHome();
+	if (storage.length == 0) {
+		$('#projects').append("<p>You don't have any projects! Press the + below to create one.</p>");
+	}
 	for (let i = 0; i < storage.length; i++){
 		if ($('#' + i).val() === 'null' || $('#' + i).val() === '') {
 			continue;
