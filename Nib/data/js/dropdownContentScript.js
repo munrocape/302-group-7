@@ -20,6 +20,9 @@ function showHome() {
 	$("#createNewProjectView").css("display", "none");
 	$("#createNewSourceView").css("display", "none");
 	$("#createNewAuthorView").css("display", "none");
+    $("#sourceNameView").css("display", "none");
+	$("#createNewReferenceView").css("display", "none");
+
 }
 
 //In home click 'add new project' (The plus sign)
@@ -29,7 +32,7 @@ $("#addNewProject").click(function(){
 })
 
 // In author view click 'add new author'
-$("#addNewAuthor").click(function(){
+$("#newAuthor").click(function(){
 	$("#authorView").css("display", "none");
 	$("#createNewAuthorView").css("display", "block");
 })
@@ -38,6 +41,36 @@ active_project = null;
 $("#deleteProjectButton").click(function(){
 	self.port.emit(DELETE_PROJECT, active_project);
 })
+
+// Navigates to authors 'view'
+$("#addNewAuthors").click(function(){
+	$("#createNewSourceView").css("display", "none");
+	$("#authorView").css("display", "block");
+})
+
+// Navigates to main add source 'view'.
+ $("#addNewSource").click(function(){
+ 	$("#projectView").css("display", "none");
+ 	$("#sourceNameView").css("display", "block");
+ })
+ 
+ // Navigates to main add source 'view'.
+ $("#submitSourceName").click(function(){
+ 	$("#sourceNameView").css("display", "none");
+ 	$("#sourceView").css("display", "block");
+ })
+ 
+ // Navigates to main add references 'view'.
+ $("#addReference").click(function(){
+ 	$("#sourceView").css("display", "none");
+ 	$("#createNewReferenceView").css("display", "block");
+ })
+ 
+ // Navigates to source options 'view'.
+ $("#sourceOptions").click(function(){
+ 	$("#sourceView").css("display", "none");
+ 	$("#createNewSourceView").css("display", "block");
+ })
 
 //Event for when someone wants to go home or initial page
 self.port.on(HOME, function (storage) {

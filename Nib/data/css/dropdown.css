@@ -23,9 +23,23 @@
 #createNewProjectView {
   display: none;
 }
+
+#createNewAuthorView {
+  display: none;
+}
+
 #createNewSourceView {
   display: none;
 }
+
+#createNewReferenceView {
+  display: none;
+}
+ 
+#sourceNameView {
+  display: none;
+}
+ 
 .app_body {
 	padding: 5px;
 	margin: 5px;
