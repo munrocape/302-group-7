@@ -78,6 +78,11 @@ dropDownView.panel.port.on(ADD_NEW_PROJECT, function(projectName){
   });
 })
 
+// Save author name
+dropDownView.panel.port.on(ADD_NEW_AUTHOR, function(authorName){
+  ss.storage.data.sources.authors.push(authorName); 
+})
+
 dropDownView.panel.port.on("checkIfReferenceRequest", function(ref) {
   console.log(ref);
   dropDownView.panel.port.emit('checkIfReferenceResponse', 'okay! resposne from index.js');

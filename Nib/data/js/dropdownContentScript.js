@@ -25,6 +25,13 @@ $("#addNewProject").click(function(){
 	$("#createNewProjectView").css("display", "block");
 })
 
+// In author view click 'add new author'
+$("#addNewAuthor").click(function(){
+	$("#authorView").css("display", "none");
+	$("#createNewAuthorView").css("display", "block");
+})
+
+
 //Event for when someone wants to go home or initial page
 self.port.on(HOME, function (storage) {
 	for (let i = 0; i < storage.length; i++){
@@ -82,6 +89,19 @@ $("#submitNewProject").click(function(){
 		self.port.emit(SEND_STORAGE, HOME)
 		$('#main').css("display", "block");
 		$('#createNewProjectView').css("display", "none");
+	}
+})
+
+$("#submitNewAuthor").click(function(){
+	if ($.trim( $('#newAuthorName').val() ) === '' ) {
+		console.log('Blank input.');
+		$(".authorName").html("Please enter an Author's name")
+	}
+	else {
+		self.port.emit(ADD_NEW_PROJECT, $("#newAuthorName").val())
+		self.port.emit(SEND_STORAGE, HOME)
+		$('#main').css("display", "block");
+		$('#createNewAuthorView').css("display", "none");
 	}
 })
 
