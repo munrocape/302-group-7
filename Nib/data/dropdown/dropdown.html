@@ -39,19 +39,23 @@
 							<div><p class="center-align">Cite | Sources</p></div>
 							<div class="divider"></div>
 					</div>
-					<a class="btn-floating waves-effect waves-light red lighten-2 button" href="createNewSource.html">
-							<i class="small material-icons">add</i>
-					</a>
-					<h6 id="addNew">Add New Source</h6>
 
 					<ul class="collection">
 					</ul>
+					
+					<h6 id="addNew">Add New Source</h6>
+					<a class="btn-floating waves-effect waves-light red lighten-2 button" href="#!">
+ 						<i class="small material-icons" id="addNewSource">add</i>
+  					</a>
 				</div>
 		</div>
 
 		<!-- Source view -->
 		<div id="sourceView">
 			<div class="app_body">
+					<a class="btn-floating waves-effect waves-light red lighten-2 button right" href="#!">
+						<i class="small material-icons" id="sourceOptions">edit</i>
+ 					</a>
 					<div id="source_header">
 							<div>
 									<!-- The name will need to be populated -->
@@ -66,13 +70,13 @@
 							<li class="collection-item"><div>Ref 1 (page_number, line, etc.)<a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li>
 							<li class="collection-item"><div>Ref 2 (page_number, line, etc.)<a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li>
 							<li class="collection-item"><div>Ref 3 (page_number, line, etc.)<a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li>
-							<li class="collection-item"><div>Ref 4 (page_number, line, etc.)<a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li>
 					</ul>
 					<br>
-					<a class="btn-floating waves-effect waves-light red lighten-2 button right" href="#!">
-							<i class="small material-icons">add</i>
+					<a class="btn-floating waves-effect waves-light red lighten-2 button" href="#!">
+							<i class="small material-icons" id="addReference">add</i>
 					</a>
-					<!-- <h6 id="addNew">Add New Reference</h6> -->
+					<h6 id="addNew">Add New Reference</h6>
+
 			</div>
 		</div>
 
@@ -98,9 +102,24 @@
 					<br>
 					<h6 id="addNewAuthor">Add New Author</h6>
 					<a class="btn-floating waves-effect waves-light red lighten-2 right button" href="#">
-						<i class="small material-icons" id="addNewAuthor">add</i>
-				</a>
+						<i class="small material-icons" id="newAuthor">add</i>
+					</a>
 			</div>
+		</div>
+
+		<!-- Create new reference view -->
+ 		<div id="createNewReferenceView">
+ 			<div id="pg_number_app" class="input-field col s6">
+ 				<input placeholder="Page Number" type="text" class="validate" id="page_number">
+ 				<label for="page_number">Page Number</label>
+ 			</div>
+ 			<div id="quote_app" class="input-field col s6">
+ 				<input placeholder="Enter the text being referenced here." type="text" class="validate" id="quote_message">
+ 				<label for="quote_message">Quote or Referenced Text</label>
+ 			</div>
+ 			<button class="btn waves-effect waves-light red lighten-2 right" type="submit" name="action" id="submitNewRef">
+					Save<i class="material-icons left">assignment</i>
+			</button>
 		</div>
 
 		<!-- Create new project view -->
@@ -115,15 +134,40 @@
 			</div>
 		</div>
 
+		<!-- Enter source name view -->
+		<div id="sourceNameView">
+			<h5 class="center-align">What do you wish to call this Source?</h5>
+			<div id="source_name_app" class="input-field col s6">
+				<input placeholder="Source Name" type="text" class="validate" id="page_number">
+			</div>
+ 			<button class="btn waves-effect waves-light red lighten-2 left" type="submit" name="action" id="submitSourceName">
+					Continue<i class="material-icons left">assignment</i>
+			</button>
+		</div>
+
 		<!-- Create new source view -->
 		<div id="createNewSourceView">
-			<div id="app_body" class="input-field col s6">
-				<input placeholder="Source Name" id="source_name" type="text" class="validate">
-				<label for="source_name">Source Name</label>
-				<button class="btn waves-effect waves-light red lighten-2 right" type="submit" name="action" id="submitNewSource">
-					Submit<i class="material-icons right">assignment</i>
-				</button>
-			</div>
+			<div class="right"><a href="#"><i class="material-icons">delete</i></a></div>
+		
+ 			<!-- The name will need to be populated -->
+ 			<h5 class="center-align">Source Name Here</h5>
+ 			
+ 			<div id="title_app" class="input-field col s6">
+ 				<input placeholder="Title" type="text" class="validate" id="title_of_source">
+ 				<label for="title_of_source">Title</label>
+ 			</div>
+ 			
+ 			<div id="year_app" class="input-field col s6">
+ 				<input placeholder="Year" type="text" class="validate" id="year_of_source">
+ 				<label for="year_of_source">Year of Publication</label>
+ 			</div>
+ 			
+ 			<h5 id="addNew">Authors:</h5>
+ 			
+ 			<a class="btn-floating waves-effect waves-light red lighten-2 button right" href="#">
+ 				<i class="small material-icons" id="addNewAuthors">add</i>
+ 			</a>
+ 			
 		</div>
 
 		<!-- Create new authors view -->
