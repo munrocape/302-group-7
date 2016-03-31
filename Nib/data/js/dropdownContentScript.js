@@ -37,9 +37,9 @@ $("#newAuthor").click(function(){
 	$("#createNewAuthorView").css("display", "block");
 })
 
-active_project = null;
+active_project_id = null;
 $("#deleteProjectButton").click(function(){
-	self.port.emit(DELETE_PROJECT, active_project);
+	self.port.emit(DELETE_PROJECT, active_project_id);
 })
 
 // Navigates to authors 'view'
@@ -95,7 +95,9 @@ self.port.on(HOME, function (storage) {
 
 //Listens when user selects a project
 self.port.on(SELECT_PROJECT, function(project) {
-	active_project = project;
+	console.log('project id: ' + project.project_id);
+	active_project_id = project.project_id;
+	console.log('active project id: ' + active_project_id);
 	console.log(project.name + " selected")
 	//Main display is gone, and project view is block
 	$("#main").css("display", "none")

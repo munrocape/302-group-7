@@ -1,5 +1,6 @@
 [{
   "name": "Research Project",
+  "project_id": 1,
   "sources": [{
     "name": "Barnes Hut Algorithm",
     "link": "http://arborjs.org/docs/barnes-hut",
