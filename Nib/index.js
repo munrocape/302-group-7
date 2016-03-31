@@ -2,7 +2,7 @@ var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
-const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR } = require('./consts/emitter');
+const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE } = require('./consts/emitter');
 
 var ss = require("sdk/simple-storage");
 var utils = require('sdk/window/utils');
@@ -63,6 +63,22 @@ dropDownView.panel.port.on(SEND_STORAGE, function(panelEvent, i){
     dropDownView.panel.port.emit(panelEvent, ss.storage.data[i])
   }
 })
+
+dropDownView.panel.port.on(DELETE_PROJECT, function (project_to_delete){ 
+  // for i in projects
+  // if i == project
+    // delete i
+  console.log(project_to_delete)
+  for (let i = 0; i < ss.storage.data.length; i++) {
+      if (ss.storage.data[i].name === project_to_delete.name) {
+        console.log('say bye-bye to ' + project_to_delete);
+        ss.storage.data.splice(i, 1);
+      }
+  }
+  console.log(ss.storage.data);
+  dropDownView.panel.port.emit(HOME, ss.storage.data);
+});
+
 
 
 
