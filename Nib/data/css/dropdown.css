@@ -17,6 +17,9 @@
 #sourceView {
   display: none;
 }
+#authorView {
+  display: none;
+}
 #createNewProjectView {
   display: none;
 }

@@ -4,8 +4,10 @@ $("#home").click(function() {
 	$("#main").css("display", "block");
 	$("#projectView").css("display", "none");
 	$("#sourceView").css("display", "none");
+	$("#authorView").css("display", "none");
 	$("#createNewProjectView").css("display", "none");
 	$("#createNewSourceView").css("display", "none");
+	$("#createNewAuthorView").css("display", "none");
 
 })
 //In home click 'add new project' (The plus sign)
