@@ -8,7 +8,11 @@ $("#createNewAuthorView").css("display", "none");
 
 //When Nib is clicked, it redirects to home, hiding all other divs
 $("#home").click(function() {
-	self.port.emit(SEND_STORAGE, HOME)
+	self.port.emit(SEND_STORAGE, HOME);
+	goHome();
+})
+
+function showHome() {
 	$("#main").css("display", "block");
 	$("#projectView").css("display", "none");
 	$("#sourceView").css("display", "none");
@@ -16,10 +20,10 @@ $("#home").click(function() {
 	$("#createNewProjectView").css("display", "none");
 	$("#createNewSourceView").css("display", "none");
 	$("#createNewAuthorView").css("display", "none");
-	$("#sourceNameView").css("display", "none");
+    $("#sourceNameView").css("display", "none");
 	$("#createNewReferenceView").css("display", "none");
 
-})
+}
 
 //In home click 'add new project' (The plus sign)
 $("#addNewProject").click(function(){
@@ -31,6 +35,11 @@ $("#addNewProject").click(function(){
 $("#newAuthor").click(function(){
 	$("#authorView").css("display", "none");
 	$("#createNewAuthorView").css("display", "block");
+})
+
+active_project_id = null;
+$("#deleteProjectButton").click(function(){
+	self.port.emit(DELETE_PROJECT, active_project_id);
 })
 
 // Navigates to authors 'view'
@@ -65,6 +74,8 @@ $("#addNewAuthors").click(function(){
 
 //Event for when someone wants to go home or initial page
 self.port.on(HOME, function (storage) {
+	$('#projects').empty();
+	showHome();
 	for (let i = 0; i < storage.length; i++){
 		if ($('#' + i).val() === 'null' || $('#' + i).val() === '') {
 			continue;
@@ -84,6 +95,9 @@ self.port.on(HOME, function (storage) {
 
 //Listens when user selects a project
 self.port.on(SELECT_PROJECT, function(project) {
+	console.log('project id: ' + project.project_id);
+	active_project_id = project.project_id;
+	console.log('active project id: ' + active_project_id);
 	console.log(project.name + " selected")
 	//Main display is gone, and project view is block
 	$("#main").css("display", "none")

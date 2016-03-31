@@ -2,7 +2,7 @@ var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
-const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR } = require('./consts/emitter');
+const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE } = require('./consts/emitter');
 
 var ss = require("sdk/simple-storage");
 var utils = require('sdk/window/utils');
@@ -64,6 +64,22 @@ dropDownView.panel.port.on(SEND_STORAGE, function(panelEvent, i){
   }
 })
 
+dropDownView.panel.port.on(DELETE_PROJECT, function (project_to_delete_id){ 
+  // for i in projects
+  // if i == project
+    // delete i
+  console.log(project_to_delete_id);
+  for (let i = 0; i < ss.storage.data.length; i++) {
+      if (ss.storage.data[i].project_id === project_to_delete_id) {
+        console.log('say bye-bye to ' + project_to_delete_id);
+        ss.storage.data.splice(i, 1);
+      }
+  }
+  console.log(ss.storage.data);
+  dropDownView.panel.port.emit(HOME, ss.storage.data);
+});
+
+
 
 
 dropDownView.panel.port.on("store", function(project) {
@@ -71,9 +87,11 @@ dropDownView.panel.port.on("store", function(project) {
 });
 
 dropDownView.panel.port.on(ADD_NEW_PROJECT, function(projectName){
+  ss.storage.max_id = ss.storage.max_id + 1;
   ss.storage.data.push({
     name: projectName,
-    sources: []
+    sources: [],
+    project_id: ss.storage.max_id
   });
 })
 
@@ -97,6 +115,7 @@ open_count = 0;
 
 //To be removed once app is completed
 (function initialize(){
+  ss.storage.max_id = 1;
   let fakeData = require("fake_data.json")
   ss.storage.data = []
   for(let i = 0; i < fakeData.length; i++){

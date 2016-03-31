@@ -1,5 +1,7 @@
 [{
   "name": "Research Project",
+  "project_id": 1,
+  "name": "Research Project",
   "sources": [{
     "name": "My source",
     "title_of_source": "Barnes Hut Algorithm",
