@@ -2,14 +2,13 @@ var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
-const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT } = require('./consts/emitter');
+const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR } = require('./consts/emitter');
 
 var ss = require("sdk/simple-storage");
 var utils = require('sdk/window/utils');
 
 let dropDownView = null;
 let footerView = null;
-
 // a dummy function, to show how tests work.
 // to see how to test this function, look at test/test-index.js
 function dummy(text, callback) {
@@ -76,11 +75,6 @@ dropDownView.panel.port.on(ADD_NEW_PROJECT, function(projectName){
     name: projectName,
     sources: []
   });
-})
-
-// Save author name
-dropDownView.panel.port.on(ADD_NEW_AUTHOR, function(authorName){
-  ss.storage.data.sources.authors.push(authorName); 
 })
 
 dropDownView.panel.port.on("checkIfReferenceRequest", function(ref) {
