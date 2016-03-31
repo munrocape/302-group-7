@@ -1,44 +1,56 @@
-.header {
-	color: #ee6e73;
-	font-size: 1.64rem;
-	margin: -0.18rem 0 0 0;
-	/*padding-bottom: 6px;*/
-	line-height: 15%;
-
-}
-
 #addNew {
   display:inline;
 }
-
 .project {
   display:block;
+<<<<<<< HEAD
   border-bottom: 1px solid grey;
+=======
+>>>>>>> 7b5992a210266f02b3ff68595659f1e3227e6dd0
 }
-
 .projectLinks {
   display:inline;
   float:right;
 }
-
 .projectName {
   display:inline;
   padding-left: 3px;
 }
 
-#app_body {
+/**/
+#sourceView {
+  display: none;
+}
+#createNewProjectView {
+  display: none;
+}
+#createNewSourceView {
+  display: none;
+}
+#createNewReferenceView {
+  display: none;
+}
+
+#sourceNameView {
+  display: none;
+}
+
+#authorView {
+  display: none;
+}
+
+.app_body {
 	padding: 5px;
 	margin: 5px;
 }
 
-#app_body .button {
+#projectView {
+  display: none;
+}
+.app_body .button {
 	margin: 3px;
 }
 
 #projects {
 	padding-top: 5px;
-}
-
-.button {
-	height: 100%;
 }

@@ -2,6 +2,7 @@
 const HOME = "HOME";
 const SEND_STORAGE = "SEND_STORAGE";
 const ADD_NEW_PROJECT = "ADD_NEW_PROJECT";
+const ADD_NEW_SOURCE = "ADD_NEW_SOURCE";
 const SELECT_PROJECT = "SELECT_PROJECT"
 
 //So contentScriptFile doesnt complain
