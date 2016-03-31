@@ -5,13 +5,45 @@ $("#home").click(function() {
 	$("#projectView").css("display", "none");
 	$("#sourceView").css("display", "none");
 	$("#createNewProjectView").css("display", "none");
+	$("#sourceNameView").css("display", "none");
 	$("#createNewSourceView").css("display", "none");
-
+	$("#createNewReferenceView").css("display", "none");
+	$("#authorView").css("display", "none");
 })
 //In home click 'add new project' (The plus sign)
 $("#addNewProject").click(function(){
 	$("#main").css("display", "none");
 	$("#createNewProjectView").css("display", "block");
+})
+
+// Navigates to main add source 'page'.
+$("#addNewSource").click(function(){
+	$("#projectView").css("display", "none");
+	$("#sourceNameView").css("display", "block");
+})
+
+// Navigates to main add source 'page'.
+$("#submitSourceName").click(function(){
+	$("#sourceNameView").css("display", "none");
+	$("#sourceView").css("display", "block");
+})
+
+// Navigates to main add references 'page'.
+$("#addReference").click(function(){
+	$("#sourceView").css("display", "none");
+	$("#createNewReferenceView").css("display", "block");
+})
+
+// Navigates to source options 'page'.
+$("#sourceOptions").click(function(){
+	$("#sourceView").css("display", "none");
+	$("#createNewSourceView").css("display", "block");
+})
+
+//Navigates to authors 'page'.
+$("#addNewAuthor").click(function(){
+	$("#createNewSourceView").css("display", "none");
+	$("#authorView").css("display", "block");
 })
 
 //Event for when someone wants to go home or initial page
@@ -60,6 +92,13 @@ self.port.on(SELECT_PROJECT, function(project) {
 
 
 })
+
+//$("#submitNewSource").click(function(){
+//	self.port.emit(ADD_NEW_SOURCE, $("#source_name").val())
+//	self.port.emit(SEND_STORAGE, HOME)
+//	$('#main').css("display", "block");
+//	$('#createNewSourceView').css("display", "none");
+//})
 
 $("#submitNewProject").click(function(){
 	if ($.trim( $('#newProjectName').val() ) === '' ) {
