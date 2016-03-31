@@ -1,10 +1,37 @@
 [{
-  "name": "Research Project",
+  "name": "My first research.",
   "sources": [{
     "name": "Barnes Hut Algorithm",
     "link": "http://arborjs.org/docs/barnes-hut",
     "year": 2005,
     "authors": ["Tom Ventimiglia", "Kevin Wayne"],
     "references": ["http://www.cs.princeton.edu/courses/archive/fall03/cs126/assignments/barnes-hut.html"]
+    }]
+}, 
+{
+  "name": "The ultimate ice cream flavor",
+  "sources": [{
+    "name": "Recipes for life",
+    "link": "http://www.recipesforlife.org/",
+    "year": 2016,
+    "authors": ["Life", "Gordon Ramsey"],
+    "references": ["http://www.recipesforlife.org/recipe/Cake-Batter-Snow-Ice-Cream/537187ec21a4a502005a3350"]
+    }]
+}, 
+{
+  "name": "Web design vs WebDev",
+  "sources": [{
+    "name": "CSC302",
+    "link": "https://piazza.com/class/ij93uhihtkm2am",
+    "year": 2016,
+    "authors": ["Bahen", "CSC302"],
+    "references": ["https://www.google.com/imgres?imgurl=http://www.johnperricruz.com/wp-content/uploads/2015/11/web-designer-vs-web-developer.jpg&imgrefurl=http://www.johnperricruz.com/the-life-of-a-programmer/&h=387&w=500&tbnid=V3ecW58lxzOSOM:&docid=lvfPEYWlpbx4_M&ei=D0X9Vr6-MqzpjgT09LX4BQ&tbm=isch&ved=0ahUKEwj-gbO4oevLAhWstIMKHXR6DV8QMwhAKBwwHA"]
+    },
+    {
+    "name": "CSC309",
+    "link": "http://www.cs.toronto.edu/~mashiyat/csc309/index.htm",
+    "year": 2016,
+    "authors": ["Bahen", "CSC309"],
+    "references": ["https://www.google.com/imgres?imgurl=http://www.johnperricruz.com/wp-content/uploads/2015/11/web-designer-vs-web-developer.jpg&imgrefurl=http://www.johnperricruz.com/the-life-of-a-programmer/&h=387&w=500&tbnid=V3ecW58lxzOSOM:&docid=lvfPEYWlpbx4_M&ei=D0X9Vr6-MqzpjgT09LX4BQ&tbm=isch&ved=0ahUKEwj-gbO4oevLAhWstIMKHXR6DV8QMwhAKBwwHA"]
     }]
 }]
