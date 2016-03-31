@@ -1,3 +1,11 @@
+// Initially hide all divs except for main/home
+$("#projectView").css("display", "none");
+$("#sourceView").css("display", "none");
+$("#authorView").css("display", "none");
+$("#createNewProjectView").css("display", "none");
+$("#createNewSourceView").css("display", "none");
+$("#createNewAuthorView").css("display", "none");
+
 //When Nib is clicked, it redirects to home, hiding all other divs
 $("#home").click(function() {
 	self.port.emit(SEND_STORAGE, HOME)
@@ -10,6 +18,7 @@ $("#home").click(function() {
 	$("#createNewAuthorView").css("display", "none");
 
 })
+
 //In home click 'add new project' (The plus sign)
 $("#addNewProject").click(function(){
 	$("#main").css("display", "none");
@@ -83,3 +92,5 @@ $('#options').click(function(){
 self.port.on('getURLResponse', function (url) {
 
 })
+
+
