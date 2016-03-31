@@ -119,7 +119,8 @@ self.port.on(SELECT_PROJECT, function(project) {
 		$('.collection').append(html)
 		$('#source_' + i).click(function(){
 			//Listener for specific source
-			console.log(i)
+			self.port.emit(VIEW_SOURCE, project.sources[i]);
+			console.log('do something special! view this source! ' + i)
 		})
 	}
 
