@@ -1,11 +1,14 @@
 [{
   "name": "Research Project",
   "project_id": 1,
+  "project_name": "Research Project",
   "sources": [{
-    "name": "Barnes Hut Algorithm",
+    "source_name": "My source",
+    "title_of_source": "Barnes Hut Algorithm",
     "link": "http://arborjs.org/docs/barnes-hut",
     "year": 2005,
     "authors": ["Tom Ventimiglia", "Kevin Wayne"],
-    "references": ["http://www.cs.princeton.edu/courses/archive/fall03/cs126/assignments/barnes-hut.html"]
-    }]
+    "references":[
+    {"page_number":"1", "quote_message":"The crucial idea in speeding up the brute force n-body algorithm is to group nearby bodies and approximate them as a single body."},
+    {"page_number":"24", "quote_message":"Test123"}]
 }]
