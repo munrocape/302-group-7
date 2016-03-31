@@ -130,12 +130,13 @@ self.port.on(SELECT_PROJECT, function(project) {
 $("#submitNewProject").click(function(){
 	if ($.trim( $('#newProjectName').val() ) === '' ) {
 		console.log('Blank input.');
-		$(".projectName").html("Please enter a project name")
+		$("#newProjectMsg").css("display", "block");
 	}
 	else {
-		self.port.emit(ADD_NEW_PROJECT, $("#newProjectName").val())
-		self.port.emit(SEND_STORAGE, HOME)
+		self.port.emit(ADD_NEW_PROJECT, $("#newProjectName").val());
+		self.port.emit(SEND_STORAGE, HOME);
 		$('#main').css("display", "block");
+		$('#newProjectName').val('');
 		$('#createNewProjectView').css("display", "none");
 	}
 })
@@ -149,6 +150,7 @@ $("#submitNewAuthor").click(function(){
 		self.port.emit(ADD_NEW_PROJECT, $("#newAuthorName").val())
 		self.port.emit(SEND_STORAGE, HOME)
 		$('#main').css("display", "block");
+
 		$('#createNewAuthorView').css("display", "none");
 	}
 })
