@@ -91,7 +91,6 @@ active_source = null;
 function viewSource(source) {
 	active_source_id = source.source_id;
 	active_source = source;
-	console.log('damn son gonna look at a source: ' + source);
 	hideAll();
 	console.log(source.name);
 	$('#editSourceName').val(source.name);

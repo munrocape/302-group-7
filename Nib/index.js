@@ -122,22 +122,23 @@ dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
 
 function deleteSource(proj_id, s_id) {
   for(let i = 0; i < ss.storage.data.length; i++){
-    if(ss.storage.data[i].project_id == proj_id) {
+    if(ss.storage.data[i].project_id === proj_id) {
       for(let j = 0; j < ss.storage.data[i].sources.length; j++){
-        if (ss.storage.data[i].sources[j].source_id = s_id) {
+        if (ss.storage.data[i].sources[j].source_id === s_id) {
           console.log('saving');
           ss.storage.data[i].sources.splice(j, 1);
           return i
         }
       }
+      return i
     }
   }
 }
 
 dropDownView.panel.port.on(UPDATE_SOURCE, function (proj_id, s_id, updated_source) {
   // this is why we should have used keys
-  //var index = deleteSource(proj_id, s_id);
-  ss.storage.data[proj_id].sources.push(updated_source);
+  var index = deleteSource(proj_id, s_id);
+  ss.storage.data[index].sources.push(updated_source);
   displayProjectById(proj_id);
 });
 
