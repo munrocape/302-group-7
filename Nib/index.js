@@ -2,7 +2,7 @@ var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
-const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED } = require('./consts/emitter');
+const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT } = require('./consts/emitter');
 
 var ss = require("sdk/simple-storage");
 var utils = require('sdk/window/utils');
@@ -120,7 +120,45 @@ dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
   dropDownView.panel.port.emit(SOURCE_CREATED, new_source);
 });
 
+function deleteSource(proj_id, s_id) {
+  for(let i = 0; i < ss.storage.data.length; i++){
+    if(ss.storage.data[i].project_id == proj_id) {
+      for(let j = 0; j < ss.storage.data[i].sources.length; j++){
+        if (ss.storage.data[i].sources[j].source_id = s_id) {
+          console.log('saving');
+          ss.storage.data[i].sources.splice(j, 1);
+          return i
+        }
+      }
+    }
+  }
+}
 
+dropDownView.panel.port.on(UPDATE_SOURCE, function (proj_id, s_id, updated_source) {
+  // this is why we should have used keys
+  var index = deleteSource(proj_id, s_id);
+  ss.storage.data[index].sources.push(updated_source);
+  displayProjectById(proj_id);
+});
+
+
+dropDownView.panel.port.on(DELETE_SOURCE, function (proj_id, s_id) {
+  deleteSource(proj_id, s_id);
+  displayProjectById(proj_id);
+})
+
+dropDownView.panel.port.on(CANCEL_EDIT, function(proj_id) {
+  displayProjectById(proj_id);
+});
+
+
+function displayProjectById(proj_id) {
+  for(let i = 0; i < ss.storage.data.length; i++) {
+    if (ss.storage.data[i].project_id == proj_id) {
+      dropDownView.panel.port.emit(SELECT_PROJECT, ss.storage.data[i]);
+    }
+  }
+}
 function addReference(reference) {
   console.log(reference);
 }

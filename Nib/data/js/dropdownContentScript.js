@@ -86,16 +86,43 @@ $("#addNewAuthors").click(function(){
  	$("#createNewSourceView").css("display", "block");
  })
 
+active_source_id = null;
+active_source = null;
 function viewSource(source) {
+	active_source_id = source.source_id;
+	active_source = source;
 	console.log('damn son gonna look at a source: ' + source);
 	hideAll();
 	console.log(source.name);
 	$('#editSourceName').val(source.name);
 	$('#editSourceYear').val(source.year);
 	$('#editSourceTitle').val(source.title);
-	//$('#editSourceName').value(source.name);
+	$('#editSourceURL').val(source.link);
 	$('#editSourceView').css('display', 'block');
 }
+
+$('#editSourceSave').click(function(){
+	new_source = {
+    "source_id": active_source_id,
+    "name": $('#editSourceName').val(),
+    "title_of_source": $('#editSourceTitle').val(),
+    "link": $('#editSourceURL').val(),
+    "year": $('#editSourceYear').val(),
+    "authors": active_source.authors,
+    "references": active_source.references
+  }
+	self.port.emit(UPDATE_SOURCE, active_project_id, active_source_id, new_source);
+	// go home
+});
+
+$('#editSourceDelete').click(function(){
+	self.port.emit(DELETE_SOURCE, active_project_id, active_source_id);
+	// go home
+});
+
+$('#editSourceCancel').click(function() {
+	self.port.emit(CANCEL_EDIT, active_project_id);
+});
 
 //Event for when someone wants to go home or initial page
 self.port.on(HOME, function (storage) {
@@ -123,6 +150,7 @@ self.port.on(HOME, function (storage) {
 
 //Listens when user selects a project
 self.port.on(SELECT_PROJECT, function(project) {
+	hideAll();
 	console.log('project id: ' + project.project_id);
 	active_project_id = project.project_id;
 	console.log('active project id: ' + active_project_id);
@@ -132,7 +160,7 @@ self.port.on(SELECT_PROJECT, function(project) {
 	$("#projectView").css("display", "block")
 
 	$(".projectName").html(project.name)
-
+	$('.collection').empty();
 	for (let i = 0; i < project.sources.length; i++) {
 		console.log($("#source_" + i).val())
 		if ($("#source_" + i).val() === 'null' || $("#source_" + i).val() === '')
