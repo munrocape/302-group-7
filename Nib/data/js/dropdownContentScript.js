@@ -96,7 +96,7 @@ function viewSource(source) {
 	console.log(source.name);
 	$('#editSourceName').val(source.name);
 	$('#editSourceYear').val(source.year);
-	$('#editSourceTitle').val(source.title);
+	$('#editSourceTitle').val(source.title_of_source);
 	$('#editSourceURL').val(source.link);
 	$('#editSourceView').css('display', 'block');
 }
