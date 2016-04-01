@@ -86,6 +86,7 @@ dropDownView.panel.port.on("store", function(project) {
   console.log(project);
 });
 
+// Add a new project to simple storage
 dropDownView.panel.port.on(ADD_NEW_PROJECT, function(projectName){
   ss.storage.max_id = ss.storage.max_id + 1;
   ss.storage.data.push({
@@ -93,6 +94,15 @@ dropDownView.panel.port.on(ADD_NEW_PROJECT, function(projectName){
     sources: [],
     project_id: ss.storage.max_id
   });
+})
+
+// Add a new author for a source
+dropDownView.panel.port.on(ADD_NEW_AUTHOR, function(authorName){
+  // Currently this will push the author onto the first project, first source
+  // Since I wasn't sure how to index properly yet. I'm assuming the function
+  // will have to take a project_id and source_id as indices
+  ss.storage.data[0].sources[0].authors.push(authorName);
+  console.log(ss.storage.data[0].sources[0].authors);
 })
 
 dropDownView.panel.port.on("checkIfReferenceRequest", function(ref) {
