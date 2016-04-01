@@ -5,6 +5,7 @@ $("#authorView").css("display", "none");
 $("#createNewProjectView").css("display", "none");
 $("#createNewSourceView").css("display", "none");
 $("#createNewAuthorView").css("display", "none");
+$('#editSourceView').css('display', 'none');
 
 //When Nib is clicked, it redirects to home, hiding all other divs
 $("#home").click(function() {
@@ -22,6 +23,20 @@ function showHome() {
 	$("#createNewAuthorView").css("display", "none");
     $("#sourceNameView").css("display", "none");
 	$("#createNewReferenceView").css("display", "none");
+	$('#editSourceView').css('display', 'none');
+}
+
+function hideAll() {
+	$("#main").css("display", "none");
+	$("#projectView").css("display", "none");
+	$("#sourceView").css("display", "none");
+	$("#authorView").css("display", "none");
+	$("#createNewProjectView").css("display", "none");
+	$("#createNewSourceView").css("display", "none");
+	$("#createNewAuthorView").css("display", "none");
+    $("#sourceNameView").css("display", "none");
+	$("#createNewReferenceView").css("display", "none");
+	$('#editSourceView').css('display', 'none');
 }
 
 //In home click 'add new project' (The plus sign)
@@ -73,6 +88,13 @@ $("#addNewAuthors").click(function(){
 
 function viewSource(source) {
 	console.log('damn son gonna look at a source: ' + source);
+	hideAll();
+	console.log(source.name);
+	$('#editSourceName').val(source.name);
+	$('#editSourceYear').val(source.year);
+	$('#editSourceTitle').val(source.title);
+	//$('#editSourceName').value(source.name);
+	$('#editSourceView').css('display', 'block');
 }
 
 //Event for when someone wants to go home or initial page

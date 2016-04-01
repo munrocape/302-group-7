@@ -159,28 +159,34 @@
 		</div>
 
 		<!-- Create new source view -->
-		<div id="createNewSourceView">
-			<div class="right"><a href="#"><i class="material-icons">delete</i></a></div>
+		<div id="editSourceView">
 		
  			<!-- The name will need to be populated -->
- 			<h5 class="center-align">Source Name Here</h5>
+ 			<div id="title_app" class="input-field col s6">
+ 				<input placeholder="Title" type="text" class="validate" id="editSourceName">
+ 				<label for="title_of_source">Name</label>
+ 			</div>
  			
  			<div id="title_app" class="input-field col s6">
- 				<input placeholder="Title" type="text" class="validate" id="title_of_source">
+ 				<input placeholder="Title" type="text" class="validate" id="editSourceTitle">
  				<label for="title_of_source">Title</label>
  			</div>
  			
  			<div id="year_app" class="input-field col s6">
- 				<input placeholder="Year" type="text" class="validate" id="year_of_source">
+ 				<input placeholder="Year" type="text" class="validate" id="editSourceYear">
  				<label for="year_of_source">Year of Publication</label>
  			</div>
  			
+ 			<!-- NEEDS A VIEW AUTHORS BUTTON
+
  			<h5 id="addNew">Authors:</h5>
  			
  			<a class="btn-floating waves-effect waves-light red lighten-2 button right" href="#">
  				<i class="small material-icons" id="addNewAuthors">add</i>
- 			</a>
- 			
+ 			</a> -->
+ 			<a id='saveSource' class="left green btn">Save</a>
+ 			<a id='cancelSourceChange' class='center blue btn'>Cancel</a>
+			<a id='deleteSource' class="right red btn">Delete</a>
 		</div>
 
 		<!-- Create new authors view -->
