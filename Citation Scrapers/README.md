@@ -1,0 +1,2 @@
+These are standalone citation scraping scripts that can, at the moment, be run through TamperMonkey in Firefox/Chrome.
+They're written in JS so it will be easy to port them over, they were just written in this way to make testing easier.
