@@ -147,8 +147,19 @@ function deleteSource(proj_id, s_id) {
 
 dropDownView.panel.port.on(UPDATE_SOURCE, function (proj_id, s_id, updated_source) {
   // this is why we should have used keys
-  var index = deleteSource(proj_id, s_id);
-  ss.storage.data[index].sources.push(updated_source);
+  //var index = deleteSource(proj_id, s_id);
+  //ss.storage.data[index].sources.push(updated_source);
+  for(let i = 0; i < ss.storage.data.length; i++){
+    if(ss.storage.data[i].project_id === proj_id) {
+      for(let j = 0; j < ss.storage.data[i].sources.length; j++){
+        console.log(ss.storage.data[i].sources[j]);
+        if (ss.storage.data[i].sources[j].source_id === s_id) {
+          console.log('saving');
+          ss.storage.data[i].sources[j] = updated_source;
+        }
+      }
+    }
+  }
   displayProjectById(proj_id);
 });
 
@@ -184,7 +195,7 @@ open_count = 0;
 
 //To be removed once app is completed
 (function initialize(){
-  ss.storage.max_id = 2;
+  ss.storage.max_id = 100;
   let fakeData = require("fake_data.json");
   ss.storage.data = [];
   for(let i = 0; i < fakeData.length; i++){
