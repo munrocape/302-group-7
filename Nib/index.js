@@ -64,7 +64,7 @@ dropDownView.panel.port.on(SEND_STORAGE, function(panelEvent, i){
   }
 })
 
-dropDownView.panel.port.on(DELETE_PROJECT, function (project_to_delete_id){ 
+dropDownView.panel.port.on(DELETE_PROJECT, function (project_to_delete_id){
   // for i in projects
   // if i == project
     // delete i
@@ -136,8 +136,8 @@ function deleteSource(proj_id, s_id) {
 
 dropDownView.panel.port.on(UPDATE_SOURCE, function (proj_id, s_id, updated_source) {
   // this is why we should have used keys
-  var index = deleteSource(proj_id, s_id);
-  ss.storage.data[index].sources.push(updated_source);
+  //var index = deleteSource(proj_id, s_id);
+  ss.storage.data[proj_id].sources.push(updated_source);
   displayProjectById(proj_id);
 });
 

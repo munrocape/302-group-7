@@ -67,19 +67,19 @@ $("#addNewAuthors").click(function(){
  	$("#projectView").css("display", "none");
  	$("#sourceNameView").css("display", "block");
  })
- 
+
  // Navigates to main add source 'view'.
  $("#submitSourceName").click(function(){
  	$("#sourceNameView").css("display", "none");
  	$("#sourceView").css("display", "block");
  })
- 
+
  // Navigates to main add references 'view'.
  $("#addReference").click(function(){
  	$("#sourceView").css("display", "none");
  	$("#createNewReferenceView").css("display", "block");
  })
- 
+
  // Navigates to source options 'view'.
  $("#sourceOptions").click(function(){
  	$("#sourceView").css("display", "none");
@@ -167,6 +167,7 @@ self.port.on(SELECT_PROJECT, function(project) {
 			continue;
 
 		let html = '<li class="collection-item"><div><a href="#" id="source_' + i +'">' + project.sources[i].name + '</a><a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li>'
+		console.log("appending source " + project.sources[i].name )
 		console.log("appending #source_" + i)
 
 		$('.collection').append(html)
@@ -230,5 +231,3 @@ $('#options').click(function(){
 self.port.on('getURLResponse', function (url) {
 
 })
-
-
