@@ -141,16 +141,16 @@ $("#submitNewProject").click(function(){
 	}
 })
 
+// Add a new author is clicked
 $("#submitNewAuthor").click(function(){
 	if ($.trim( $('#newAuthorName').val() ) === '' ) {
 		console.log('Blank input.');
 		$(".authorName").html("Please enter an Author's name")
 	}
 	else {
-		self.port.emit(ADD_NEW_PROJECT, $("#newAuthorName").val())
+		self.port.emit(ADD_NEW_AUTHOR, $("#newAuthorName").val())
 		self.port.emit(SEND_STORAGE, HOME)
 		$('#main').css("display", "block");
-
 		$('#createNewAuthorView').css("display", "none");
 	}
 })
