@@ -2,7 +2,7 @@ var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
-const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE } = require('./consts/emitter');
+const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT } = require('./consts/emitter');
 
 var ss = require("sdk/simple-storage");
 var utils = require('sdk/window/utils');
@@ -64,7 +64,7 @@ dropDownView.panel.port.on(SEND_STORAGE, function(panelEvent, i){
   }
 })
 
-dropDownView.panel.port.on(DELETE_PROJECT, function (project_to_delete_id){ 
+dropDownView.panel.port.on(DELETE_PROJECT, function (project_to_delete_id){
   // for i in projects
   // if i == project
     // delete i
@@ -110,7 +110,77 @@ dropDownView.panel.port.on("checkIfReferenceRequest", function(ref) {
   dropDownView.panel.port.emit('checkIfReferenceResponse', 'okay! resposne from index.js');
 });
 
+dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
+  source_id = ss.storage.max_id;
+  ss.storage.max_id = ss.storage.max_id + 1;
+  new_source = {
+    "source_id": source_id,
+    "name": name,
+    "title_of_source": "",
+    "link": "",
+    "year": null,
+    "authors": [],
+    "references":[]};
 
+  for(let i = 0; i < ss.storage.data.length; i++){
+    if (ss.storage.data[i].project_id == active_project_id) {
+      ss.storage.data[i].sources.push(new_source);
+    }
+  }
+  dropDownView.panel.port.emit(SOURCE_CREATED, new_source);
+});
+
+function deleteSource(proj_id, s_id) {
+  for(let i = 0; i < ss.storage.data.length; i++){
+    if(ss.storage.data[i].project_id === proj_id) {
+      for(let j = 0; j < ss.storage.data[i].sources.length; j++){
+        if (ss.storage.data[i].sources[j].source_id === s_id) {
+          console.log('saving');
+          ss.storage.data[i].sources.splice(j, 1);
+          return i
+        }
+      }
+      return i
+    }
+  }
+}
+
+dropDownView.panel.port.on(UPDATE_SOURCE, function (proj_id, s_id, updated_source) {
+  // this is why we should have used keys
+  //var index = deleteSource(proj_id, s_id);
+  //ss.storage.data[index].sources.push(updated_source);
+  for(let i = 0; i < ss.storage.data.length; i++){
+    if(ss.storage.data[i].project_id === proj_id) {
+      for(let j = 0; j < ss.storage.data[i].sources.length; j++){
+        console.log(ss.storage.data[i].sources[j]);
+        if (ss.storage.data[i].sources[j].source_id === s_id) {
+          console.log('saving');
+          ss.storage.data[i].sources[j] = updated_source;
+        }
+      }
+    }
+  }
+  displayProjectById(proj_id);
+});
+
+
+dropDownView.panel.port.on(DELETE_SOURCE, function (proj_id, s_id) {
+  deleteSource(proj_id, s_id);
+  displayProjectById(proj_id);
+})
+
+dropDownView.panel.port.on(CANCEL_EDIT, function(proj_id) {
+  displayProjectById(proj_id);
+});
+
+
+function displayProjectById(proj_id) {
+  for(let i = 0; i < ss.storage.data.length; i++) {
+    if (ss.storage.data[i].project_id == proj_id) {
+      dropDownView.panel.port.emit(SELECT_PROJECT, ss.storage.data[i]);
+    }
+  }
+}
 function addReference(reference) {
   console.log(reference);
 }
@@ -125,16 +195,16 @@ open_count = 0;
 
 //To be removed once app is completed
 (function initialize(){
-  ss.storage.max_id = 1;
-  let fakeData = require("fake_data.json")
-  ss.storage.data = []
+  ss.storage.max_id = 100;
+  let fakeData = require("fake_data.json");
+  ss.storage.data = [];
   for(let i = 0; i < fakeData.length; i++){
-      console.log("Stored " + fakeData[i].name)
-      ss.storage.data.push(fakeData[i])
+      console.log("Stored " + fakeData[i].name);
+      ss.storage.data.push(fakeData[i]);
   }
 })()
 
-dropDownView.panel.port.emit(HOME, ss.storage.data)
+dropDownView.panel.port.emit(HOME, ss.storage.data);
 
 
 function handleClick(state, isMenu) {

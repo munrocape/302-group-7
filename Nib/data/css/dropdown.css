@@ -1,8 +1,15 @@
 #addNew {
   display:inline;
 }
+.projectHeader {
+   text-decoration: underline;
+}
 .project {
   display:block;
+}
+.projectOverview{
+  position:relative;
+  top:-20px;
 }
 .projectLinks {
   display:inline;
@@ -53,6 +60,5 @@
 }
 
 #projects {
-  padding-top: 5px;
-  margin-bottom:15px;
+  margin-bottom:25px;
 }

@@ -5,6 +5,11 @@ const ADD_NEW_PROJECT = "ADD_NEW_PROJECT";
 const SELECT_PROJECT = "SELECT_PROJECT";
 const ADD_NEW_AUTHOR = "ADD_NEW_AUTHOR";
 const DELETE_PROJECT = "DELETE_PROJECT";
+const CREATE_SOURCE = 'CREATE_SOURCE';
+const SOURCE_CREATED = 'SOURCE_CREATED';
+const UPDATE_SOURCE = 'UPDATE_SOURCE';
+const DELETE_SOURCE = 'DELETE_SOURCE';
+const CANCEL_EDIT = 'CANCEL_EDIT';
 
 //So contentScriptFile doesnt complain
 if (typeof exports !== 'undefined') {
@@ -14,4 +19,9 @@ if (typeof exports !== 'undefined') {
   exports.SELECT_PROJECT = SELECT_PROJECT;
   exports.ADD_NEW_AUTHOR = ADD_NEW_AUTHOR;
   exports.DELETE_PROJECT = DELETE_PROJECT;
+  exports.CREATE_SOURCE = CREATE_SOURCE;
+  exports.SOURCE_CREATED = SOURCE_CREATED;
+  exports.UPDATE_SOURCE = UPDATE_SOURCE;
+  exports.DELETE_SOURCE = DELETE_SOURCE;
+  exports.CANCEL_EDIT = CANCEL_EDIT;
 }
