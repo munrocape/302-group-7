@@ -3,6 +3,7 @@
   "project_id": 1,
   "name": "Research Project",
   "sources": [{
+    "source_id": 2,
     "name": "My source",
     "title_of_source": "Barnes Hut Algorithm",
     "link": "http://arborjs.org/docs/barnes-hut",

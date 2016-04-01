@@ -138,13 +138,24 @@
 
 		<!-- Enter source name view -->
 		<div id="sourceNameView">
-			<p class="center-align">What do you wish to call this Source?</p>
+			<div id="app_body" class="input-field col s6">
+				<input placeholder="Project Name" type="text" class="validate" id="newSourceName">
+				<label for="source_name">Source Name</label>
+
+				<button class="btn waves-effect waves-light red lighten-2 right" type="submit" name="action" id="submitNewSource">
+					Submit
+					<i class="material-icons right">assignment</i>
+				</button>
+
+			</div>
+				<p id='newSourceMsg' style='display:none'>Please enter a source name.</p>
+			<!-- <p class="center-align">What do you wish to call this Source?</p>
 			<div id="source_name_app" class="input-field col s6">
 				<input placeholder="Source Name" type="text" class="validate" id="source_name_title">
 			</div>
  			<button class="btn waves-effect waves-light red lighten-2 left" type="submit" name="action" id="submitSourceName">
 					Continue<i class="material-icons left">assignment</i>
-			</button>
+			</button> -->
 		</div>
 
 		<!-- Create new source view -->

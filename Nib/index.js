@@ -2,7 +2,7 @@ var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
-const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, VIEW_SOURCE } = require('./consts/emitter');
+const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED } = require('./consts/emitter');
 
 var ss = require("sdk/simple-storage");
 var utils = require('sdk/window/utils');
@@ -100,6 +100,26 @@ dropDownView.panel.port.on("checkIfReferenceRequest", function(ref) {
   dropDownView.panel.port.emit('checkIfReferenceResponse', 'okay! resposne from index.js');
 });
 
+dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
+  source_id = ss.storage.max_id;
+  ss.storage.max_id = ss.storage.max_id + 1;
+  new_source = {
+    "source_id": source_id,
+    "name": name,
+    "title_of_source": "",
+    "link": "",
+    "year": null,
+    "authors": [],
+    "references":[]};
+
+  for(let i = 0; i < ss.storage.data.length; i++){
+    if (ss.storage.data[i].project_id == active_project_id) {
+      ss.storage.data[i].sources.push(new_source);
+    }
+  }
+  dropDownView.panel.port.emit(SOURCE_CREATED, new_source);
+});
+
 
 function addReference(reference) {
   console.log(reference);
@@ -115,16 +135,16 @@ open_count = 0;
 
 //To be removed once app is completed
 (function initialize(){
-  ss.storage.max_id = 1;
-  let fakeData = require("fake_data.json")
-  ss.storage.data = []
+  ss.storage.max_id = 2;
+  let fakeData = require("fake_data.json");
+  ss.storage.data = [];
   for(let i = 0; i < fakeData.length; i++){
-      console.log("Stored " + fakeData[i].name)
-      ss.storage.data.push(fakeData[i])
+      console.log("Stored " + fakeData[i].name);
+      ss.storage.data.push(fakeData[i]);
   }
 })()
 
-dropDownView.panel.port.emit(HOME, ss.storage.data)
+dropDownView.panel.port.emit(HOME, ss.storage.data);
 
 
 function handleClick(state, isMenu) {

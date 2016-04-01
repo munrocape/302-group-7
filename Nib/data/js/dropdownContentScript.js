@@ -22,7 +22,6 @@ function showHome() {
 	$("#createNewAuthorView").css("display", "none");
     $("#sourceNameView").css("display", "none");
 	$("#createNewReferenceView").css("display", "none");
-
 }
 
 //In home click 'add new project' (The plus sign)
@@ -72,6 +71,10 @@ $("#addNewAuthors").click(function(){
  	$("#createNewSourceView").css("display", "block");
  })
 
+function viewSource(source) {
+	console.log('damn son gonna look at a source: ' + source);
+}
+
 //Event for when someone wants to go home or initial page
 self.port.on(HOME, function (storage) {
 	$('#projects').empty();
@@ -119,13 +122,9 @@ self.port.on(SELECT_PROJECT, function(project) {
 		$('.collection').append(html)
 		$('#source_' + i).click(function(){
 			//Listener for specific source
-			self.port.emit(VIEW_SOURCE, project.sources[i]);
-			console.log('do something special! view this source! ' + i)
+			viewSource(project.sources[i]);
 		})
 	}
-
-
-
 })
 
 $("#submitNewProject").click(function(){
@@ -138,6 +137,26 @@ $("#submitNewProject").click(function(){
 		self.port.emit(SEND_STORAGE, HOME)
 		$('#main').css("display", "block");
 		$('#createNewProjectView').css("display", "none");
+	}
+})
+
+$("#submitNewSource").click(function(){
+	if ($.trim( $('#newSourceName').val() ) === '' ) {
+		console.log('Blank input.');
+		$("#newSourceMsg").css("display", "block");
+	}
+	else {
+		$("#newSourceMsg").css("display", "none");
+		var title = $('#newSourceName').val();
+		$('#newSourceName').val('');
+		console.log('going to fire an event to create source with title: ' + title)
+		self.port.emit(CREATE_SOURCE, active_project_id, title)
+		self.port.on(SOURCE_CREATED, function (source) {
+			viewSource(source);
+		});
+		//console.log(newName);
+		//$('#newProjectName').val('');
+		//createSource('#newSourceName');
 	}
 })
 
