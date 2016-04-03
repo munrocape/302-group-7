@@ -165,7 +165,7 @@ self.port.on(SELECT_PROJECT, function(project) {
 		if ($("#source_" + i).val() === 'null' || $("#source_" + i).val() === '')
 			continue;
 
-		let html = '<li class="collection-item"><div><a href="#" id="source_' + i +'">' + project.sources[i].name + '</a><a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li>'
+		let html = '<li class="collection-item"><div><a href="#" id="source_' + i +'">' + project.sources[i].name + '</a><a href="#!" class="secondary-content"></a></div></li>'
 		console.log("appending source " + project.sources[i].name )
 		console.log("appending #source_" + i)
 
