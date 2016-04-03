@@ -114,6 +114,9 @@ dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
   source_id = ss.storage.max_id;
   ss.storage.max_id = ss.storage.max_id + 1;
   var url = getURL();
+  if (url.startsWith('about:')) {
+    url = '';
+  }
   new_source = {
     "source_id": source_id,
     "name": name,
