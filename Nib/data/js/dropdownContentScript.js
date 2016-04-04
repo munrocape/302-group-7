@@ -35,9 +35,10 @@ function hideAll() {
 	$("#createNewProjectView").css("display", "none");
 	$("#createNewSourceView").css("display", "none");
 	$("#createNewAuthorView").css("display", "none");
-    $("#sourceNameView").css("display", "none");
+	$("#sourceNameView").css("display", "none");
 	$("#createNewReferenceView").css("display", "none");
 	$('#editSourceView').css('display', 'none');
+	$("#referencesView").css("display", "none");
 }
 
 //In home click 'add new project' (The plus sign)
@@ -104,10 +105,29 @@ function viewSource(source) {
 $('#manageReferences').click(function(){
 	hideAll();
 	$("#referencesView").css("display", "block");
-	$(".collection").html("");
+	//Not working with .collection
+	$("#refcollection").html("");
 	$("#sourceName").html(active_source.name)
-})
+	for (let i = 0; i < active_source.references.length; i++) {
+		if ($("#reference_" + i).val() === 'null' || $("#reference_" + i).val() === '')
+			continue;
 
+		let html = '<li class="collection-item"><a href="#!" id="reference_' + i +'">' + active_source.references[i].name + '</a></li>'
+		console.log("appending reference " + active_source.references[i].name )
+		console.log(html)
+		$('#refcollection').append(html)
+		$('#reference_' + i).click(function() {
+			//Listener for specific reference
+			console.log("here")
+		})
+		console.log("should have added listener #reference_" + i)
+	}
+	console.log(JSON.stringify($("#reference_" + i)))
+})
+$('#addReference').click(function() {
+	hideAll()
+	$('#createNewReferenceView').css("display", "block")
+})
 $('#editSourceSave').click(function(){
 	new_source = {
     "source_id": active_source_id,
