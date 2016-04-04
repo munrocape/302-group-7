@@ -1,6 +1,7 @@
 // Initially hide all divs except for main/home
 let active_source_id = null;
 let active_source = null;
+let active_ref_id = null;
 $("#projectView").css("display", "none");
 $("#sourceView").css("display", "none");
 $("#authorView").css("display", "none");
@@ -120,6 +121,7 @@ $('#manageReferences').click(function(){
 			//Listener for specific reference
 			hideAll();
 			$("#createNewReferenceView").css("display", "block");
+			active_ref_id = i
 			viewRef(i)
 		})
 	}
@@ -131,12 +133,21 @@ function viewRef(index) {
 	$("#edit_quote_message").val(active_source.references[index].quote);
 }
 
+$("#editReferenceSave").click(function() {
+	let new_ref = {
+		"name": $("#edit_reference_name").val(),
+		"page": $("#edit_page_number").val(),
+		"quote": $("#edit_quote_message").val()
+	}
+	self.port.emit(UPDATE_REFERENCE, active_project_id, active_source_id, active_ref_id, new_ref)
+});
+
 $('#addReference').click(function() {
 	hideAll()
 	$('#createNewReferenceView').css("display", "block")
 })
 $('#editSourceSave').click(function(){
-	new_source = {
+	let new_source = {
     "source_id": active_source_id,
     "name": $('#editSourceName').val(),
     "title_of_source": $('#editSourceTitle').val(),
