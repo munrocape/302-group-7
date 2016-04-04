@@ -2,6 +2,7 @@
 let active_source_id = null;
 let active_ref_id = null;
 let active_project_id = null;
+let active_source = null;
 
 $("#projectView").css("display", "none");
 $("#sourceView").css("display", "none");
@@ -93,13 +94,13 @@ $("#addNewAuthors").click(function(){
 
 
 function viewSource(index) {
-	active_source_id = index || 0;
-	self.port.emit(SEND_STORAGE, VIEW_SOURCE, active_project_id);
+	active_source_id = index;
+	console.log("active_source_id " + active_source_id)
+	self.port.emit(SEND_STORAGE, VIEW_SOURCE, active_project_id, active_source_id);
 }
 
-self.port.on(VIEW_SOURCE, function(project) {
-
-	let source = project.sources[active_source_id];
+self.port.on(VIEW_SOURCE, function(source) {
+	active_source = source;
 	hideAll();
 	$('#editSourceName').val(source.name);
 	$('#editSourceYear').val(source.year);
@@ -108,6 +109,7 @@ self.port.on(VIEW_SOURCE, function(project) {
 	$('#editSourceView').css('display', 'block');
 
 });
+
 $('#manageReferences').click(function(){
 	hideAll();
 	$("#referencesView").css("display", "block");

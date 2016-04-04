@@ -49,13 +49,16 @@ dropDownView.panel.port.on("removeReferenceRequest", function(ref) {
   console.log(ref);
 });
 //On an event send the storage
-//i is optional if you want a specific 'project', AKA the nth project
-dropDownView.panel.port.on(SEND_STORAGE, function(panelEvent, i){
+//i is optional if you want a specific 'project', AKA the ith project and jth source
+dropDownView.panel.port.on(SEND_STORAGE, function(panelEvent, i, j){
 
   if (typeof i === 'undefined') {
     dropDownView.panel.port.emit(panelEvent, ss.storage.data)
-  } else {
+  } else if (typeof j === 'undefined') {
     dropDownView.panel.port.emit(panelEvent, ss.storage.data[i])
+  } else {
+    console.log(JSON.stringify(ss.storage.data[i]))
+    dropDownView.panel.port.emit(panelEvent, ss.storage.data[i].sources[j])
   }
 })
 
@@ -110,7 +113,7 @@ dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
   };
   ss.storage.data[active_project_id].sources.push(new_source)
   //Send back the last index of the newly created source
-  dropDownView.panel.port.emit(SOURCE_CREATED, ss.storage.data[active_project_id].length - 1);
+  dropDownView.panel.port.emit(SOURCE_CREATED, ss.storage.data[active_project_id].sources.length - 1);
 });
 
 function deleteSource(proj_id, s_id) {
