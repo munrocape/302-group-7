@@ -1,4 +1,7 @@
 // Initially hide all divs except for main/home
+let active_source_id = null;
+let active_source = null;
+let active_ref_id = null;
 $("#projectView").css("display", "none");
 $("#sourceView").css("display", "none");
 $("#authorView").css("display", "none");
@@ -21,9 +24,10 @@ function showHome() {
 	$("#createNewProjectView").css("display", "none");
 	$("#createNewSourceView").css("display", "none");
 	$("#createNewAuthorView").css("display", "none");
-    $("#sourceNameView").css("display", "none");
+  $("#sourceNameView").css("display", "none");
 	$("#createNewReferenceView").css("display", "none");
 	$('#editSourceView').css('display', 'none');
+	$('#referencesView').css('display', 'none');
 }
 
 function hideAll() {
@@ -34,9 +38,10 @@ function hideAll() {
 	$("#createNewProjectView").css("display", "none");
 	$("#createNewSourceView").css("display", "none");
 	$("#createNewAuthorView").css("display", "none");
-    $("#sourceNameView").css("display", "none");
+	$("#sourceNameView").css("display", "none");
 	$("#createNewReferenceView").css("display", "none");
 	$('#editSourceView').css('display', 'none');
+	$("#referencesView").css("display", "none");
 }
 
 //In home click 'add new project' (The plus sign)
@@ -86,8 +91,7 @@ $("#addNewAuthors").click(function(){
  	$("#createNewSourceView").css("display", "block");
  })
 
-active_source_id = null;
-active_source = null;
+
 function viewSource(source) {
 	active_source_id = source.source_id;
 	active_source = source;
@@ -100,8 +104,50 @@ function viewSource(source) {
 	$('#editSourceView').css('display', 'block');
 }
 
+$('#manageReferences').click(function(){
+	hideAll();
+	$("#referencesView").css("display", "block");
+	//Not working with .collection
+	$("#refcollection").html("");
+	$("#sourceName").html(active_source.name)
+	for (let i = 0; i < active_source.references.length; i++) {
+		if ($("#reference_" + i).val() === 'null' || $("#reference_" + i).val() === '')
+			continue;
+
+		let html = '<li class="collection-item"><a href="#!" id="reference_' + i +'">' + active_source.references[i].name + '</a></li>'
+		console.log("appending reference " + active_source.references[i].name)
+		$('#refcollection').append(html)
+		$('#reference_' + i).click(function() {
+			//Listener for specific reference
+			hideAll();
+			$("#createNewReferenceView").css("display", "block");
+			active_ref_id = i
+			viewRef(i)
+		})
+	}
+
+})
+function viewRef(index) {
+	$("#edit_reference_name").val(active_source.references[index].name);
+	$("#edit_page_number").val(active_source.references[index].page);
+	$("#edit_quote_message").val(active_source.references[index].quote);
+}
+
+$("#editReferenceSave").click(function() {
+	let new_ref = {
+		"name": $("#edit_reference_name").val(),
+		"page": $("#edit_page_number").val(),
+		"quote": $("#edit_quote_message").val()
+	}
+	self.port.emit(UPDATE_REFERENCE, active_project_id, active_source_id, active_ref_id, new_ref)
+});
+
+$('#addReference').click(function() {
+	hideAll()
+	$('#createNewReferenceView').css("display", "block")
+})
 $('#editSourceSave').click(function(){
-	new_source = {
+	let new_source = {
     "source_id": active_source_id,
     "name": $('#editSourceName').val(),
     "title_of_source": $('#editSourceTitle').val(),

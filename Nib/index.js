@@ -2,7 +2,7 @@ var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
-const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT } = require('./consts/emitter');
+const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT, UPDATE_REFERENCE } = require('./consts/emitter');
 
 var ss = require("sdk/simple-storage");
 var utils = require('sdk/window/utils');
@@ -11,15 +11,10 @@ let dropDownView = null;
 let footerView = null;
 // a dummy function, to show how tests work.
 // to see how to test this function, look at test/test-index.js
-function dummy(text, callback) {
-  callback(text);
-}
 
 function getURL() {
   return utils.getMostRecentBrowserWindow().content.location.href;
 }
-
-exports.dummy = dummy;
 
 var buttons = require('sdk/ui/button/action');
 var tabs = require("sdk/tabs");
@@ -167,7 +162,10 @@ dropDownView.panel.port.on(UPDATE_SOURCE, function (proj_id, s_id, updated_sourc
   displayProjectById(proj_id);
 });
 
-
+dropDownView.panel.port.on(UPDATE_REFERENCE, function(proj_id, source_id, ref_id, updated_ref) {
+  console.log(proj_id, source_id, ref_id, JSON.stringify(updated_ref))
+  //ss.storage.data[proj_id]
+})
 dropDownView.panel.port.on(DELETE_SOURCE, function (proj_id, s_id) {
   deleteSource(proj_id, s_id);
   displayProjectById(proj_id);
