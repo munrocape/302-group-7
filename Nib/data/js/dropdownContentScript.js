@@ -93,12 +93,13 @@ $("#addNewAuthors").click(function(){
 
 
 function viewSource(index) {
-	active_source_id = index || 0
-	self.port.emit(SEND_STORAGE, VIEW_SOURCE);
+	active_source_id = index || 0;
+	self.port.emit(SEND_STORAGE, VIEW_SOURCE, active_project_id);
 }
-self.port.on(VIEW_SOURCE, function(data) {
-	console.log(active_project_id, active_source_id)
-	let source = data[active_project_id].sources[active_source_id];
+
+self.port.on(VIEW_SOURCE, function(project) {
+
+	let source = project.sources[active_source_id];
 	hideAll();
 	$('#editSourceName').val(source.name);
 	$('#editSourceYear').val(source.year);
@@ -152,14 +153,12 @@ $('#addReference').click(function() {
 })
 $('#editSourceSave').click(function(){
 	let new_source = {
-    "source_id": active_source_id,
     "name": $('#editSourceName').val(),
     "title_of_source": $('#editSourceTitle').val(),
     "link": $('#editSourceURL').val(),
-    "year": $('#editSourceYear').val(),
-    "authors": active_source.authors,
-    "references": active_source.references
+    "year": $('#editSourceYear').val()
   }
+
 	self.port.emit(UPDATE_SOURCE, active_project_id, active_source_id, new_source);
 	// go home
 });
