@@ -21,9 +21,10 @@ function showHome() {
 	$("#createNewProjectView").css("display", "none");
 	$("#createNewSourceView").css("display", "none");
 	$("#createNewAuthorView").css("display", "none");
-    $("#sourceNameView").css("display", "none");
+  $("#sourceNameView").css("display", "none");
 	$("#createNewReferenceView").css("display", "none");
 	$('#editSourceView').css('display', 'none');
+	$('#referencesView').css('display', 'none');
 }
 
 function hideAll() {
@@ -99,6 +100,13 @@ function viewSource(source) {
 	$('#editSourceURL').val(source.link);
 	$('#editSourceView').css('display', 'block');
 }
+
+$('#manageReferences').click(function(){
+	hideAll();
+	$("#referencesView").css("display", "block");
+	$(".collection").html("");
+	$("#sourceName").html(active_source.name)
+})
 
 $('#editSourceSave').click(function(){
 	new_source = {

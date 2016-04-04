@@ -44,7 +44,7 @@
 
 					<ul class="collection">
 					</ul>
-					
+
 					<h6 id="addNew">Add New Source</h6>
 					<a class="btn-floating waves-effect waves-light red lighten-2 button right" href="#!">
  						<i class="small material-icons" id="addNewSource">add</i>
@@ -52,26 +52,16 @@
 				</div>
 		</div>
 
-		<!-- Source view -->
-		<div id="sourceView">
+		<!-- Reference view -->
+		<div id="referencesView">
 			<div class="app_body">
-					<a class="btn-floating waves-effect waves-light red lighten-2 button right" href="#!">
-						<i class="small material-icons" id="sourceOptions">edit</i>
- 					</a>
-					<div id="source_header">
-							<div>
-									<!-- The name will need to be populated -->
-									<div class="right"><a href="#"><i class="material-icons">delete</i></a></div>
-									<h5 class="center-align" id="sourceViewSourceName">Source Name Here</h5>
-							</div>
-							<div class="divider"></div>
-					</div>
+					<h5 class="center-align" id="sourceName"></h5>
+					<div class="divider"></div>
 
-					<!-- List of (fake, for now) references from this source. -->
 					<ul class="collection">
-							<li class="collection-item"><div>Ref 1 (page_number, line, etc.)<a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li>
+							<!-- <li class="collection-item"><div>Ref 1 (page_number, line, etc.)<a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li>
 							<li class="collection-item"><div>Ref 2 (page_number, line, etc.)<a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li>
-							<li class="collection-item"><div>Ref 3 (page_number, line, etc.)<a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li>
+							<li class="collection-item"><div>Ref 3 (page_number, line, etc.)<a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li> -->
 					</ul>
 					<br>
 					<a class="btn-floating waves-effect waves-light red lighten-2 button right" href="#!">
@@ -159,18 +149,18 @@
 
 		<!-- Create new source view -->
 		<div id="editSourceView" class="app_body">
-		
+			<a id="manageReferences" class="left green btn">Manage References</a>
  			<!-- The name will need to be populated -->
  			<div id="title_app" class="input-field col s6">
  				<input placeholder="Title" type="text" class="validate" id="editSourceName">
  				<label for="title_of_source">Name</label>
  			</div>
- 			
+
  			<div id="title_app" class="input-field col s6">
  				<input placeholder="Title" type="text" class="validate" id="editSourceTitle">
  				<label for="title_of_source">Title</label>
  			</div>
- 			
+
  			<div id="year_app" class="input-field col s6">
  				<input placeholder="Year" type="text" class="validate" id="editSourceYear">
  				<label for="year_of_source">Year of Publication</label>
@@ -180,11 +170,11 @@
  				<input placeholder="Year" type="text" class="validate" id="editSourceURL">
  				<label for="year_of_source">URL</label>
  			</div>
- 			
+
  			<!-- NEEDS A VIEW AUTHORS BUTTON
 
  			<h5 id="addNew">Authors:</h5>
- 			
+
  			<a class="btn-floating waves-effect waves-light red lighten-2 button right" href="#">
  				<i class="small material-icons" id="addNewAuthors">add</i>
  			</a> -->
