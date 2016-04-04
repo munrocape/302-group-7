@@ -57,7 +57,6 @@ dropDownView.panel.port.on(SEND_STORAGE, function(panelEvent, i, j){
   } else if (typeof j === 'undefined') {
     dropDownView.panel.port.emit(panelEvent, ss.storage.data[i])
   } else {
-    console.log(JSON.stringify(ss.storage.data[i]))
     dropDownView.panel.port.emit(panelEvent, ss.storage.data[i].sources[j])
   }
 })

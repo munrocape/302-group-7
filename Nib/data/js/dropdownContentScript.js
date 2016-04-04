@@ -111,6 +111,7 @@ self.port.on(VIEW_SOURCE, function(source) {
 });
 
 $('#manageReferences').click(function(){
+	//self.port.emit(SEND_STORAGE, VIEW_SOURCE, active_project_id, active_source_id);
 	hideAll();
 	$("#referencesView").css("display", "block");
 	//Not working with .collection
@@ -127,6 +128,7 @@ $('#manageReferences').click(function(){
 			//Listener for specific reference
 			hideAll();
 			$("#createNewReferenceView").css("display", "block");
+
 			viewRef(i)
 		})
 	}
