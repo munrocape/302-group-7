@@ -1,4 +1,6 @@
 // Initially hide all divs except for main/home
+let active_source_id = null;
+let active_source = null;
 $("#projectView").css("display", "none");
 $("#sourceView").css("display", "none");
 $("#authorView").css("display", "none");
@@ -88,8 +90,7 @@ $("#addNewAuthors").click(function(){
  	$("#createNewSourceView").css("display", "block");
  })
 
-active_source_id = null;
-active_source = null;
+
 function viewSource(source) {
 	active_source_id = source.source_id;
 	active_source = source;
@@ -113,17 +114,23 @@ $('#manageReferences').click(function(){
 			continue;
 
 		let html = '<li class="collection-item"><a href="#!" id="reference_' + i +'">' + active_source.references[i].name + '</a></li>'
-		console.log("appending reference " + active_source.references[i].name )
-		console.log(html)
+		console.log("appending reference " + active_source.references[i].name)
 		$('#refcollection').append(html)
 		$('#reference_' + i).click(function() {
 			//Listener for specific reference
-			console.log("here")
+			hideAll();
+			$("#createNewReferenceView").css("display", "block");
+			viewRef(i)
 		})
-		console.log("should have added listener #reference_" + i)
 	}
-	console.log(JSON.stringify($("#reference_" + i)))
+
 })
+function viewRef(index) {
+	$("#edit_reference_name").val(active_source.references[index].name);
+	$("#edit_page_number").val(active_source.references[index].page);
+	$("#edit_quote_message").val(active_source.references[index].quote);
+}
+
 $('#addReference').click(function() {
 	hideAll()
 	$('#createNewReferenceView').css("display", "block")

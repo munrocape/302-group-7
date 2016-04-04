@@ -59,9 +59,6 @@
 					<div class="divider"></div>
 					<!-- Renamed since not working with .collection -->
 					<ul id="refcollection" class="collection">
-							<!-- <li class="collection-item"><div>Ref 1 (page_number, line, etc.)<a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li>
-							<li class="collection-item"><div>Ref 2 (page_number, line, etc.)<a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li>
-							<li class="collection-item"><div>Ref 3 (page_number, line, etc.)<a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li> -->
 					</ul>
 					<br>
 					<a class="btn-floating waves-effect waves-light red lighten-2 button right" href="#!">
@@ -97,12 +94,16 @@
 
 		<!-- Create new reference view -->
  		<div id="createNewReferenceView" class="app_body">
- 			<div id="pg_number_app" class="input-field col s6">
- 				<input placeholder="Page Number" type="text" class="validate" id="page_number">
+			<div class="input-field col s6">
+ 				<input placeholder="Page Number" type="text" class="validate" id="edit_reference_name">
+ 				<label for="page_number">Name</label>
+ 			</div>
+ 			<div class="input-field col s6">
+ 				<input placeholder="Page Number" type="text" class="validate" id="edit_page_number">
  				<label for="page_number">Page Number</label>
  			</div>
- 			<div id="quote_app" class="input-field col s6">
- 				<input placeholder="Enter the text being referenced here." type="text" class="validate" id="quote_message">
+ 			<div class="input-field col s6">
+ 				<input placeholder="Enter the text being referenced here." type="text" class="validate" id="edit_quote_message">
  				<label for="quote_message">Quote or Referenced Text</label>
  			</div>
  			<button class="btn waves-effect waves-light red lighten-2 right" type="submit" name="action" id="submitNewRefernce">
