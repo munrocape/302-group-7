@@ -1,7 +1,9 @@
 // Initially hide all divs except for main/home
 let active_source_id = null;
-let active_source = null;
 let active_ref_id = null;
+let active_project_id = null;
+let active_source = null;
+
 $("#projectView").css("display", "none");
 $("#sourceView").css("display", "none");
 $("#authorView").css("display", "none");
@@ -13,7 +15,6 @@ $('#editSourceView').css('display', 'none');
 //When Nib is clicked, it redirects to home, hiding all other divs
 $("#home").click(function() {
 	self.port.emit(SEND_STORAGE, HOME);
-	goHome();
 })
 
 function showHome() {
@@ -56,7 +57,7 @@ $("#newAuthor").click(function(){
 	$("#createNewAuthorView").css("display", "block");
 })
 
-active_project_id = null;
+
 $("#deleteProjectButton").click(function(){
 	self.port.emit(DELETE_PROJECT, active_project_id);
 })
@@ -92,19 +93,25 @@ $("#addNewAuthors").click(function(){
  })
 
 
-function viewSource(source) {
-	active_source_id = source.source_id;
+function viewSource(index) {
+	active_source_id = index;
+	console.log("active_source_id " + active_source_id)
+	self.port.emit(SEND_STORAGE, VIEW_SOURCE, active_project_id, active_source_id);
+}
+
+self.port.on(VIEW_SOURCE, function(source) {
 	active_source = source;
 	hideAll();
-	console.log(source.name);
 	$('#editSourceName').val(source.name);
 	$('#editSourceYear').val(source.year);
 	$('#editSourceTitle').val(source.title_of_source);
 	$('#editSourceURL').val(source.link);
 	$('#editSourceView').css('display', 'block');
-}
+
+});
 
 $('#manageReferences').click(function(){
+	//self.port.emit(SEND_STORAGE, VIEW_SOURCE, active_project_id, active_source_id);
 	hideAll();
 	$("#referencesView").css("display", "block");
 	//Not working with .collection
@@ -121,13 +128,15 @@ $('#manageReferences').click(function(){
 			//Listener for specific reference
 			hideAll();
 			$("#createNewReferenceView").css("display", "block");
-			active_ref_id = i
+
 			viewRef(i)
 		})
 	}
 
 })
+
 function viewRef(index) {
+	active_ref_id = index
 	$("#edit_reference_name").val(active_source.references[index].name);
 	$("#edit_page_number").val(active_source.references[index].page);
 	$("#edit_quote_message").val(active_source.references[index].quote);
@@ -148,14 +157,12 @@ $('#addReference').click(function() {
 })
 $('#editSourceSave').click(function(){
 	let new_source = {
-    "source_id": active_source_id,
     "name": $('#editSourceName').val(),
     "title_of_source": $('#editSourceTitle').val(),
     "link": $('#editSourceURL').val(),
-    "year": $('#editSourceYear').val(),
-    "authors": active_source.authors,
-    "references": active_source.references
+    "year": $('#editSourceYear').val()
   }
+
 	self.port.emit(UPDATE_SOURCE, active_project_id, active_source_id, new_source);
 	// go home
 });
@@ -171,6 +178,8 @@ $('#editSourceCancel').click(function() {
 
 //Event for when someone wants to go home or initial page
 self.port.on(HOME, function (storage) {
+	active_project_id = null;
+	active_source_id = null;
 	$('#projects').empty();
 	showHome();
 	if (storage.length == 0) {
@@ -187,6 +196,8 @@ self.port.on(HOME, function (storage) {
 
 		$('#' + i).click(function() {
 			// Handler for project i
+			active_project_id = i;
+			console.log(active_project_id)
 			self.port.emit(SEND_STORAGE, SELECT_PROJECT, i)
 		})
 
@@ -196,8 +207,6 @@ self.port.on(HOME, function (storage) {
 //Listens when user selects a project
 self.port.on(SELECT_PROJECT, function(project) {
 	hideAll();
-	console.log('project id: ' + project.project_id);
-	active_project_id = project.project_id;
 	console.log('active project id: ' + active_project_id);
 	console.log(project.name + " selected")
 	//Main display is gone, and project view is block
@@ -218,7 +227,7 @@ self.port.on(SELECT_PROJECT, function(project) {
 		$('.collection').append(html)
 		$('#source_' + i).click(function(){
 			//Listener for specific source
-			viewSource(project.sources[i]);
+			viewSource(i);
 		})
 	}
 })
@@ -248,12 +257,9 @@ $("#submitNewSource").click(function(){
 		$('#newSourceName').val('');
 		console.log('going to fire an event to create source with title: ' + title)
 		self.port.emit(CREATE_SOURCE, active_project_id, title)
-		self.port.on(SOURCE_CREATED, function (source) {
-			viewSource(source);
+		self.port.on(SOURCE_CREATED, function (index) {
+			viewSource(index);
 		});
-		//console.log(newName);
-		//$('#newProjectName').val('');
-		//createSource('#newSourceName');
 	}
 })
 

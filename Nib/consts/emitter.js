@@ -11,6 +11,8 @@ const UPDATE_SOURCE = 'UPDATE_SOURCE';
 const DELETE_SOURCE = 'DELETE_SOURCE';
 const CANCEL_EDIT = 'CANCEL_EDIT';
 const UPDATE_REFERENCE = "UPDATE_REFERENCE";
+const VIEW_SOURCE = "VIEW_SOURCE"
+const ACTIVE_REF = "ACTIVE_REF"
 
 //So contentScriptFile doesnt complain
 if (typeof exports !== 'undefined') {
@@ -26,4 +28,6 @@ if (typeof exports !== 'undefined') {
   exports.DELETE_SOURCE = DELETE_SOURCE;
   exports.CANCEL_EDIT = CANCEL_EDIT;
   exports.UPDATE_REFERENCE = UPDATE_REFERENCE;
+  exports.VIEW_SOURCE = VIEW_SOURCE;
+  exports.ACTIVE_REF = ACTIVE_REF
 }
