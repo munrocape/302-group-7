@@ -60,17 +60,7 @@ dropDownView.panel.port.on(SEND_STORAGE, function(panelEvent, i){
 })
 
 dropDownView.panel.port.on(DELETE_PROJECT, function (project_to_delete_id){
-  // for i in projects
-  // if i == project
-    // delete i
-  console.log(project_to_delete_id);
-  for (let i = 0; i < ss.storage.data.length; i++) {
-      if (ss.storage.data[i].project_id === project_to_delete_id) {
-        console.log('say bye-bye to ' + project_to_delete_id);
-        ss.storage.data.splice(i, 1);
-      }
-  }
-  console.log(ss.storage.data);
+  ss.storage.data.splice(project_to_delete_id, 1);
   dropDownView.panel.port.emit(HOME, ss.storage.data);
 });
 

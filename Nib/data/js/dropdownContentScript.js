@@ -174,6 +174,8 @@ $('#editSourceCancel').click(function() {
 
 //Event for when someone wants to go home or initial page
 self.port.on(HOME, function (storage) {
+	active_project_id = null;
+	active_source_id = null;
 	$('#projects').empty();
 	showHome();
 	if (storage.length == 0) {
