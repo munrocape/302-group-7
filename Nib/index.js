@@ -106,47 +106,29 @@ dropDownView.panel.port.on("checkIfReferenceRequest", function(ref) {
 });
 
 dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
-  source_id = ss.storage.max_id;
-  ss.storage.max_id = ss.storage.max_id + 1;
   var url = getURL();
   if (url.startsWith('about:')) {
     url = '';
   }
   new_source = {
-    "source_id": source_id,
     "name": name,
     "title_of_source": "",
     "link": url,
     "year": null,
     "authors": [],
-    "references":[]};
-
-  for(let i = 0; i < ss.storage.data.length; i++){
-    if (ss.storage.data[i].project_id == active_project_id) {
-      ss.storage.data[i].sources.push(new_source);
-    }
-  }
-  dropDownView.panel.port.emit(SOURCE_CREATED, new_source);
+    "references":[]
+  };
+  ss.storage.data[active_project_id].sources.push(new_source)
+  //Send back the last index of the newly created source
+  dropDownView.panel.port.emit(SOURCE_CREATED, ss.storage.data[active_project_id].length - 1);
 });
 
 function deleteSource(proj_id, s_id) {
-  for(let i = 0; i < ss.storage.data.length; i++){
-    if(ss.storage.data[i].project_id === proj_id) {
-      for(let j = 0; j < ss.storage.data[i].sources.length; j++){
-        if (ss.storage.data[i].sources[j].source_id === s_id) {
-          console.log('saving');
-          ss.storage.data[i].sources.splice(j, 1);
-          return i
-        }
-      }
-      return i
-    }
-  }
+  ss.storage.data[proj_id].sources.splice(s_id, 1)
 }
 
 dropDownView.panel.port.on(UPDATE_SOURCE, function (proj_id, s_id, updated_source) {
   // this is why we should have used keys
-  //var index = deleteSource(proj_id, s_id);
   //ss.storage.data[index].sources.push(updated_source);
   for(let i = 0; i < ss.storage.data.length; i++){
     if(ss.storage.data[i].project_id === proj_id) {
@@ -177,11 +159,7 @@ dropDownView.panel.port.on(CANCEL_EDIT, function(proj_id) {
 
 
 function displayProjectById(proj_id) {
-  for(let i = 0; i < ss.storage.data.length; i++) {
-    if (ss.storage.data[i].project_id == proj_id) {
-      dropDownView.panel.port.emit(SELECT_PROJECT, ss.storage.data[i]);
-    }
-  }
+  dropDownView.panel.port.emit(SELECT_PROJECT, ss.storage.data[proj_id]);
 }
 function addReference(reference) {
   console.log(reference);
