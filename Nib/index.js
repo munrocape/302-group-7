@@ -2,7 +2,7 @@ var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
-const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT, UPDATE_REFERENCE } = require('./consts/emitter');
+const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT, UPDATE_REFERENCE, SELECT_SOURCE } = require('./consts/emitter');
 
 var ss = require("sdk/simple-storage");
 var utils = require('sdk/window/utils');
@@ -133,9 +133,11 @@ dropDownView.panel.port.on(UPDATE_REFERENCE, function(proj_id, source_id, ref_id
   if (typeof ref_id !== 'number') {
     console.log("Saved new reference");
     ss.storage.data[proj_id].sources[source_id].references.push(updated_ref);
+    displayProjectById(proj_id, source_id);
   } else {
     console.log("Updated ref")
     ss.storage.data[proj_id].sources[source_id].references[ref_id] = updated_ref
+    displayProjectById(proj_id, source_id);
   }
   //ss.storage.data[proj_id]
 })
@@ -150,7 +152,7 @@ dropDownView.panel.port.on(CANCEL_EDIT, function(proj_id) {
 
 
 function displayProjectById(proj_id, source_id) {
-  if(!source_id)
+  if(typeof source_id !== 'number')
     dropDownView.panel.port.emit(SELECT_PROJECT, ss.storage.data[proj_id]);
   else
     dropDownView.panel.port.emit(SELECT_SOURCE, ss.storage.data[proj_id].sources[source_id]);

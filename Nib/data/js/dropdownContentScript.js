@@ -185,6 +185,7 @@ $('#editReferenceCancel').click(function() {
 
 self.port.on(SELECT_SOURCE, function(source){
 	active_source = source;
+	showReferences();
 	console.log("Select source for cancel thingy? ", JSON.stringify(source))
 })
 $('#editSourceDelete').click(function(){
