@@ -110,8 +110,7 @@ self.port.on(VIEW_SOURCE, function(source) {
 
 });
 
-$('#manageReferences').click(function(){
-	//sself.port.emit(SEND_STORAGE, VIEW_SOURCE, active_project_id, active_source_id);
+function showReferences() {
 	hideAll();
 	$("#referencesView").css("display", "block");
 	//Not working with .collection
@@ -131,7 +130,9 @@ $('#manageReferences').click(function(){
 			viewRef(i)
 		})
 	}
-
+}
+$('#manageReferences').click(function(){
+	showReferences();
 })
 
 function viewRef(index) {
@@ -178,7 +179,14 @@ $('#editSourceSave').click(function(){
 	self.port.emit(UPDATE_SOURCE, active_project_id, active_source_id, new_source);
 	// go home
 });
+$('#editReferenceCancel').click(function() {
+	showReferences();
+});
 
+self.port.on(SELECT_SOURCE, function(source){
+	active_source = source;
+	console.log("Select source for cancel thingy? ", JSON.stringify(source))
+})
 $('#editSourceDelete').click(function(){
 	self.port.emit(DELETE_SOURCE, active_project_id, active_source_id);
 	// go home

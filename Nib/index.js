@@ -149,8 +149,11 @@ dropDownView.panel.port.on(CANCEL_EDIT, function(proj_id) {
 });
 
 
-function displayProjectById(proj_id) {
-  dropDownView.panel.port.emit(SELECT_PROJECT, ss.storage.data[proj_id]);
+function displayProjectById(proj_id, source_id) {
+  if(!source_id)
+    dropDownView.panel.port.emit(SELECT_PROJECT, ss.storage.data[proj_id]);
+  else
+    dropDownView.panel.port.emit(SELECT_SOURCE, ss.storage.data[proj_id].sources[source_id]);
 }
 function addReference(reference) {
   console.log(reference);
