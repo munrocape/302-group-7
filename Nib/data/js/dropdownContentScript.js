@@ -251,9 +251,6 @@ $("#submitNewSource").click(function(){
 		self.port.on(SOURCE_CREATED, function (source) {
 			viewSource(source);
 		});
-		//console.log(newName);
-		//$('#newProjectName').val('');
-		//createSource('#newSourceName');
 	}
 })
 
