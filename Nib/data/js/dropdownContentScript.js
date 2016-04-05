@@ -111,7 +111,7 @@ self.port.on(VIEW_SOURCE, function(source) {
 });
 
 $('#manageReferences').click(function(){
-	//self.port.emit(SEND_STORAGE, VIEW_SOURCE, active_project_id, active_source_id);
+	//sself.port.emit(SEND_STORAGE, VIEW_SOURCE, active_project_id, active_source_id);
 	hideAll();
 	$("#referencesView").css("display", "block");
 	//Not working with .collection
@@ -153,6 +153,9 @@ $("#editReferenceSave").click(function() {
 
 $('#addReference').click(function() {
 	hideAll()
+	$("#edit_reference_name").val("");
+	$("#edit_page_number").val("");
+	$("#edit_quote_message").val("");
 	$('#createNewReferenceView').css("display", "block")
 })
 $('#editSourceSave').click(function(){
