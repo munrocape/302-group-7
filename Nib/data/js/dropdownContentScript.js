@@ -128,7 +128,6 @@ $('#manageReferences').click(function(){
 			//Listener for specific reference
 			hideAll();
 			$("#createNewReferenceView").css("display", "block");
-
 			viewRef(i)
 		})
 	}
@@ -137,6 +136,7 @@ $('#manageReferences').click(function(){
 
 function viewRef(index) {
 	active_ref_id = index
+
 	$("#edit_reference_name").val(active_source.references[index].name);
 	$("#edit_page_number").val(active_source.references[index].page);
 	$("#edit_quote_message").val(active_source.references[index].quote);
@@ -148,15 +148,24 @@ $("#editReferenceSave").click(function() {
 		"page": $("#edit_page_number").val(),
 		"quote": $("#edit_quote_message").val()
 	}
-	self.port.emit(UPDATE_REFERENCE, active_project_id, active_source_id, active_ref_id, new_ref)
+	//All fields must be filled
+
+	if ($("#edit_reference_name").val() !== '') {
+		console.log("UPDATING REFERENCE " + active_ref_id)
+		self.port.emit(UPDATE_REFERENCE, active_project_id, active_source_id, active_ref_id, new_ref)
+	} else {
+		$("#edit_reference_name").val("Fill in this field")
+	}
+
 });
 
 $('#addReference').click(function() {
 	hideAll()
+	active_ref_id = null;
 	$("#edit_reference_name").val("");
 	$("#edit_page_number").val("");
 	$("#edit_quote_message").val("");
-	$('#createNewReferenceView').css("display", "block")
+	$('#createNewReferenceView').css("display", "block");
 })
 $('#editSourceSave').click(function(){
 	let new_source = {

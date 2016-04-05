@@ -128,7 +128,15 @@ dropDownView.panel.port.on(UPDATE_SOURCE, function (proj_id, s_id, updated_sourc
 });
 
 dropDownView.panel.port.on(UPDATE_REFERENCE, function(proj_id, source_id, ref_id, updated_ref) {
-  console.log(proj_id, source_id, ref_id, JSON.stringify(updated_ref))
+  //Implies new reference
+  console.log(ref_id, JSON.stringify(updated_ref))
+  if (typeof ref_id !== 'number') {
+    console.log("Saved new reference");
+    ss.storage.data[proj_id].sources[source_id].references.push(updated_ref);
+  } else {
+    console.log("Updated ref")
+    ss.storage.data[proj_id].sources[source_id].references[ref_id] = updated_ref
+  }
   //ss.storage.data[proj_id]
 })
 dropDownView.panel.port.on(DELETE_SOURCE, function (proj_id, s_id) {
