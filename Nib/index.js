@@ -2,7 +2,7 @@ var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
-const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT, UPDATE_REFERENCE, SELECT_SOURCE } = require('./consts/emitter');
+const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT, UPDATE_REFERENCE, SELECT_SOURCE, DELETE_REF } = require('./consts/emitter');
 
 var ss = require("sdk/simple-storage");
 var utils = require('sdk/window/utils');
@@ -83,6 +83,10 @@ dropDownView.panel.port.on(ADD_NEW_PROJECT, function(projectName){
   });
 })
 
+dropDownView.panel.port.on(DELETE_REF, function(proj_id, source_id, ref_id) {
+  ss.storage.data[proj_id].sources[source_id].references.splice(ref_id, 1);
+  displayProjectById(proj_id, source_id)
+})
 // Add a new author for a source
 dropDownView.panel.port.on(ADD_NEW_AUTHOR, function(authorName){
   // Currently this will push the author onto the first project, first source
@@ -129,7 +133,6 @@ dropDownView.panel.port.on(UPDATE_SOURCE, function (proj_id, s_id, updated_sourc
 
 dropDownView.panel.port.on(UPDATE_REFERENCE, function(proj_id, source_id, ref_id, updated_ref) {
   //Implies new reference
-  console.log(ref_id, JSON.stringify(updated_ref))
   if (typeof ref_id !== 'number') {
     console.log("Saved new reference");
     ss.storage.data[proj_id].sources[source_id].references.push(updated_ref);
@@ -171,7 +174,6 @@ open_count = 0;
 
 //To be removed once app is completed
 (function initialize(){
-  ss.storage.max_id = 100;
   let fakeData = require("fake_data.json");
   ss.storage.data = [];
   for(let i = 0; i < fakeData.length; i++){

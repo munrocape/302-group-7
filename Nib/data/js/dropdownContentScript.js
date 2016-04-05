@@ -186,7 +186,6 @@ $('#editReferenceCancel').click(function() {
 self.port.on(SELECT_SOURCE, function(source){
 	active_source = source;
 	showReferences();
-	console.log("Select source for cancel thingy? ", JSON.stringify(source))
 })
 $('#editSourceDelete').click(function(){
 	self.port.emit(DELETE_SOURCE, active_project_id, active_source_id);
@@ -197,6 +196,12 @@ $('#editSourceCancel').click(function() {
 	self.port.emit(CANCEL_EDIT, active_project_id);
 });
 
+$('#editReferenceDelete').click(function() {
+	let ref_index = active_ref_id
+	active_ref_id = null;
+	self.port.emit(DELETE_REF, active_project_id, active_source_id, ref_index);
+
+});
 //Event for when someone wants to go home or initial page
 self.port.on(HOME, function (storage) {
 	active_project_id = null;
