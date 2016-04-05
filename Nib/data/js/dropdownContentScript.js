@@ -110,8 +110,7 @@ self.port.on(VIEW_SOURCE, function(source) {
 
 });
 
-$('#manageReferences').click(function(){
-	//self.port.emit(SEND_STORAGE, VIEW_SOURCE, active_project_id, active_source_id);
+function showReferences() {
 	hideAll();
 	$("#referencesView").css("display", "block");
 	//Not working with .collection
@@ -128,15 +127,17 @@ $('#manageReferences').click(function(){
 			//Listener for specific reference
 			hideAll();
 			$("#createNewReferenceView").css("display", "block");
-
 			viewRef(i)
 		})
 	}
-
+}
+$('#manageReferences').click(function(){
+	showReferences();
 })
 
 function viewRef(index) {
 	active_ref_id = index
+
 	$("#edit_reference_name").val(active_source.references[index].name);
 	$("#edit_page_number").val(active_source.references[index].page);
 	$("#edit_quote_message").val(active_source.references[index].quote);
@@ -148,12 +149,24 @@ $("#editReferenceSave").click(function() {
 		"page": $("#edit_page_number").val(),
 		"quote": $("#edit_quote_message").val()
 	}
-	self.port.emit(UPDATE_REFERENCE, active_project_id, active_source_id, active_ref_id, new_ref)
+	//All fields must be filled
+
+	if ($("#edit_reference_name").val() !== '') {
+		console.log("UPDATING REFERENCE " + active_ref_id)
+		self.port.emit(UPDATE_REFERENCE, active_project_id, active_source_id, active_ref_id, new_ref)
+	} else {
+		$("#edit_reference_name").val("Fill in this field")
+	}
+
 });
 
 $('#addReference').click(function() {
 	hideAll()
-	$('#createNewReferenceView').css("display", "block")
+	active_ref_id = null;
+	$("#edit_reference_name").val("");
+	$("#edit_page_number").val("");
+	$("#edit_quote_message").val("");
+	$('#createNewReferenceView').css("display", "block");
 })
 $('#editSourceSave').click(function(){
 	let new_source = {
@@ -166,7 +179,14 @@ $('#editSourceSave').click(function(){
 	self.port.emit(UPDATE_SOURCE, active_project_id, active_source_id, new_source);
 	// go home
 });
+$('#editReferenceCancel').click(function() {
+	showReferences();
+});
 
+self.port.on(SELECT_SOURCE, function(source){
+	active_source = source;
+	showReferences();
+})
 $('#editSourceDelete').click(function(){
 	self.port.emit(DELETE_SOURCE, active_project_id, active_source_id);
 	// go home
@@ -176,6 +196,12 @@ $('#editSourceCancel').click(function() {
 	self.port.emit(CANCEL_EDIT, active_project_id);
 });
 
+$('#editReferenceDelete').click(function() {
+	let ref_index = active_ref_id
+	active_ref_id = null;
+	self.port.emit(DELETE_REF, active_project_id, active_source_id, ref_index);
+
+});
 //Event for when someone wants to go home or initial page
 self.port.on(HOME, function (storage) {
 	active_project_id = null;
