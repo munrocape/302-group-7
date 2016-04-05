@@ -3,6 +3,8 @@ const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
 const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT, UPDATE_REFERENCE } = require('./consts/emitter');
+const { empty_reference_object } = require('./scrapers/emptyreference.js');
+const { googleBooks }= require('./scrapers/googleBooks.js');
 
 var ss = require("sdk/simple-storage");
 var utils = require('sdk/window/utils');
@@ -12,6 +14,13 @@ let footerView = null;
 // a dummy function, to show how tests work.
 // to see how to test this function, look at test/test-index.js
 
+function getScrapedData(url) {
+  console.log('checking url: ' + url);
+  if (url.indexOf("books.google.") > -1) {
+    return googleBooks();
+  }
+  return null;
+}
 function getURL() {
   return utils.getMostRecentBrowserWindow().content.location.href;
 }
@@ -112,14 +121,17 @@ dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
   if (url.startsWith('about:')) {
     url = '';
   }
-  new_source = {
-    "source_id": source_id,
-    "name": name,
-    "title_of_source": "",
-    "link": url,
-    "year": null,
-    "authors": [],
-    "references":[]};
+  scraped = getScrapedData(url);
+  
+  if (scraped != null) {
+    new_source = scraped;
+  } else {
+    new_source = empty_reference_object;
+    new_source["source_id"] = source_id;
+    new_source["link"] = url;
+    new_source["name"] = name;
+  }
+  
 
   for(let i = 0; i < ss.storage.data.length; i++){
     if (ss.storage.data[i].project_id == active_project_id) {
