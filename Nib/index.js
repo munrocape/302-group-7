@@ -128,6 +128,7 @@ dropDownView.panel.port.on(UPDATE_SOURCE, function (proj_id, s_id, updated_sourc
   ss.storage.data[proj_id].sources[s_id].title_of_source = updated_source.title_of_source;
   ss.storage.data[proj_id].sources[s_id].link = updated_source.link;
   ss.storage.data[proj_id].sources[s_id].year = updated_source.year;
+  ss.storage.data[proj_id].sources[s_id].authors = updated_source.authors;
   displayProjectById(proj_id);
 });
 
