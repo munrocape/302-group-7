@@ -106,6 +106,7 @@ self.port.on(VIEW_SOURCE, function(source) {
 	$('#editSourceYear').val(source.year);
 	$('#editSourceTitle').val(source.title_of_source);
 	$('#editSourceURL').val(source.link);
+	$('#editAuthor').val(source.authors);
 	$('#editSourceView').css('display', 'block');
 
 });
@@ -173,6 +174,7 @@ $('#editSourceSave').click(function(){
     "name": $('#editSourceName').val(),
     "title_of_source": $('#editSourceTitle').val(),
     "link": $('#editSourceURL').val(),
+    "authors": $('#editAuthor').val(),
     "year": $('#editSourceYear').val()
   }
 
