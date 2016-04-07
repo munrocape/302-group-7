@@ -204,6 +204,11 @@ $('#editReferenceDelete').click(function() {
 	self.port.emit(DELETE_REF, active_project_id, active_source_id, ref_index);
 
 });
+
+$('#generate-citation').click(function () {
+	console.log('going to display biblography for project ' + active_project_id);
+});
+
 //Event for when someone wants to go home or initial page
 self.port.on(HOME, function (storage) {
 	active_project_id = null;
