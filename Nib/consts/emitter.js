@@ -14,7 +14,8 @@ const UPDATE_REFERENCE = "UPDATE_REFERENCE";
 const VIEW_SOURCE = "VIEW_SOURCE";
 const ACTIVE_REF = "ACTIVE_REF";
 const SELECT_SOURCE = "SELECT_SOURCE";
-const DELETE_REF = "DELETE_REF"
+const DELETE_REF = "DELETE_REF";
+const SHOW_BIB = "SHOW_BIB";
 
 //So contentScriptFile doesnt complain
 if (typeof exports !== 'undefined') {
@@ -34,4 +35,5 @@ if (typeof exports !== 'undefined') {
   exports.ACTIVE_REF = ACTIVE_REF;
   exports.SELECT_SOURCE = SELECT_SOURCE;
   exports.DELETE_REF = DELETE_REF;
+  exports.DELETE_REF = SHOW_BIB;
 }
