@@ -44,7 +44,7 @@
 
 					<ul class="collection">
 					</ul>
-					
+
 					<h6 id="addNew">Add New Source</h6>
 					<a class="btn-floating waves-effect waves-light red lighten-2 button right" href="#!">
  						<i class="small material-icons" id="addNewSource">add</i>
@@ -52,26 +52,13 @@
 				</div>
 		</div>
 
-		<!-- Source view -->
-		<div id="sourceView">
+		<!-- Reference view -->
+		<div id="referencesView">
 			<div class="app_body">
-					<a class="btn-floating waves-effect waves-light red lighten-2 button right" href="#!">
-						<i class="small material-icons" id="sourceOptions">edit</i>
- 					</a>
-					<div id="source_header">
-							<div>
-									<!-- The name will need to be populated -->
-									<div class="right"><a href="#"><i class="material-icons">delete</i></a></div>
-									<h5 class="center-align" id="sourceViewSourceName">Source Name Here</h5>
-							</div>
-							<div class="divider"></div>
-					</div>
-
-					<!-- List of (fake, for now) references from this source. -->
-					<ul class="collection">
-							<li class="collection-item"><div>Ref 1 (page_number, line, etc.)<a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li>
-							<li class="collection-item"><div>Ref 2 (page_number, line, etc.)<a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li>
-							<li class="collection-item"><div>Ref 3 (page_number, line, etc.)<a href="#!" class="secondary-content"><i class="material-icons">add</i>|<i class="material-icons">delete</i></a></div></li>
+					<h5 class="center-align" id="sourceName"></h5>
+					<div class="divider"></div>
+					<!-- Renamed since not working with .collection -->
+					<ul id="refcollection" class="collection">
 					</ul>
 					<br>
 					<a class="btn-floating waves-effect waves-light red lighten-2 button right" href="#!">
@@ -96,10 +83,6 @@
 
 					<!-- List of (fake, for now) authors from this source. -->
 					<ul class="collection">
-							<li class="collection-item"><div>Author 1<a href="#!" class="secondary-content"><i class="material-icons">mode_edit</i></a></div></li>
-							<li class="collection-item"><div>Author 2<a href="#!" class="secondary-content"><i class="material-icons">mode_edit</i></a></div></li>
-							<li class="collection-item"><div>Author 3<a href="#!" class="secondary-content"><i class="material-icons">mode_edit</i></a></div></li>
-							<li class="collection-item"><div>Author 4<a href="#!" class="secondary-content"><i class="material-icons">mode_edit</i></a></div></li>
 					</ul>
 					<br>
 					<h6 id="addNewAuthor">Add New Author</h6>
@@ -111,17 +94,21 @@
 
 		<!-- Create new reference view -->
  		<div id="createNewReferenceView" class="app_body">
- 			<div id="pg_number_app" class="input-field col s6">
- 				<input placeholder="Page Number" type="text" class="validate" id="page_number">
+			<div class="input-field col s6">
+ 				<input placeholder="Reference Name" type="text" class="validate" id="edit_reference_name">
+ 				<label>Name</label>
+ 			</div>
+ 			<div class="input-field col s6">
+ 				<input placeholder="Page Number" type="text" class="validate" id="edit_page_number">
  				<label for="page_number">Page Number</label>
  			</div>
- 			<div id="quote_app" class="input-field col s6">
- 				<input placeholder="Enter the text being referenced here." type="text" class="validate" id="quote_message">
+ 			<!-- <div class="input-field col s6">
+ 				<input placeholder="Enter the text being referenced here." type="text" class="validate" id="edit_quote_message">
  				<label for="quote_message">Quote or Referenced Text</label>
- 			</div>
- 			<button class="btn waves-effect waves-light red lighten-2 right" type="submit" name="action" id="submitNewRef">
-					Save<i class="material-icons left">assignment</i>
-			</button>
+ 			</div> -->
+			<a id='editReferenceSave' class="left green btn">Save</a>
+			<a id='editReferenceCancel' class='center blue btn'>Cancel</a>
+			<a id='editReferenceDelete' class="right red btn">Delete</a>
 		</div>
 
 		<!-- Create new project view -->
@@ -129,17 +116,20 @@
 			<div id="app_body" class="input-field col s6">
 				<input placeholder="Project Name" type="text" class="validate" id="newProjectName">
 				<label for="project_name">Project Name</label>
+
 				<button class="btn waves-effect waves-light red lighten-2 right" type="submit" name="action" id="submitNewProject">
 					Submit
 					<i class="material-icons right">assignment</i>
 				</button>
+
 			</div>
+				<p id='newProjectMsg' style='display:none'>Please enter a project name.</p>
 		</div>
 
 		<!-- Enter source name view -->
 		<div id="sourceNameView" class="app_body">
 			<div id="app_body" class="input-field col s6">
-				<input placeholder="Project Name" type="text" class="validate" id="newSourceName">
+				<input placeholder="Source name" type="text" class="validate" id="newSourceName">
 				<label for="source_name">Source Name</label>
 
 				<button class="btn waves-effect waves-light red lighten-2 right" type="submit" name="action" id="submitNewSource">
@@ -160,32 +150,39 @@
 
 		<!-- Create new source view -->
 		<div id="editSourceView" class="app_body">
-		
- 			<!-- The name will need to be populated -->
+			<a id="manageReferences" class="left green btn">Manage References</a>
+
+			<br></br>
+			<br></br>
  			<div id="title_app" class="input-field col s6">
  				<input placeholder="Title" type="text" class="validate" id="editSourceName">
  				<label for="title_of_source">Name</label>
  			</div>
- 			
+
  			<div id="title_app" class="input-field col s6">
  				<input placeholder="Title" type="text" class="validate" id="editSourceTitle">
  				<label for="title_of_source">Title</label>
  			</div>
- 			
+
  			<div id="year_app" class="input-field col s6">
  				<input placeholder="Year" type="text" class="validate" id="editSourceYear">
  				<label for="year_of_source">Year of Publication</label>
  			</div>
+ 			
+ 			 <div id="author_app" class="input-field col s6">
+ 				<input placeholder="Author(s) Name" type="text" class="validate" id="editAuthor">
+ 				<label for="authors_name">Author(s) Name</label>
+ 			</div>
 
  			<div id="url_app" class="input-field col s6">
- 				<input placeholder="Year" type="text" class="validate" id="editSourceURL">
+ 				<input placeholder="URL" type="text" class="validate" id="editSourceURL">
  				<label for="year_of_source">URL</label>
  			</div>
- 			
+
  			<!-- NEEDS A VIEW AUTHORS BUTTON
 
  			<h5 id="addNew">Authors:</h5>
- 			
+
  			<a class="btn-floating waves-effect waves-light red lighten-2 button right" href="#">
  				<i class="small material-icons" id="addNewAuthors">add</i>
  			</a> -->

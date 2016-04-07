@@ -2,7 +2,7 @@ var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
-const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT } = require('./consts/emitter');
+const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT, UPDATE_REFERENCE, SELECT_SOURCE, DELETE_REF } = require('./consts/emitter');
 
 var ss = require("sdk/simple-storage");
 var utils = require('sdk/window/utils');
@@ -11,15 +11,10 @@ let dropDownView = null;
 let footerView = null;
 // a dummy function, to show how tests work.
 // to see how to test this function, look at test/test-index.js
-function dummy(text, callback) {
-  callback(text);
-}
 
 function getURL() {
   return utils.getMostRecentBrowserWindow().content.location.href;
 }
-
-exports.dummy = dummy;
 
 var buttons = require('sdk/ui/button/action');
 var tabs = require("sdk/tabs");
@@ -54,28 +49,20 @@ dropDownView.panel.port.on("removeReferenceRequest", function(ref) {
   console.log(ref);
 });
 //On an event send the storage
-//i is optional if you want a specific 'project', AKA the nth project
-dropDownView.panel.port.on(SEND_STORAGE, function(panelEvent, i){
+//i is optional if you want a specific 'project', AKA the ith project and jth source
+dropDownView.panel.port.on(SEND_STORAGE, function(panelEvent, i, j){
 
   if (typeof i === 'undefined') {
     dropDownView.panel.port.emit(panelEvent, ss.storage.data)
-  } else {
+  } else if (typeof j === 'undefined') {
     dropDownView.panel.port.emit(panelEvent, ss.storage.data[i])
+  } else {
+    dropDownView.panel.port.emit(panelEvent, ss.storage.data[i].sources[j])
   }
 })
 
-dropDownView.panel.port.on(DELETE_PROJECT, function (project_to_delete_id){ 
-  // for i in projects
-  // if i == project
-    // delete i
-  console.log(project_to_delete_id);
-  for (let i = 0; i < ss.storage.data.length; i++) {
-      if (ss.storage.data[i].project_id === project_to_delete_id) {
-        console.log('say bye-bye to ' + project_to_delete_id);
-        ss.storage.data.splice(i, 1);
-      }
-  }
-  console.log(ss.storage.data);
+dropDownView.panel.port.on(DELETE_PROJECT, function (project_to_delete_id){
+  ss.storage.data.splice(project_to_delete_id, 1);
   dropDownView.panel.port.emit(HOME, ss.storage.data);
 });
 
@@ -86,6 +73,7 @@ dropDownView.panel.port.on("store", function(project) {
   console.log(project);
 });
 
+// Add a new project to simple storage
 dropDownView.panel.port.on(ADD_NEW_PROJECT, function(projectName){
   ss.storage.max_id = ss.storage.max_id + 1;
   ss.storage.data.push({
@@ -95,53 +83,68 @@ dropDownView.panel.port.on(ADD_NEW_PROJECT, function(projectName){
   });
 })
 
+dropDownView.panel.port.on(DELETE_REF, function(proj_id, source_id, ref_id) {
+  ss.storage.data[proj_id].sources[source_id].references.splice(ref_id, 1);
+  displayProjectById(proj_id, source_id)
+})
+// Add a new author for a source
+dropDownView.panel.port.on(ADD_NEW_AUTHOR, function(authorName){
+  // Currently this will push the author onto the first project, first source
+  // Since I wasn't sure how to index properly yet. I'm assuming the function
+  // will have to take a project_id and source_id as indices
+  ss.storage.data[0].sources[0].authors.push(authorName);
+  console.log(ss.storage.data[0].sources[0].authors);
+})
+
 dropDownView.panel.port.on("checkIfReferenceRequest", function(ref) {
   console.log(ref);
   dropDownView.panel.port.emit('checkIfReferenceResponse', 'okay! resposne from index.js');
 });
 
 dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
-  source_id = ss.storage.max_id;
-  ss.storage.max_id = ss.storage.max_id + 1;
+  var url = getURL();
+  if (url.startsWith('about:')) {
+    url = '';
+  }
   new_source = {
-    "source_id": source_id,
     "name": name,
     "title_of_source": "",
-    "link": "",
+    "link": url,
     "year": null,
     "authors": [],
-    "references":[]};
-
-  for(let i = 0; i < ss.storage.data.length; i++){
-    if (ss.storage.data[i].project_id == active_project_id) {
-      ss.storage.data[i].sources.push(new_source);
-    }
-  }
-  dropDownView.panel.port.emit(SOURCE_CREATED, new_source);
+    "references":[]
+  };
+  ss.storage.data[active_project_id].sources.push(new_source)
+  //Send back the last index of the newly created source
+  dropDownView.panel.port.emit(SOURCE_CREATED, ss.storage.data[active_project_id].sources.length - 1);
 });
 
 function deleteSource(proj_id, s_id) {
-  for(let i = 0; i < ss.storage.data.length; i++){
-    if(ss.storage.data[i].project_id == proj_id) {
-      for(let j = 0; j < ss.storage.data[i].sources.length; j++){
-        if (ss.storage.data[i].sources[j].source_id = s_id) {
-          console.log('saving');
-          ss.storage.data[i].sources.splice(j, 1);
-          return i
-        }
-      }
-    }
-  }
+  ss.storage.data[proj_id].sources.splice(s_id, 1)
 }
 
 dropDownView.panel.port.on(UPDATE_SOURCE, function (proj_id, s_id, updated_source) {
-  // this is why we should have used keys
-  var index = deleteSource(proj_id, s_id);
-  ss.storage.data[index].sources.push(updated_source);
+  ss.storage.data[proj_id].sources[s_id].name = updated_source.name;
+  ss.storage.data[proj_id].sources[s_id].title_of_source = updated_source.title_of_source;
+  ss.storage.data[proj_id].sources[s_id].link = updated_source.link;
+  ss.storage.data[proj_id].sources[s_id].year = updated_source.year;
+  ss.storage.data[proj_id].sources[s_id].authors = updated_source.authors;
   displayProjectById(proj_id);
 });
 
-
+dropDownView.panel.port.on(UPDATE_REFERENCE, function(proj_id, source_id, ref_id, updated_ref) {
+  //Implies new reference
+  if (typeof ref_id !== 'number') {
+    console.log("Saved new reference");
+    ss.storage.data[proj_id].sources[source_id].references.push(updated_ref);
+    displayProjectById(proj_id, source_id);
+  } else {
+    console.log("Updated ref")
+    ss.storage.data[proj_id].sources[source_id].references[ref_id] = updated_ref
+    displayProjectById(proj_id, source_id);
+  }
+  //ss.storage.data[proj_id]
+})
 dropDownView.panel.port.on(DELETE_SOURCE, function (proj_id, s_id) {
   deleteSource(proj_id, s_id);
   displayProjectById(proj_id);
@@ -152,12 +155,11 @@ dropDownView.panel.port.on(CANCEL_EDIT, function(proj_id) {
 });
 
 
-function displayProjectById(proj_id) {
-  for(let i = 0; i < ss.storage.data.length; i++) {
-    if (ss.storage.data[i].project_id == proj_id) {
-      dropDownView.panel.port.emit(SELECT_PROJECT, ss.storage.data[i]);
-    }
-  }
+function displayProjectById(proj_id, source_id) {
+  if(typeof source_id !== 'number')
+    dropDownView.panel.port.emit(SELECT_PROJECT, ss.storage.data[proj_id]);
+  else
+    dropDownView.panel.port.emit(SELECT_SOURCE, ss.storage.data[proj_id].sources[source_id]);
 }
 function addReference(reference) {
   console.log(reference);
@@ -173,7 +175,6 @@ open_count = 0;
 
 //To be removed once app is completed
 (function initialize(){
-  ss.storage.max_id = 2;
   let fakeData = require("fake_data.json");
   ss.storage.data = [];
   for(let i = 0; i < fakeData.length; i++){
