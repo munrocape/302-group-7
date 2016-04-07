@@ -1,0 +1,64 @@
+#addNew {
+  display:inline;
+}
+.projectHeader {
+   text-decoration: underline;
+}
+.project {
+  display:block;
+}
+.projectOverview{
+  position:relative;
+  top:-20px;
+}
+.projectLinks {
+  display:inline;
+  float:right;
+}
+.projectName {
+  display:inline;
+  padding-left: 3px;
+}
+
+/**/
+#sourceView {
+  display: none;
+}
+#authorView {
+  display: none;
+}
+#createNewProjectView {
+  display: none;
+}
+
+#createNewAuthorView {
+  display: none;
+}
+
+#createNewSourceView {
+  display: none;
+}
+
+#createNewReferenceView {
+  display: none;
+}
+ 
+#sourceNameView {
+  display: none;
+}
+ 
+.app_body {
+	padding: 5px;
+	margin: 5px;
+}
+
+#projectView {
+  display: none;
+}
+.app_body .button {
+	margin: 3px;
+}
+
+#projects {
+  margin-bottom:25px;
+}
