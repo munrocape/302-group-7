@@ -2,7 +2,7 @@ var self = require("sdk/self");
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
-const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT, UPDATE_REFERENCE, SELECT_SOURCE, DELETE_REF } = require('./consts/emitter');
+const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT, UPDATE_REFERENCE, SELECT_SOURCE, DELETE_REF, SHOW_BIB } = require('./consts/emitter');
 
 var ss = require("sdk/simple-storage");
 var utils = require('sdk/window/utils');
@@ -154,6 +154,14 @@ dropDownView.panel.port.on(CANCEL_EDIT, function(proj_id) {
   displayProjectById(proj_id);
 });
 
+dropDownView.panel.port.on(SHOW_BIB, function(proj_id){
+  // hide
+  dropDownView.show();
+  // message
+  footerView.panel.port.emit(SHOW_BIB, ss.storage.data[proj_id]);
+  // show
+  footerView.show();
+});
 
 function displayProjectById(proj_id, source_id) {
   if(typeof source_id !== 'number')

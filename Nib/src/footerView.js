@@ -10,7 +10,7 @@ exports.FooterView = class FooterView {
     this.panel = panels.Panel({
       position:{bottom:0},
       contentURL: self.data.url('footer/footer.html'),
-      contentScriptFile: self.data.url('js/footerContentScript.js')
+      contentScriptFile: [self.data.url('js/jquery.js'), self.data.url('../consts/emitter.js'), self.data.url('js/footerContentScript.js')]
     });
   }
 

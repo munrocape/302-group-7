@@ -35,5 +35,5 @@ if (typeof exports !== 'undefined') {
   exports.ACTIVE_REF = ACTIVE_REF;
   exports.SELECT_SOURCE = SELECT_SOURCE;
   exports.DELETE_REF = DELETE_REF;
-  exports.DELETE_REF = SHOW_BIB;
+  exports.SHOW_BIB = SHOW_BIB;
 }
