@@ -11,7 +11,7 @@ self.port.on(SHOW_BIB, function(bib, citation_style) {
     sources = bib["sources"];
 
     if (!citation_style) {
-    	citation_style = "MLA";
+    	citation_style = "IEEE";
     }
 
     if (citation_style === 'IEEE') {
@@ -19,8 +19,10 @@ self.port.on(SHOW_BIB, function(bib, citation_style) {
         // Print sources according to citation_style
         for (let i = 0; i < sources.length; i++) {
             authors = parse_authors(sources[i]["authors"]);
-            citation = "<p>[" + (i + 1) + "] ";
-            citation = citation + authors + "," + "<span class = 'italicize'>" + sources[i]["name"] + "</span></p>"; //+ authors;
+            citation = "<p>[" + (i + 1) + "] " + authors + ", " + "<span class = 'italicize'>" +
+                       sources[i]["name"] + "</span>" + " City of Publisher. " +
+                       "Country if not USA. " + "Publisher name. " + "year. " + "ch. " +
+                       "sec. " + "pp.</p>";
             $("#bibliography").append(citation);
         }
 
