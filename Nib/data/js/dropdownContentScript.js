@@ -107,6 +107,9 @@ self.port.on(VIEW_SOURCE, function(source) {
 	$('#editSourceTitle').val(source.title_of_source);
 	$('#editSourceURL').val(source.link);
 	$('#editAuthor').val(source.authors);
+	$('#editAccessed').val(source.accessed);
+	$("#editIssueNumber").val(source.issueNumber),
+ 	$("#editVolumeNumber").val(source.volumeNumber),
 	$('#editSourceView').css('display', 'block');
 
 });
@@ -175,7 +178,10 @@ $('#editSourceSave').click(function(){
     "title_of_source": $('#editSourceTitle').val(),
     "link": $('#editSourceURL').val(),
     "authors": $('#editAuthor').val(),
-    "year": $('#editSourceYear').val()
+    "year": $('#editSourceYear').val(),
+		"accessed" : $('#editAccessed').val(),
+		"issueNumber": $("#editIssueNumber").val(),
+		"volumeNumber": $("#editVolumeNumber").val()
   }
 
 	self.port.emit(UPDATE_SOURCE, active_project_id, active_source_id, new_source);
