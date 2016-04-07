@@ -124,11 +124,9 @@ function deleteSource(proj_id, s_id) {
 }
 
 dropDownView.panel.port.on(UPDATE_SOURCE, function (proj_id, s_id, updated_source) {
-  ss.storage.data[proj_id].sources[s_id].name = updated_source.name;
-  ss.storage.data[proj_id].sources[s_id].title_of_source = updated_source.title_of_source;
-  ss.storage.data[proj_id].sources[s_id].link = updated_source.link;
-  ss.storage.data[proj_id].sources[s_id].year = updated_source.year;
-  ss.storage.data[proj_id].sources[s_id].authors = updated_source.authors;
+  let references = ss.storage.data[proj_id].sources[s_id].references
+  ss.storage.data[proj_id].sources[s_id] = updated_source
+  ss.storage.data[proj_id].sources[s_id].references = references
   displayProjectById(proj_id);
 });
 
