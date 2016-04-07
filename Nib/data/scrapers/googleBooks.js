@@ -1,4 +1,7 @@
-fields = document.getElementById('metadata_content_table').children[0].children;
+fields = document.getElementById('metadata_content_table');
+if (fields != null){
+	fields = fields.children[0].children;
+}
 if(fields != null){
 	for(i = 0; i < fields.length; i++) {
 		pair = fields[i].children;
