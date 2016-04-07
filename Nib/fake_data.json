@@ -6,9 +6,9 @@
     "link": "http://arborjs.org/docs/barnes-hut",
     "year": 2005,
     "authors": ["Tom Ventimiglia", "Kevin Wayne"],
-    "accessed": null,
-    "volumeNumber": null,
-    "issueNumber": null,
+    "accessed": "",
+    "volumeNumber": "",
+    "issueNumber": "",
     "references": [{
         "name": "Runtime",
         "page": "3",
