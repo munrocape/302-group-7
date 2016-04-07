@@ -11,11 +11,10 @@ self.port.on(SHOW_BIB, function(bib, citation_style) {
     sources = bib["sources"];
 
     if (!citation_style) {
-    	citation_style = "IEEE";
+    	citation_style = "MLA";
     }
 
     if (citation_style === 'IEEE') {
-
         // Print sources according to citation_style
         for (let i = 0; i < sources.length; i++) {
             authors = parse_authors(sources[i]["authors"]);
@@ -25,13 +24,18 @@ self.port.on(SHOW_BIB, function(bib, citation_style) {
                        "sec. " + "pp.</p>";
             $("#bibliography").append(citation);
         }
-
-    } else if (citation_style == 'MLA'){
+    } 
+    else if (citation_style == 'MLA'){
     	for (let i = 0; i < sources.length; i++) {
     		citation = mla_format(sources[i]) + "<br>";
     		$("#bibliography").append(citation);
     	}
+    } 
+    else if(citation_style == 'chicago') {
+    	citation = "Implementation of chicago style coming soon.";
+	    $("#bibliography").append(citation);
     }
+
 
 });
 
