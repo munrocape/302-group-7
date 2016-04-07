@@ -1,28 +1,40 @@
 var self = require("sdk/self");
+var pageMod = require("sdk/page-mod");
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
-const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT, UPDATE_REFERENCE } = require('./consts/emitter');
-const { empty_reference_object } = require('./scrapers/emptyreference.js');
-const { googleBooks }= require('./scrapers/googleBooks.js');
+const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT, UPDATE_REFERENCE, GOOGLE_BOOKS, SCRAPED_CITATION } = require('./consts/emitter');
 
 var ss = require("sdk/simple-storage");
 var utils = require('sdk/window/utils');
 
 let dropDownView = null;
 let footerView = null;
+//
+
+pageMod.PageMod({
+  include: "*books.google.*",
+  contentScript: 'window.alert("Page matches ruleset");'
+});
+
+///
 // a dummy function, to show how tests work.
 // to see how to test this function, look at test/test-index.js
 
-function getScrapedData(url) {
-  console.log('checking url: ' + url);
-  if (url.indexOf("books.google.") > -1) {
-    return googleBooks();
-  }
-  return null;
-}
 function getURL() {
-  return utils.getMostRecentBrowserWindow().content.location.href;
+  var url = utils.getMostRecentBrowserWindow().content.location.href;
+  pw = pageWorkers.Page({
+    contentURL: url,
+    contentScriptWhen: "ready",
+    contentScript: 'elements = document.getElementById("sr-header-area");console.log(elements.length);console.log(elements);self.port.emit("windowDom", document.querySelectorAll("html"));',
+  });
+
+
+  pw.port.on("windowDom", function(DOM) {
+    console.log(DOM);
+  });
+  
+  return url;
 }
 
 var buttons = require('sdk/ui/button/action');
@@ -114,6 +126,19 @@ dropDownView.panel.port.on("checkIfReferenceRequest", function(ref) {
   dropDownView.panel.port.emit('checkIfReferenceResponse', 'okay! resposne from index.js');
 });
 
+function getScrapedData(url) {
+  console.log('checking url: ' + url);
+  if (url.indexOf('books.google.') != -1) {
+    console.log('calling google scraper');
+    dropDownView.panel.port.emit(GOOGLE_BOOKS);
+    dropDownView.panel.port.on(SCRAPED_CITATION, function (citation) {
+      console.log('got a citation back: ' + citation);
+      return citation;
+    });
+  }
+  return null
+}
+
 dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
   source_id = ss.storage.max_id;
   ss.storage.max_id = ss.storage.max_id + 1;
@@ -121,17 +146,24 @@ dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
   if (url.startsWith('about:')) {
     url = '';
   }
-  scraped = getScrapedData(url);
-  
-  if (scraped != null) {
-    new_source = scraped;
+  new_source = {};
+  scraped_data = null;
+  if (scraped_data != null) {
+    new_source = scraped_data;
   } else {
-    new_source = empty_reference_object;
+    new_source = {
+      "source_id": -1,
+      "name": "",
+      "title_of_source": "",
+      "link": "",
+      "year": null,
+      "authors": [],
+      "references":[]
+    };
     new_source["source_id"] = source_id;
     new_source["link"] = url;
     new_source["name"] = name;
   }
-  
 
   for(let i = 0; i < ss.storage.data.length; i++){
     if (ss.storage.data[i].project_id == active_project_id) {
