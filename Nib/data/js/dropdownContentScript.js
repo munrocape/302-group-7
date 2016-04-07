@@ -108,8 +108,9 @@ self.port.on(VIEW_SOURCE, function(source) {
 	$('#editSourceURL').val(source.link);
 	$('#editAuthor').val(source.authors);
 	$('#editAccessed').val(source.accessed);
-	$("#editIssueNumber").val(source.issueNumber),
- 	$("#editVolumeNumber").val(source.volumeNumber),
+	$("#editIssueNumber").val(source.issueNumber);
+ 	$("#editVolumeNumber").val(source.volumeNumber);
+	$("#editPublisher").val(source.publisher);
 	$('#editSourceView').css('display', 'block');
 
 });
@@ -181,6 +182,7 @@ $('#editSourceSave').click(function(){
     "year": $('#editSourceYear').val(),
 		"accessed" : $('#editAccessed').val(),
 		"issueNumber": $("#editIssueNumber").val(),
+		"publisher": $("#editPublisher").val(),
 		"volumeNumber": $("#editVolumeNumber").val()
   }
 
