@@ -26,7 +26,7 @@ self.port.on(SHOW_BIB, function(bib, citation_style) {
 
     } else if (citation_style == 'MLA'){
     	for (let i = 0; i < sources.length; i++) {
-    		citation = mla_format(sources[i]);
+    		citation = mla_format(sources[i]) + "<br>";
     		$("#bibliography").append(citation);
     	}
     }
@@ -52,7 +52,3 @@ function mla_format(source) {
 	return authors + title + link;
 	
 }
-
-/*Contributors' names. "Title of Resource." The Purdue OWL. Purdue U Writing Lab, Last edited date. Web. Date of access.
- 
-Russell, Tony, Allen Brizee, and Elizabeth Angeli. "MLA Formatting and Style Guide." The Purdue OWL. Purdue U Writing Lab, 4 Apr. 2010. Web. 20 July 2010.*/
