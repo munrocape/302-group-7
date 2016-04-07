@@ -12,9 +12,16 @@ let dropDownView = null;
 let footerView = null;
 //
 
-pageMod.PageMod({
-  include: "*books.google.*",
-  contentScript: 'window.alert("Page matches ruleset");'
+p = pageMod.PageMod({
+  include: "https://books.google.ca/books?id=*",
+  contentScript: "self.port.emit('book_dom', document);",
+  onAttach: function(worker) {
+      worker.port.on("book_dom", function(dom) {
+        console.log(dom);
+        dom = JSON.parse(dom);
+        console.log('got dom: '+ dom.childElementCount);
+      });
+    }
 });
 
 ///
@@ -23,17 +30,7 @@ pageMod.PageMod({
 
 function getURL() {
   var url = utils.getMostRecentBrowserWindow().content.location.href;
-  pw = pageWorkers.Page({
-    contentURL: url,
-    contentScriptWhen: "ready",
-    contentScript: 'elements = document.getElementById("sr-header-area");console.log(elements.length);console.log(elements);self.port.emit("windowDom", document.querySelectorAll("html"));',
-  });
 
-
-  pw.port.on("windowDom", function(DOM) {
-    console.log(DOM);
-  });
-  
   return url;
 }
 
