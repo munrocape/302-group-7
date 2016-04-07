@@ -111,6 +111,7 @@ self.port.on(VIEW_SOURCE, function(source) {
 	$("#editIssueNumber").val(source.issueNumber);
  	$("#editVolumeNumber").val(source.volumeNumber);
 	$("#editPublisher").val(source.publisher);
+	$("#editJournal").val(source.journal);
 	$('#editSourceView').css('display', 'block');
 
 });
@@ -183,6 +184,7 @@ $('#editSourceSave').click(function(){
 		"accessed" : $('#editAccessed').val(),
 		"issueNumber": $("#editIssueNumber").val(),
 		"publisher": $("#editPublisher").val(),
+		"journal" : $("#editJournal").val(),
 		"volumeNumber": $("#editVolumeNumber").val()
   }
 
