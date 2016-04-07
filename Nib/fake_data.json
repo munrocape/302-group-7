@@ -1,13 +1,16 @@
 [{
   "name": "My first research.",
-  "project_id": 1,
   "sources": [{
-    "source_id": 2,
     "name": "Barnes Hut Algorithm",
     "title_of_source": "Algo",
     "link": "http://arborjs.org/docs/barnes-hut",
     "year": 2005,
     "authors": ["Tom Ventimiglia", "Kevin Wayne"],
+    "accessed": "",
+    "volumeNumber": "",
+    "issueNumber": "",
+    "publisher": "",
+    "journal": "",
     "references": [{
         "name": "Runtime",
         "page": "3",
@@ -17,9 +20,7 @@
 },
 {
   "name": "The ultimate ice cream flavor",
-  "project_id": 3,
   "sources": [{
-    "source_id": 4,
     "title_of_source": "Recipes",
     "name": "Recipes for life",
     "link": "http://www.recipesforlife.org/",
@@ -30,9 +31,7 @@
 },
 {
   "name": "Web design vs WebDev",
-  "project_id": 5,
   "sources": [{
-    "source_id": 6,
     "title_of_source": "Course website",
     "name": "CSC302",
     "link": "https://piazza.com/class/ij93uhihtkm2am",
@@ -43,7 +42,6 @@
     {
     "name": "CSC309",
     "title_of_source": "309 page",
-    "source_id": 7,
     "link": "http://www.cs.toronto.edu/~mashiyat/csc309/index.htm",
     "year": 2016,
     "authors": ["Bahen", "CSC309"],
