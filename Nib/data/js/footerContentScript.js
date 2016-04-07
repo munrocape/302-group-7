@@ -10,6 +10,10 @@ self.port.on(SHOW_BIB, function(bib, citation_style) {
     console.log(bib);
     sources = bib["sources"];
 
+    if (!citation_style) {
+    	citation_style = "MLA";
+    }
+
     if (citation_style === 'IEEE') {
 
         // Print sources according to citation_style
