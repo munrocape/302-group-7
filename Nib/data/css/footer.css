@@ -62,3 +62,7 @@
 #projects {
   margin-bottom:25px;
 }
+
+.italicize {
+  font-style: italic;
+}
