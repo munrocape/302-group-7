@@ -20,6 +20,14 @@ self.port.on(SHOW_BIB, function(bib, citation_style) {
         $("#bibliography").append(citation);
     }
 
+    if (citation_style == 'MLA'){
+    	for (let i = 0; i < sources.length; i++) {
+    		citation = mla_format(sources[i]);
+    		$("#bibliography").append(citation);
+
+    	}
+    }
+
 });
 
 function parse_authors(authors) {
@@ -31,3 +39,17 @@ function parse_authors(authors) {
     }
     return ret;
 }
+
+function mla_format(source) {
+	let citation = "";
+	let authors = parse_authors(source["authors"]) + ". ";
+	let title = '"' + source["name"] + '". ';
+	let link = source["link"];
+
+	return authors + title + link;
+	
+}
+
+/*Contributors' names. "Title of Resource." The Purdue OWL. Purdue U Writing Lab, Last edited date. Web. Date of access.
+ 
+Russell, Tony, Allen Brizee, and Elizabeth Angeli. "MLA Formatting and Style Guide." The Purdue OWL. Purdue U Writing Lab, 4 Apr. 2010. Web. 20 July 2010.*/
