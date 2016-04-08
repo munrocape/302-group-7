@@ -175,11 +175,13 @@ $('#addReference').click(function() {
 	$('#createNewReferenceView').css("display", "block");
 })
 $('#editSourceSave').click(function(){
+	let auth = ($('#editAuthor').val());
+	let split_auth = auth.split(',');
 	let new_source = {
     "name": $('#editSourceName').val(),
     "title_of_source": $('#editSourceTitle').val(),
     "link": $('#editSourceURL').val(),
-    "authors": $('#editAuthor').val(),
+    "authors": split_auth,
     "year": $('#editSourceYear').val(),
 		"accessed" : $('#editAccessed').val(),
 		"issueNumber": $("#editIssueNumber").val(),
