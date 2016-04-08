@@ -85,6 +85,10 @@ function ieee_format_bib(bib) {
         if (sources[i]['year']) {
             citation = citation + " " + sources[i]['year'];
         }
+        if (sources[i]['accessed']) {
+            citation = citation + ", [" + sources[i]['accessed'] + "]";
+        }
+
         citation = citation + ".</p>";
         $("#bibliography").append(citation);
     }
