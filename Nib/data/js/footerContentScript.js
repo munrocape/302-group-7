@@ -86,6 +86,7 @@ function ieee_format_bib(bib) {
             citation = citation + " " + sources[i]['year'];
         }
         if (sources[i]['accessed']) {
+            citation = citation + ", Internet: " + sources[i]['link'];
             citation = citation + ", [" + sources[i]['accessed'] + "]";
         }
 
