@@ -10,7 +10,7 @@ var google_book = {
 		"isbn": -1,
 		"references": []
 	};
-google_book_changed = false;
+var google_book_changed = false;
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
@@ -30,8 +30,8 @@ p = pageMod.PageMod({
   contentScriptFile: self.data.url('./scrapers/googleBooks.js'),
   //contentScript: "fields = document.getElementById('metadata_content_table').children[0].children;",
   onAttach: function(worker) {
-      google_book_changed = true
       worker.port.on("key_value_pair", function(pair) {
+        google_book_changed = true;
         console.log('before: ' +  pair[0] + ': ' + google_book[pair[0]]);
         console.log(pair[0] + '' + pair[1]);
         if (pair[0] == 'publisher') {
@@ -40,10 +40,14 @@ p = pageMod.PageMod({
             google_book['year'] = pairSplit[pairSplit.length - 1];
             console.log('after: year:' + google_book['year']);
         }else{
-            google_book[pair[0]] = pair[1];
+            if (pair[0] == 'title') {
+              google_book['title_of_source'] = pair[1]
+            } else {
+              google_book[pair[0]] = pair[1];
+            }
         }
+        console.log(google_book_changed);
         console.log('after: ' + pair[0] + ': ' +  google_book[pair[0]]);
-
       });
     }
 });
@@ -53,16 +57,8 @@ p = pageMod.PageMod({
 
 function getURL() {
   var url = utils.getMostRecentBrowserWindow().content.location.href;
-  google_book =  {
-      "source_id": -1,
-      "name": "",
-      "title_of_source": "",
-      "link": "",
-      "year": null,
-      "authors": [],
-      "references":[]
-    };
-    google_book_changed = false;
+  
+    //google_book_changed = false;
   return url;
 }
 
@@ -166,33 +162,45 @@ function getScrapedData(url) {
 
 dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
   var url = getURL();
+  console.log('GOOGLE BOOKED CHANGED : ' + google_book_changed);
   if (url.startsWith('about:')) {
     url = '';
   }
   new_source = {};
   scraped_data = null;
   if(google_book_changed){
-    scraped_data = google_book;
-  }
-  if (scraped_data != null) {
-    new_source = scraped_data;
-    console.log('using google book: ' + new_source);
+    google_book["link"] = url;
+    google_book["name"] = name;
+    ss.storage.data[active_project_id].sources.push(google_book);
+    google_book_changed = false;
+    console.log('GOOGLE BOOK YEAR: ' + google_book["year"]);
+    google_book =  {
+        "name": "",
+        "title_of_source": "",
+        "link": "",
+        "year": null,
+        "authors": [],
+        "references":[]
+      };
+    dropDownView.panel.port.emit(SOURCE_CREATED, ss.storage.data[active_project_id].sources.length - 1);
   } else {
     new_source = {
-      "name": "",
+      "name": name,
       "title_of_source": "",
-      "link": "",
+      "link": url,
       "year": null,
       "authors": [],
       "references":[]
     };
+    ss.storage.data[active_project_id].sources.push(new_source)
+    dropDownView.panel.port.emit(SOURCE_CREATED, ss.storage.data[active_project_id].sources.length - 1);
   }
-  new_source["link"] = url;
-  new_source["name"] = name;
-  ss.storage.data[active_project_id].sources.push(new_source)
+ // new_source["link"] = url;
+  //new_source["name"] = name;
+  //ss.storage.data[active_project_id].sources.push(new_source)
   //Send back the last index of the newly created source
-  google_books_changed = false;
-  dropDownView.panel.port.emit(SOURCE_CREATED, ss.storage.data[active_project_id].sources.length - 1);
+  
+  //dropDownView.panel.port.emit(SOURCE_CREATED, ss.storage.data[active_project_id].sources.length - 1);
 
 
   
