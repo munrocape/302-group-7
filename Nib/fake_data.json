@@ -6,11 +6,11 @@
     "link": "http://arborjs.org/docs/barnes-hut",
     "year": 2005,
     "authors": ["Tom Ventimiglia", "Kevin Wayne"],
-    "accessed": "",
+    "accessed": "Nov. 29, 2015",
     "volumeNumber": "",
     "issueNumber": "",
     "publisher": "",
-    "journal": "",
+    "journal": "Journal of Awesomeness",
     "references": [{
         "name": "Runtime",
         "page": "3",
@@ -25,7 +25,7 @@
     "name": "Recipes for life",
     "link": "http://www.recipesforlife.org/",
     "year": 2016,
-    "authors": ["Life", "Gordon Ramsey"],
+    "authors": ["Gordon Ramsey"],
     "references": []
   }]
 },

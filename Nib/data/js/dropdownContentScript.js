@@ -106,7 +106,14 @@ self.port.on(VIEW_SOURCE, function(source) {
 	$('#editSourceYear').val(source.year);
 	$('#editSourceTitle').val(source.title_of_source);
 	$('#editSourceURL').val(source.link);
-	$('#editAuthor').val(source.authors);
+	show_auth = '';
+	for(i = 0; i < source.authors.length; i++) {
+		show_auth = show_auth + source.authors[i];
+		if (i != source.authors.length - 1){
+			show_auth = show_auth + ', ';
+		} 
+	}
+	$('#editAuthor').val(show_auth);
 	$('#editAccessed').val(source.accessed);
 	$("#editIssueNumber").val(source.issueNumber);
  	$("#editVolumeNumber").val(source.volumeNumber);
@@ -143,7 +150,6 @@ $('#manageReferences').click(function(){
 
 function viewRef(index) {
 	active_ref_id = index
-
 	$("#edit_reference_name").val(active_source.references[index].name);
 	$("#edit_page_number").val(active_source.references[index].page);
 	$("#edit_quote_message").val(active_source.references[index].quote);
@@ -175,11 +181,16 @@ $('#addReference').click(function() {
 	$('#createNewReferenceView').css("display", "block");
 })
 $('#editSourceSave').click(function(){
+	let auth = ($('#editAuthor').val());
+	let split_auth = auth.split(',');
+	for(i = 0; i < split_auth.length; i++) {
+		split_auth[i] = split_auth[i].trim();
+	}
 	let new_source = {
     "name": $('#editSourceName').val(),
     "title_of_source": $('#editSourceTitle').val(),
     "link": $('#editSourceURL').val(),
-    "authors": $('#editAuthor').val(),
+    "authors": split_auth,
     "year": $('#editSourceYear').val(),
 		"accessed" : $('#editAccessed').val(),
 		"issueNumber": $("#editIssueNumber").val(),
@@ -212,8 +223,13 @@ $('#editReferenceDelete').click(function() {
 	let ref_index = active_ref_id
 	active_ref_id = null;
 	self.port.emit(DELETE_REF, active_project_id, active_source_id, ref_index);
-
 });
+
+$('#generate-citation').click(function () {
+	console.log('going to display biblography for project ' + active_project_id);
+	self.port.emit(SHOW_BIB, active_project_id);
+});
+
 //Event for when someone wants to go home or initial page
 self.port.on(HOME, function (storage) {
 	active_project_id = null;
@@ -258,7 +274,8 @@ self.port.on(SELECT_PROJECT, function(project) {
 		if ($("#source_" + i).val() === 'null' || $("#source_" + i).val() === '')
 			continue;
 
-		let html = '<li class="collection-item"><div><a href="#" id="source_' + i +'">' + project.sources[i].name + '</a><a href="#!" class="secondary-content"></a></div></li>'
+		let html = '<li class="collection-item"><div><a href="#" id="source_' + i +'">' + project.sources[i].name + '</a><a href="#!" class="secondary-content"></a><a href="#!" class="right" id="visit_url_' + i + '">visit url</a></div></li>'
+		
 		console.log("appending source " + project.sources[i].name )
 		console.log("appending #source_" + i)
 
@@ -266,7 +283,12 @@ self.port.on(SELECT_PROJECT, function(project) {
 		$('#source_' + i).click(function(){
 			//Listener for specific source
 			viewSource(i);
-		})
+		});
+
+		$('#visit_url_' + i).click(function () {
+			console.log('visitng url in dopdown: ' + project.sources[i].link);
+			self.port.emit(OPEN_TAB, project.sources[i].link);
+		});
 	}
 })
 

@@ -1,11 +1,41 @@
 <html>
-  <link type='text/css' rel='stylesheet' href='../css/material_icons.css'/>
-  <link type="text/css" rel="stylesheet" href="../css/materialize.css"  media="screen,projection"/>
-  <script type='text/javascript' src='../js/jquery.js'></script>
-  <script type='text/javascript' src='../js/materialize.js'></script>
-  <script type='text/javascript' src='../js/materialize.js'></script>
+  <head>
+  	<!-- <meta charset="utf-8">
+  	<title></title>
+	 -->  
+	<link type='text/css' rel='stylesheet' href='../css/material_icons.css'/>
+	<link type="text/css" rel="stylesheet" href="../css/materialize.css"  media="screen,projection"/>
+	<link type="text/css" rel="stylesheet" href="../css/footer.css"  media="screen,projection"/>
+	<script type='text/javascript' src='../js/jquery.js'></script>
+	<script type='text/javascript' src='../js/materialize.js'></script>
+	<script type='text/javascript' src='../js/materialize.js'></script>
+  </head>
   <body>
       <div id="app"></div>
-      <p>Hello world</p>
+      <!-- Navbar -->
+      	<nav>
+      		<div class="nav-wrapper">
+      			<a href="#" class="brand-logo left" id="home">Nib</a>
+      		</div>
+      	</nav>
+      	<br>
+      <!-- Main page -->
+      <div id="main">
+      	<div class="app_body">
+      		<div id="style_switches" class="fleft">
+	  			<h6 class='projectHeader'>Switch style: </h6> 
+	  			<ul>
+      				<li><a class=" waves-light btn" id="style_ieee">IEEE</a></li>
+  					<li><a class=" waves-light btn" id="style_mla">MLA</a></li>      					
+	  				<li><a class=" waves-light btn disabled" id="style_chicago">chicago</a></li>
+	  			</ul>
+      		</div>
+      		<div class='projectOverview fright'>
+      			<h6 class='projectHeader'>Your project citation:</h6>
+            <div id='nobib'><p>It looks like you haven't selected a project to cite. Please <a class=" waves-light btn" id='switch-to-dropdown'>select one</a> first.</p></div>
+      			<div id="bibliography"></div>
+      		</div>
+      	</div>
+      </div>
   </body>
 </html>

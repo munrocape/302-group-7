@@ -16,7 +16,13 @@ const SCRAPED_CITATION = 'SCRAPED_CITATION';
 const VIEW_SOURCE = "VIEW_SOURCE";
 const ACTIVE_REF = "ACTIVE_REF";
 const SELECT_SOURCE = "SELECT_SOURCE";
-const DELETE_REF = "DELETE_REF"
+const DELETE_REF = "DELETE_REF";
+const SHOW_BIB = "SHOW_BIB";
+const IEEE = 'IEEE';
+const MLA = 'MLA';
+const CHICAGO = 'CHICAGO';
+const SHOW_DROPDOWN = 'SHOW_DROPDOWN';
+const OPEN_TAB = 'OPEN_TAB';
 
 //So contentScriptFile doesnt complain
 if (typeof exports !== 'undefined') {
@@ -38,4 +44,10 @@ if (typeof exports !== 'undefined') {
   exports.ACTIVE_REF = ACTIVE_REF;
   exports.SELECT_SOURCE = SELECT_SOURCE;
   exports.DELETE_REF = DELETE_REF;
+  exports.SHOW_BIB = SHOW_BIB;
+  exports.IEEE = IEEE;
+  exports.MLA = MLA;
+  exports.CHICAGO = CHICAGO;
+  exports.SHOW_DROPDOWN = SHOW_DROPDOWN;
+  exports.OPEN_TAB = OPEN_TAB;
 }

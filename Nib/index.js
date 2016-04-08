@@ -1,11 +1,18 @@
 var self = require("sdk/self");
 var pageMod = require("sdk/page-mod");
+var tabs = require("sdk/tabs");
 var google_book = {
 		"name": "",
 		"title_of_source": "",
 		"link": "",
 		"year": "",
 		"publisher": "",
+//<<<<<<< HEAD
+    "accessed": "",
+    "volumeNumber": "",
+    "issueNumber": "",
+//=======
+//>>>>>>> main
 		"authors": [],
 		"isbn": -1,
 		"references": []
@@ -14,7 +21,7 @@ var google_book_changed = false;
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
-const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT, UPDATE_REFERENCE, GOOGLE_BOOKS, SCRAPED_CITATION,SELECT_SOURCE, DELETE_REF} = require('./consts/emitter');
+const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT, UPDATE_REFERENCE, GOOGLE_BOOKS, SCRAPED_CITATION,SELECT_SOURCE, DELETE_REF, SHOW_BIB, SHOW_DROPDOWN, OPEN_TAB} = require('./consts/emitter');
 
 
 var ss = require("sdk/simple-storage");
@@ -42,6 +49,8 @@ p = pageMod.PageMod({
         }else{
             if (pair[0] == 'title') {
               google_book['title_of_source'] = pair[1]
+            } else if (pair[0] == 'authors') {
+              google_book[pair[0]] = [pair[1]];
             } else {
               google_book[pair[0]] = pair[1];
             }
@@ -57,8 +66,7 @@ p = pageMod.PageMod({
 
 function getURL() {
   var url = utils.getMostRecentBrowserWindow().content.location.href;
-
-    //google_book_changed = false;
+  console.log(url);
   return url;
 }
 
@@ -157,8 +165,8 @@ dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
   if (url.startsWith('about:')) {
     url = '';
   }
+  console.log(url);
   new_source = {};
-  scraped_data = null;
   if(google_book_changed){
     google_book["link"] = url;
     google_book["name"] = name;
@@ -170,6 +178,10 @@ dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
         "title_of_source": "",
         "link": "",
         "year": null,
+        "publisher": "",
+        "accessed": "",
+        "volumeNumber": "",
+        "issueNumber": "",
         "authors": [],
         "references":[]
       };
@@ -178,8 +190,12 @@ dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
     new_source = {
       "name": name,
       "title_of_source": "",
-      "link": "",
+      "link": url,
       "year": null,
+      "publisher": "",
+      "accessed": "",
+      "volumeNumber": "",
+      "issueNumber": "",
       "authors": [],
       "references":[]
     };
@@ -227,10 +243,28 @@ dropDownView.panel.port.on(DELETE_SOURCE, function (proj_id, s_id) {
   displayProjectById(proj_id);
 })
 
+dropDownView.panel.port.on(OPEN_TAB, function (url){
+  console.log('in index opening tab: ' + url);
+  tabs.open(url);
+});
+
 dropDownView.panel.port.on(CANCEL_EDIT, function(proj_id) {
   displayProjectById(proj_id);
 });
 
+dropDownView.panel.port.on(SHOW_BIB, function(proj_id){
+  // hide
+  dropDownView.show();
+  // message
+  footerView.panel.port.emit(SHOW_BIB, ss.storage.data[proj_id]);
+  // show
+  footerView.show();
+});
+
+footerView.panel.port.on(SHOW_DROPDOWN, function () {
+  footerView.show();
+  dropDownView.show();
+})
 
 function displayProjectById(proj_id, source_id) {
   if(typeof source_id !== 'number')

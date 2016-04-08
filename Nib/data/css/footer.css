@@ -11,14 +11,6 @@
   position:relative;
   top:-20px;
 }
-#editSourceCancel {
-  margin-left: 4px;
-  margin-right: 4px;
-}
-#editReferenceCancel {
-  margin-left: 4px;
-  margin-right: 4px;
-}
 .projectLinks {
   display:inline;
   float:right;
@@ -29,9 +21,6 @@
 }
 
 /**/
-#manageReferences {
-  /*margin-bottom:60px*/
-}
 #sourceView {
   display: none;
 }
@@ -53,11 +42,11 @@
 #createNewReferenceView {
   display: none;
 }
-
+ 
 #sourceNameView {
   display: none;
 }
-
+ 
 .app_body {
 	padding: 5px;
 	margin: 5px;
@@ -72,4 +61,33 @@
 
 #projects {
   margin-bottom:25px;
+}
+
+.italicize {
+  font-style: italic;
+}
+
+#style_switches {
+  border-right: solid 1px black;
+}
+
+#style_switches li {
+  margin: 2px;
+}
+
+.wrap {
+  width: 100%;
+  overflow:auto;
+}
+
+.fleft {
+    float:left; 
+    width: 15%;
+    top:-20px;
+}
+
+.fright {
+  float: right;
+  width: 85%;
+  padding-left: 2%;
 }
