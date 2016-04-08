@@ -1,5 +1,17 @@
 var self = require("sdk/self");
 var pageMod = require("sdk/page-mod");
+var google_book = {
+		"source_id": -1,
+		"name": "",
+		"title_of_source": "",
+		"link": "",
+		"year": "",
+		"publisher": "",
+		"authors": [],
+		"isbn": -1,
+		"references": []
+	};
+var google_book_changed = false;
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
@@ -18,8 +30,20 @@ p = pageMod.PageMod({
   contentScriptFile: self.data.url('./scrapers/googleBooks.js'),
   //contentScript: "fields = document.getElementById('metadata_content_table').children[0].children;",
   onAttach: function(worker) {
+      google_book_changed = true
       worker.port.on("key_value_pair", function(pair) {
-        console.log(pair[0] + ' ' + pair[1]);
+        console.log('before: ' +  pair[0] + ': ' + google_book[pair[0]]);
+        console.log(pair[0] + '' + pair[1]);
+        if (pair[0] == 'publisher') {
+        	var pairSplit = pair[1].split(",")
+            google_book['publisher'] = pairSplit.slice(0, pairSplit.length -1).join(',');
+            google_book['year'] = pairSplit[pairSplit.length - 1];
+            console.log('after: year:' + google_book['year']);
+        }else{
+            google_book[pair[0]] = pair[1];
+        }
+        console.log('after: ' + pair[0] + ': ' +  google_book[pair[0]]);
+
       });
     }
 });
@@ -29,7 +53,16 @@ p = pageMod.PageMod({
 
 function getURL() {
   var url = utils.getMostRecentBrowserWindow().content.location.href;
-
+  google_book =  {
+      "source_id": -1,
+      "name": "",
+      "title_of_source": "",
+      "link": "",
+      "year": null,
+      "authors": [],
+      "references":[]
+    };
+    google_book_changed = false;
   return url;
 }
 
@@ -144,8 +177,12 @@ dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
   }
   new_source = {};
   scraped_data = null;
+  if(google_book_changed){
+    scraped_data = google_book;
+  }
   if (scraped_data != null) {
     new_source = scraped_data;
+    console.log('new_source: ' + new_source);
   } else {
     new_source = {
       "source_id": -1,
