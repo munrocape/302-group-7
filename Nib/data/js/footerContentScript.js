@@ -14,34 +14,32 @@ self.port.on(SHOW_BIB, function (bib, citation_style) {
 function print_bib(bib, citation_style) {
     $("#bibliography").html("");
     console.log(bib);
-    // Save the bib into a variable so function can be called again
+    // Save the bib into a variabe so function can be called again
     saved_bib = bib 
     sources = bib["sources"];
 
     if (!citation_style) {
-        citation_style = "IEEE";
+        citation_style = IEEE;
     }
 
-    if (citation_style === 'IEEE') {
+    if (citation_style === IEEE) {
         // Print sources according to citation_style
         for (let i = 0; i < sources.length; i++) {
             authors = parse_authors(sources[i]["authors"]);
-            citation = "<p>[" + (i + 1) + "] " + authors + ", " + "<span class = 'italicize'>" +
-                       sources[i]["name"] + "</span>" + " City of Publisher. " +
-                       "Country if not USA. " + "Publisher name. " + "year. " + "ch. " +
-                       "sec. " + "pp.</p>";
+            citation = "<p>[" + (i + 1) + "] " + authors + ", " + "<i>" +
+                       sources[i]["name"] + "</i>" + sources[i]['publisher'] + " " + sources[i]['year'] + ".</p>";
             $("#bibliography").append(citation);
-        }
+        } 
     }
 
-    else if (citation_style == 'MLA'){
+    else if (citation_style == MLA){
         for (let i = 0; i < sources.length; i++) {
             citation = mla_format(sources[i]) + "<br>";
             $("#bibliography").append(citation);
         }
     } 
 
-    else if(citation_style == 'CHICAGO') {
+    else if(citation_style == CHICAGO) {
         citation = "Implementation of chicago style coming soon.";
         $("#bibliography").append(citation);
     }
