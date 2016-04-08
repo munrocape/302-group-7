@@ -263,7 +263,8 @@ self.port.on(SELECT_PROJECT, function(project) {
 		if ($("#source_" + i).val() === 'null' || $("#source_" + i).val() === '')
 			continue;
 
-		let html = '<li class="collection-item"><div><a href="#" id="source_' + i +'">' + project.sources[i].name + '</a><a href="#!" class="secondary-content"></a></div></li>'
+		let html = '<li class="collection-item"><div><a href="#" id="source_' + i +'">' + project.sources[i].name + '</a><a href="#!" class="secondary-content"></a><a href="#!" class="right" id="visit_url_' + i + '">visit url</a></div></li>'
+		
 		console.log("appending source " + project.sources[i].name )
 		console.log("appending #source_" + i)
 
@@ -271,7 +272,12 @@ self.port.on(SELECT_PROJECT, function(project) {
 		$('#source_' + i).click(function(){
 			//Listener for specific source
 			viewSource(i);
-		})
+		});
+
+		$('#visit_url_' + i).click(function () {
+			console.log('visitng url in dopdown: ' + project.sources[i].link);
+			self.port.emit(OPEN_TAB, project.sources[i].link);
+		});
 	}
 })
 
