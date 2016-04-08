@@ -78,7 +78,13 @@ function ieee_format_bib(bib) {
         if (sources[i]['section']) {
             citation = citation + ' "' + sources[i]["section"] + '" in '
         }
-        citation = citation + "<i>" + sources[i]["name"] + "</i>,";
+
+        citation = citation + "<i>" + sources[i]["name"] + "</i>, ";
+
+        if (sources[i]['journal']) {
+            citation = citation + "<i>" + sources[i]['journal'] + "</i>";
+        }
+
         if (sources[i]['publisher']) {
             citation = citation + " " + sources[i]['publisher'];
         }
