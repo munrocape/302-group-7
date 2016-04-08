@@ -6,7 +6,10 @@ self.port.on('wakeUp', function (value) {
 
 var saved_bib;
 
-self.port.on(SHOW_BIB, print_bib(bib, citation_style));
+self.port.on(SHOW_BIB, function (bib, citation_style) {
+    saved_bib = bib;
+    print_bib(saved_bib);
+});
 
 function print_bib(bib, citation_style) {
     $("#bibliography").html("");
@@ -37,7 +40,7 @@ function print_bib(bib, citation_style) {
             $("#bibliography").append(citation);
         }
     } 
-    
+
     else if(citation_style == 'CHICAGO') {
         citation = "Implementation of chicago style coming soon.";
         $("#bibliography").append(citation);
