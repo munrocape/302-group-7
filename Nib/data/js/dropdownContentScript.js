@@ -106,7 +106,14 @@ self.port.on(VIEW_SOURCE, function(source) {
 	$('#editSourceYear').val(source.year);
 	$('#editSourceTitle').val(source.title_of_source);
 	$('#editSourceURL').val(source.link);
-	$('#editAuthor').val(source.authors);
+	show_auth = '';
+	for(i = 0; i < source.authors.length; i++) {
+		show_auth = show_auth + source.authors[i];
+		if (i != source.authors.length - 1){
+			show_auth = show_auth + ', ';
+		} 
+	}
+	$('#editAuthor').val(show_auth);
 	$('#editAccessed').val(source.accessed);
 	$("#editIssueNumber").val(source.issueNumber);
  	$("#editVolumeNumber").val(source.volumeNumber);
@@ -143,7 +150,6 @@ $('#manageReferences').click(function(){
 
 function viewRef(index) {
 	active_ref_id = index
-
 	$("#edit_reference_name").val(active_source.references[index].name);
 	$("#edit_page_number").val(active_source.references[index].page);
 	$("#edit_quote_message").val(active_source.references[index].quote);
@@ -177,6 +183,9 @@ $('#addReference').click(function() {
 $('#editSourceSave').click(function(){
 	let auth = ($('#editAuthor').val());
 	let split_auth = auth.split(',');
+	for(i = 0; i < split_auth.length; i++) {
+		split_auth[i] = split_auth[i].trim();
+	}
 	let new_source = {
     "name": $('#editSourceName').val(),
     "title_of_source": $('#editSourceTitle').val(),
