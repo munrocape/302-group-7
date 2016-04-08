@@ -63,7 +63,7 @@ function parse_authors(authors) {
 function mla_format(source) {
 	let citation = "";
 	let authors = parse_authors(source["authors"]) + ". ";
-	let title = "<i>" + source["name"] + "</i>";
+	let title = "<i>" + source["title_of_source"] + "</i>";
     let year = source["year"];
 	let link = source["link"];
 
@@ -79,7 +79,7 @@ function ieee_format_bib(bib) {
             citation = citation + ' "' + sources[i]["section"] + '" in '
         }
 
-        citation = citation + "<i>" + sources[i]["name"] + "</i>, ";
+        citation = citation + "<i>" + sources[i]["title_of_source"] + "</i>, ";
 
         if (sources[i]['journal']) {
             citation = citation + "<i>" + sources[i]['journal'] + "</i>";
