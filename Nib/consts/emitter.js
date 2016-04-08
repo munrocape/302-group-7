@@ -17,6 +17,8 @@ const SELECT_SOURCE = "SELECT_SOURCE";
 const DELETE_REF = "DELETE_REF";
 const SHOW_BIB = "SHOW_BIB";
 const IEEE = 'IEEE';
+const MLA = 'MLA';
+const CHICAGO = 'CHICAGO';
 
 //So contentScriptFile doesnt complain
 if (typeof exports !== 'undefined') {
@@ -38,4 +40,6 @@ if (typeof exports !== 'undefined') {
   exports.DELETE_REF = DELETE_REF;
   exports.SHOW_BIB = SHOW_BIB;
   exports.IEEE = IEEE;
+  exports.MLA = MLA;
+  exports.CHICAGO = CHICAGO;
 }
