@@ -50,7 +50,7 @@ function parse_authors(authors) {
         // Append a last name only if it exists
         if (tokenized.length > 1) {
             ret += tokenized[0].slice(0, 1) + ". " + tokenized[1];
-        } else {}
+        } else {
             ret += tokenized[0];
         }
         
@@ -67,7 +67,7 @@ function mla_format(source) {
     let year = source["year"];
 	let link = source["link"];
 
-	return authors + title + link;
+	return authors + '. ' + title + '. ' + year + '. ' + link;
 
 }
 
