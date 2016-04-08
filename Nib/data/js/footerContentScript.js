@@ -24,12 +24,7 @@ function print_bib(bib, citation_style) {
 
     if (citation_style === IEEE) {
         // Print sources according to citation_style
-        for (let i = 0; i < sources.length; i++) {
-            authors = parse_authors(sources[i]["authors"]);
-            citation = "<p>[" + (i + 1) + "] " + authors + ", " + "<i>" +
-                       sources[i]["name"] + "</i>" + sources[i]['publisher'] + " " + sources[i]['year'] + ".</p>";
-            $("#bibliography").append(citation);
-        } 
+        ieee_format_bib(bib);
     }
 
     else if (citation_style == MLA){
@@ -65,6 +60,25 @@ function mla_format(source) {
 
 	return authors + title + link;
 	
+}
+
+function ieee_format_bib(bib) {
+    for (let i = 0; i < sources.length; i++) {
+        authors = parse_authors(sources[i]["authors"]);
+        citation = "<p>[" + (i + 1) + "] " + authors + ", " + "";
+        if (sources[i]['section']) {
+            citation = citation + ' "' + sources[i]["section"] + '" in '
+        }
+        citation = citation + "<i>" + sources[i]["name"] + "</i>,";
+        if (sources[i]['publisher']) {
+            citation = citation + " " + sources[i]['publisher'];
+        }
+        if (sources[i]['year']) {
+            citation = citation + " " + sources[i]['year'];
+        } 
+        citation = citation + ".</p>";
+        $("#bibliography").append(citation);
+    } 
 }
 
 // Shows the IEEE bib
