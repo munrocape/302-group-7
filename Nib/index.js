@@ -39,6 +39,12 @@ p = pageMod.PageMod({
             google_book['publisher'] = pairSplit.slice(0, pairSplit.length -1).join(',');
             google_book['year'] = pairSplit[pairSplit.length - 1];
             console.log('after: year:' + google_book['year']);
+        } else if (pair[0] === 'author' || pair[0] === 'authors') {
+          if (!google_book['authors']) {
+            google_book['authors'] = [pair[1]]
+          } else{
+            google_book['authors'].push(pair[1])
+          }
         }else{
             if (pair[0] == 'title') {
               google_book['title_of_source'] = pair[1]
