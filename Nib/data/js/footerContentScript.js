@@ -16,7 +16,7 @@ function print_bib(bib, citation_style) {
     $("#bibliography").html("");
     console.log(bib);
     // Save the bib into a variabe so function can be called again
-    saved_bib = bib 
+    saved_bib = bib
     sources = bib["sources"];
 
     if (!citation_style) {
@@ -33,7 +33,7 @@ function print_bib(bib, citation_style) {
             citation = mla_format(sources[i]) + "<br>";
             $("#bibliography").append(citation);
         }
-    } 
+    }
 
     else if(citation_style == CHICAGO) {
         citation = "Implementation of chicago style coming soon.";
@@ -47,8 +47,10 @@ function parse_authors(authors) {
     let ret = "";
 
     for (let i = 0; i < authors.length; i++) {
-        ret += authors[i];
-        if (i != authors.length - 1) ret += " and ";
+				let tokenized = authors[i].split(" ");
+        ret += tokenized[0].slice(0, 1) + ". " + tokenized[1];
+        if (i != authors.length - 1)
+					ret += " and ";
     }
     return ret;
 }
@@ -60,7 +62,7 @@ function mla_format(source) {
 	let link = source["link"];
 
 	return authors + title + link;
-	
+
 }
 
 function ieee_format_bib(bib) {
@@ -76,10 +78,10 @@ function ieee_format_bib(bib) {
         }
         if (sources[i]['year']) {
             citation = citation + " " + sources[i]['year'];
-        } 
+        }
         citation = citation + ".</p>";
         $("#bibliography").append(citation);
-    } 
+    }
 }
 
 // Shows the IEEE bib

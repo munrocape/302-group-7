@@ -11,7 +11,14 @@
   position:relative;
   top:-20px;
 }
-
+#editSourceCancel {
+  margin-left: 4px;
+  margin-right: 4px;
+}
+#editReferenceCancel {
+  margin-left: 4px;
+  margin-right: 4px;
+}
 .projectLinks {
   display:inline;
   float:right;
