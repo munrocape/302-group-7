@@ -10,7 +10,7 @@ var google_book = {
 		"isbn": -1,
 		"references": []
 	};
-var google_book_changed = false;
+google_book_changed = false;
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
@@ -176,7 +176,7 @@ dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
   }
   if (scraped_data != null) {
     new_source = scraped_data;
-    console.log('new_source: ' + new_source);
+    console.log('using google book: ' + new_source);
   } else {
     new_source = {
       "name": "",
@@ -186,27 +186,16 @@ dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
       "authors": [],
       "references":[]
     };
-    new_source["link"] = url;
-    new_source["name"] = name;
   }
-
-  for(let i = 0; i < ss.storage.data.length; i++){
-    if (ss.storage.data[i].project_id == active_project_id) {
-      ss.storage.data[i].sources.push(new_source);
-    }
-  }
-  dropDownView.panel.port.emit(SOURCE_CREATED, new_source);
-  new_source = {
-    "name": name,
-    "title_of_source": "",
-    "link": url,
-    "year": null,
-    "authors": [],
-    "references":[]
-  };
+  new_source["link"] = url;
+  new_source["name"] = name;
   ss.storage.data[active_project_id].sources.push(new_source)
   //Send back the last index of the newly created source
+  google_books_changed = false;
   dropDownView.panel.port.emit(SOURCE_CREATED, ss.storage.data[active_project_id].sources.length - 1);
+
+
+  
 
 });
 
