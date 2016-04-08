@@ -66,3 +66,27 @@
 .italicize {
   font-style: italic;
 }
+
+#style_switches {
+  width: 20%;
+  float: left;
+}
+
+#style_switches li {
+  margin: 2px;
+}
+
+.wrap {
+  width: 100%;
+  overflow:auo;
+}
+
+.fleft {
+    float:left; 
+    width: 20%;
+}
+
+.fright {
+  float: right;
+  width: 80%;
+}
