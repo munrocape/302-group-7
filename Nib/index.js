@@ -1,7 +1,6 @@
 var self = require("sdk/self");
 var pageMod = require("sdk/page-mod");
 var google_book = {
-		"source_id": -1,
 		"name": "",
 		"title_of_source": "",
 		"link": "",
@@ -180,7 +179,6 @@ dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
     console.log('new_source: ' + new_source);
   } else {
     new_source = {
-      "source_id": -1,
       "name": "",
       "title_of_source": "",
       "link": "",
@@ -188,7 +186,6 @@ dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
       "authors": [],
       "references":[]
     };
-    new_source["source_id"] = source_id;
     new_source["link"] = url;
     new_source["name"] = name;
   }
