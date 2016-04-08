@@ -49,6 +49,8 @@ p = pageMod.PageMod({
         }else{
             if (pair[0] == 'title') {
               google_book['title_of_source'] = pair[1]
+            } else if (pair[0] == 'authors') {
+              google_book[pair[0]] = [pair[1]];
             } else {
               google_book[pair[0]] = pair[1];
             }
