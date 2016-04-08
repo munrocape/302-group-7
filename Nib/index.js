@@ -15,7 +15,8 @@ var google_book_changed = false;
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
-const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT, UPDATE_REFERENCE, GOOGLE_BOOKS, SCRAPED_CITATION } = require('./consts/emitter');
+const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT, UPDATE_REFERENCE, GOOGLE_BOOKS, SCRAPED_CITATION,SELECT_SOURCE, DELETE_REF} = require('./consts/emitter');
+
 
 var ss = require("sdk/simple-storage");
 var utils = require('sdk/window/utils');
@@ -99,28 +100,20 @@ dropDownView.panel.port.on("removeReferenceRequest", function(ref) {
   console.log(ref);
 });
 //On an event send the storage
-//i is optional if you want a specific 'project', AKA the nth project
-dropDownView.panel.port.on(SEND_STORAGE, function(panelEvent, i){
+//i is optional if you want a specific 'project', AKA the ith project and jth source
+dropDownView.panel.port.on(SEND_STORAGE, function(panelEvent, i, j){
 
   if (typeof i === 'undefined') {
     dropDownView.panel.port.emit(panelEvent, ss.storage.data)
-  } else {
+  } else if (typeof j === 'undefined') {
     dropDownView.panel.port.emit(panelEvent, ss.storage.data[i])
+  } else {
+    dropDownView.panel.port.emit(panelEvent, ss.storage.data[i].sources[j])
   }
 })
 
 dropDownView.panel.port.on(DELETE_PROJECT, function (project_to_delete_id){
-  // for i in projects
-  // if i == project
-    // delete i
-  console.log(project_to_delete_id);
-  for (let i = 0; i < ss.storage.data.length; i++) {
-      if (ss.storage.data[i].project_id === project_to_delete_id) {
-        console.log('say bye-bye to ' + project_to_delete_id);
-        ss.storage.data.splice(i, 1);
-      }
-  }
-  console.log(ss.storage.data);
+  ss.storage.data.splice(project_to_delete_id, 1);
   dropDownView.panel.port.emit(HOME, ss.storage.data);
 });
 
@@ -141,6 +134,10 @@ dropDownView.panel.port.on(ADD_NEW_PROJECT, function(projectName){
   });
 })
 
+dropDownView.panel.port.on(DELETE_REF, function(proj_id, source_id, ref_id) {
+  ss.storage.data[proj_id].sources[source_id].references.splice(ref_id, 1);
+  displayProjectById(proj_id, source_id)
+})
 // Add a new author for a source
 dropDownView.panel.port.on(ADD_NEW_AUTHOR, function(authorName){
   // Currently this will push the author onto the first project, first source
@@ -169,8 +166,6 @@ function getScrapedData(url) {
 }
 
 dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
-  source_id = ss.storage.max_id;
-  ss.storage.max_id = ss.storage.max_id + 1;
   var url = getURL();
   if (url.startsWith('about:')) {
     url = '';
@@ -204,43 +199,42 @@ dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
     }
   }
   dropDownView.panel.port.emit(SOURCE_CREATED, new_source);
+  new_source = {
+    "name": name,
+    "title_of_source": "",
+    "link": url,
+    "year": null,
+    "authors": [],
+    "references":[]
+  };
+  ss.storage.data[active_project_id].sources.push(new_source)
+  //Send back the last index of the newly created source
+  dropDownView.panel.port.emit(SOURCE_CREATED, ss.storage.data[active_project_id].sources.length - 1);
+
 });
 
 function deleteSource(proj_id, s_id) {
-  for(let i = 0; i < ss.storage.data.length; i++){
-    if(ss.storage.data[i].project_id === proj_id) {
-      for(let j = 0; j < ss.storage.data[i].sources.length; j++){
-        if (ss.storage.data[i].sources[j].source_id === s_id) {
-          console.log('saving');
-          ss.storage.data[i].sources.splice(j, 1);
-          return i
-        }
-      }
-      return i
-    }
-  }
+  ss.storage.data[proj_id].sources.splice(s_id, 1)
 }
 
 dropDownView.panel.port.on(UPDATE_SOURCE, function (proj_id, s_id, updated_source) {
-  // this is why we should have used keys
-  //var index = deleteSource(proj_id, s_id);
-  //ss.storage.data[index].sources.push(updated_source);
-  for(let i = 0; i < ss.storage.data.length; i++){
-    if(ss.storage.data[i].project_id === proj_id) {
-      for(let j = 0; j < ss.storage.data[i].sources.length; j++){
-        console.log(ss.storage.data[i].sources[j]);
-        if (ss.storage.data[i].sources[j].source_id === s_id) {
-          console.log('saving');
-          ss.storage.data[i].sources[j] = updated_source;
-        }
-      }
-    }
-  }
+  let references = ss.storage.data[proj_id].sources[s_id].references
+  ss.storage.data[proj_id].sources[s_id] = updated_source
+  ss.storage.data[proj_id].sources[s_id].references = references
   displayProjectById(proj_id);
 });
 
 dropDownView.panel.port.on(UPDATE_REFERENCE, function(proj_id, source_id, ref_id, updated_ref) {
-  console.log(proj_id, source_id, ref_id, JSON.stringify(updated_ref))
+  //Implies new reference
+  if (typeof ref_id !== 'number') {
+    console.log("Saved new reference");
+    ss.storage.data[proj_id].sources[source_id].references.push(updated_ref);
+    displayProjectById(proj_id, source_id);
+  } else {
+    console.log("Updated ref")
+    ss.storage.data[proj_id].sources[source_id].references[ref_id] = updated_ref
+    displayProjectById(proj_id, source_id);
+  }
   //ss.storage.data[proj_id]
 })
 dropDownView.panel.port.on(DELETE_SOURCE, function (proj_id, s_id) {
@@ -253,12 +247,11 @@ dropDownView.panel.port.on(CANCEL_EDIT, function(proj_id) {
 });
 
 
-function displayProjectById(proj_id) {
-  for(let i = 0; i < ss.storage.data.length; i++) {
-    if (ss.storage.data[i].project_id == proj_id) {
-      dropDownView.panel.port.emit(SELECT_PROJECT, ss.storage.data[i]);
-    }
-  }
+function displayProjectById(proj_id, source_id) {
+  if(typeof source_id !== 'number')
+    dropDownView.panel.port.emit(SELECT_PROJECT, ss.storage.data[proj_id]);
+  else
+    dropDownView.panel.port.emit(SELECT_SOURCE, ss.storage.data[proj_id].sources[source_id]);
 }
 function addReference(reference) {
   console.log(reference);
@@ -274,7 +267,6 @@ open_count = 0;
 
 //To be removed once app is completed
 (function initialize(){
-  ss.storage.max_id = 100;
   let fakeData = require("fake_data.json");
   ss.storage.data = [];
   for(let i = 0; i < fakeData.length; i++){
