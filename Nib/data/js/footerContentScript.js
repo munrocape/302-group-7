@@ -7,6 +7,7 @@ self.port.on('wakeUp', function (value) {
 var saved_bib;
 
 self.port.on(SHOW_BIB, function (bib, citation_style) {
+    $("#nobib").css("display", "none");
     saved_bib = bib;
     print_bib(saved_bib);
 });
@@ -97,4 +98,8 @@ $('#style_mla').click(function(){
 $('#style_chicago').click(function(){
     console.log("Switching to CHICAGO");
     print_bib(saved_bib, CHICAGO);
+});
+
+$('#switch-to-dropdown').click(function () {
+    self.port.emit(SHOW_DROPDOWN);
 });

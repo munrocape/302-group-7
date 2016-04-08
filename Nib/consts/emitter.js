@@ -21,6 +21,7 @@ const SHOW_BIB = "SHOW_BIB";
 const IEEE = 'IEEE';
 const MLA = 'MLA';
 const CHICAGO = 'CHICAGO';
+const SHOW_DROPDOWN = 'SHOW_DROPDOWN';
 
 //So contentScriptFile doesnt complain
 if (typeof exports !== 'undefined') {
@@ -46,4 +47,5 @@ if (typeof exports !== 'undefined') {
   exports.IEEE = IEEE;
   exports.MLA = MLA;
   exports.CHICAGO = CHICAGO;
+  exports.SHOW_DROPDOWN = SHOW_DROPDOWN;
 }
