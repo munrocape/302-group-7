@@ -48,7 +48,13 @@ function parse_authors(authors) {
 
     for (let i = 0; i < authors.length; i++) {
 				let tokenized = authors[i].split(" ");
-        ret += tokenized[0].slice(0, 1) + ". " + tokenized[1];
+        // Append a last name only if it exists
+        if (tokenized.length > 1) {
+            ret += tokenized[0].slice(0, 1) + ". " + tokenized[1];
+        } else {}
+            ret += tokenized[0];
+        }
+        
         if (i != authors.length - 1)
 					ret += " and ";
     }
@@ -58,7 +64,8 @@ function parse_authors(authors) {
 function mla_format(source) {
 	let citation = "";
 	let authors = parse_authors(source["authors"]) + ". ";
-	let title = '"' + source["name"] + '". ';
+	let title = "<i>" + source["name"] + "</i>";
+    let year = source["year"];
 	let link = source["link"];
 
 	return authors + title + link;
