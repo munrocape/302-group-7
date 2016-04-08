@@ -57,7 +57,7 @@ p = pageMod.PageMod({
 
 function getURL() {
   var url = utils.getMostRecentBrowserWindow().content.location.href;
-  
+
     //google_book_changed = false;
   return url;
 }
@@ -113,8 +113,6 @@ dropDownView.panel.port.on(DELETE_PROJECT, function (project_to_delete_id){
 });
 
 
-
-
 dropDownView.panel.port.on("store", function(project) {
   console.log(project);
 });
@@ -133,14 +131,7 @@ dropDownView.panel.port.on(DELETE_REF, function(proj_id, source_id, ref_id) {
   ss.storage.data[proj_id].sources[source_id].references.splice(ref_id, 1);
   displayProjectById(proj_id, source_id)
 })
-// Add a new author for a source
-dropDownView.panel.port.on(ADD_NEW_AUTHOR, function(authorName){
-  // Currently this will push the author onto the first project, first source
-  // Since I wasn't sure how to index properly yet. I'm assuming the function
-  // will have to take a project_id and source_id as indices
-  ss.storage.data[0].sources[0].authors.push(authorName);
-  console.log(ss.storage.data[0].sources[0].authors);
-})
+
 
 dropDownView.panel.port.on("checkIfReferenceRequest", function(ref) {
   console.log(ref);
@@ -187,7 +178,7 @@ dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
     new_source = {
       "name": name,
       "title_of_source": "",
-      "link": url,
+      "link": "",
       "year": null,
       "authors": [],
       "references":[]
@@ -199,11 +190,11 @@ dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
   //new_source["name"] = name;
   //ss.storage.data[active_project_id].sources.push(new_source)
   //Send back the last index of the newly created source
-  
+
   //dropDownView.panel.port.emit(SOURCE_CREATED, ss.storage.data[active_project_id].sources.length - 1);
 
 
-  
+
 
 });
 
