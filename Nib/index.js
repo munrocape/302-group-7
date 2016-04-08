@@ -1,19 +1,65 @@
 var self = require("sdk/self");
+var pageMod = require("sdk/page-mod");
+var google_book = {
+		"name": "",
+		"title_of_source": "",
+		"link": "",
+		"year": "",
+		"publisher": "",
+		"authors": [],
+		"isbn": -1,
+		"references": []
+	};
+var google_book_changed = false;
 const { MenuButton } = require('./lib/menu-button');
 const { DropDownView } = require('./src/dropdownView');
 const { FooterView } = require('./src/footerView');
-const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT, UPDATE_REFERENCE, SELECT_SOURCE, DELETE_REF } = require('./consts/emitter');
+const { HOME, SEND_STORAGE, ADD_NEW_PROJECT, SELECT_PROJECT, ADD_NEW_AUTHOR, DELETE_PROJECT, DELETE_PROJECT_COMPLETE, CREATE_SOURCE, SOURCE_CREATED, UPDATE_SOURCE, DELETE_SOURCE, CANCEL_EDIT, UPDATE_REFERENCE, GOOGLE_BOOKS, SCRAPED_CITATION,SELECT_SOURCE, DELETE_REF} = require('./consts/emitter');
+
 
 var ss = require("sdk/simple-storage");
 var utils = require('sdk/window/utils');
 
 let dropDownView = null;
 let footerView = null;
+//
+
+p = pageMod.PageMod({
+  include: "https://books.google.ca/books?id=*",
+  contentScriptWhen: "ready",
+  contentScriptFile: self.data.url('./scrapers/googleBooks.js'),
+  //contentScript: "fields = document.getElementById('metadata_content_table').children[0].children;",
+  onAttach: function(worker) {
+      worker.port.on("key_value_pair", function(pair) {
+        google_book_changed = true;
+        console.log('before: ' +  pair[0] + ': ' + google_book[pair[0]]);
+        console.log(pair[0] + '' + pair[1]);
+        if (pair[0] == 'publisher') {
+        	var pairSplit = pair[1].split(",")
+            google_book['publisher'] = pairSplit.slice(0, pairSplit.length -1).join(',');
+            google_book['year'] = pairSplit[pairSplit.length - 1];
+            console.log('after: year:' + google_book['year']);
+        }else{
+            if (pair[0] == 'title') {
+              google_book['title_of_source'] = pair[1]
+            } else {
+              google_book[pair[0]] = pair[1];
+            }
+        }
+        console.log(google_book_changed);
+        console.log('after: ' + pair[0] + ': ' +  google_book[pair[0]]);
+      });
+    }
+});
+///
 // a dummy function, to show how tests work.
 // to see how to test this function, look at test/test-index.js
 
 function getURL() {
-  return utils.getMostRecentBrowserWindow().content.location.href;
+  var url = utils.getMostRecentBrowserWindow().content.location.href;
+
+    //google_book_changed = false;
+  return url;
 }
 
 var buttons = require('sdk/ui/button/action');
@@ -67,8 +113,6 @@ dropDownView.panel.port.on(DELETE_PROJECT, function (project_to_delete_id){
 });
 
 
-
-
 dropDownView.panel.port.on("store", function(project) {
   console.log(project);
 });
@@ -87,36 +131,71 @@ dropDownView.panel.port.on(DELETE_REF, function(proj_id, source_id, ref_id) {
   ss.storage.data[proj_id].sources[source_id].references.splice(ref_id, 1);
   displayProjectById(proj_id, source_id)
 })
-// Add a new author for a source
-dropDownView.panel.port.on(ADD_NEW_AUTHOR, function(authorName){
-  // Currently this will push the author onto the first project, first source
-  // Since I wasn't sure how to index properly yet. I'm assuming the function
-  // will have to take a project_id and source_id as indices
-  ss.storage.data[0].sources[0].authors.push(authorName);
-  console.log(ss.storage.data[0].sources[0].authors);
-})
+
 
 dropDownView.panel.port.on("checkIfReferenceRequest", function(ref) {
   console.log(ref);
   dropDownView.panel.port.emit('checkIfReferenceResponse', 'okay! resposne from index.js');
 });
 
+function getScrapedData(url) {
+  console.log('checking url: ' + url);
+  if (url.indexOf('books.google.') != -1) {
+    console.log('calling google scraper');
+    dropDownView.panel.port.emit(GOOGLE_BOOKS);
+    dropDownView.panel.port.on(SCRAPED_CITATION, function (citation) {
+      console.log('got a citation back: ' + citation);
+      return citation;
+    });
+  }
+  return null
+}
+
 dropDownView.panel.port.on(CREATE_SOURCE, function(active_project_id, name){
   var url = getURL();
+  console.log('GOOGLE BOOKED CHANGED : ' + google_book_changed);
   if (url.startsWith('about:')) {
     url = '';
   }
-  new_source = {
-    "name": name,
-    "title_of_source": "",
-    "link": url,
-    "year": null,
-    "authors": [],
-    "references":[]
-  };
-  ss.storage.data[active_project_id].sources.push(new_source)
+  new_source = {};
+  scraped_data = null;
+  if(google_book_changed){
+    google_book["link"] = url;
+    google_book["name"] = name;
+    ss.storage.data[active_project_id].sources.push(google_book);
+    google_book_changed = false;
+    console.log('GOOGLE BOOK YEAR: ' + google_book["year"]);
+    google_book =  {
+        "name": "",
+        "title_of_source": "",
+        "link": "",
+        "year": null,
+        "authors": [],
+        "references":[]
+      };
+    dropDownView.panel.port.emit(SOURCE_CREATED, ss.storage.data[active_project_id].sources.length - 1);
+  } else {
+    new_source = {
+      "name": name,
+      "title_of_source": "",
+      "link": "",
+      "year": null,
+      "authors": [],
+      "references":[]
+    };
+    ss.storage.data[active_project_id].sources.push(new_source)
+    dropDownView.panel.port.emit(SOURCE_CREATED, ss.storage.data[active_project_id].sources.length - 1);
+  }
+ // new_source["link"] = url;
+  //new_source["name"] = name;
+  //ss.storage.data[active_project_id].sources.push(new_source)
   //Send back the last index of the newly created source
-  dropDownView.panel.port.emit(SOURCE_CREATED, ss.storage.data[active_project_id].sources.length - 1);
+
+  //dropDownView.panel.port.emit(SOURCE_CREATED, ss.storage.data[active_project_id].sources.length - 1);
+
+
+
+
 });
 
 function deleteSource(proj_id, s_id) {
