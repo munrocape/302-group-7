@@ -14,7 +14,6 @@ self.port.on(SHOW_BIB, function (bib, citation_style) {
 
 function print_bib(bib, citation_style) {
     $("#bibliography").html("");
-    console.log(bib);
     // Save the bib into a variabe so function can be called again
     saved_bib = bib
     sources = bib["sources"];
@@ -93,19 +92,16 @@ function ieee_format_bib(bib) {
 
 // Shows the IEEE bib
 $('#style_ieee').click(function(){
-    console.log("Switching to IEEE");
     print_bib(saved_bib, IEEE);
 });
 
 // Shows the MLA bib
 $('#style_mla').click(function(){
-    console.log("Switching to MLA");
     print_bib(saved_bib, MLA);
 });
 
 // Shows the chicago bib
 $('#style_chicago').click(function(){
-    console.log("Switching to CHICAGO");
     print_bib(saved_bib, CHICAGO);
 });
 
